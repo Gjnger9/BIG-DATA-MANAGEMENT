@@ -4,13 +4,14 @@ window.onload = function() {
     var button = document.getElementById("button");
     button.onclick= toggleStartStop;
 
-
+    var stopwords = ['a', 'che']; //da copiare file stopwords
+    console.log(stopwords);
 
     var recognizing;
     var recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     reset();
-    recognition.onend = reset;
+    // recognition.onend = reset;
     var result;
     recognition.onresult = function (event) {
         for (var i = event.resultIndex; i < event.results.length; ++i) {
@@ -20,15 +21,27 @@ window.onload = function() {
         }
         const text = textarea.value;
 
-         result = text.toLowerCase().split(" ").reduce((hash, word) => {
-            hash[word] = hash[word] || 0;
-            hash[word]++;
+        result = text.toLowerCase().split(" ").reduce((hash, word) => {
+            if(!stopwords.includes(word)) {
+                hash[word] = hash[word] || 0;
+                hash[word]++;
+            }
             return hash;
         }, {});
 
+        //to be sorted by value
+        var keys = Object.keys(result);
+        keys.sort(function(a, b) {
+            return result[a] - result[b]
+        }).reverse();
+
         console.log(result);
-        resetDiv();
-        cloud();
+        //sorted words
+        console.log(keys);
+        //limite alle prime 10 parole da cercare
+        console.log(keys.slice(0,10));
+        /*        resetDiv();
+                cloud();*/
     }
 
     function reset() {
@@ -48,6 +61,7 @@ window.onload = function() {
             button.innerHTML = "Click to Stop";
         }
     }
+/*
 
 function cloud() {
     anychart.onDocumentReady(function () {
@@ -83,5 +97,6 @@ function resetDiv(){
     div.id = "container";
     document.body.appendChild(div);
 }
+*/
 
 }
