@@ -13,6 +13,7 @@ window.onload = function() {
     reset();
     // recognition.onend = reset;
     var result;
+
     recognition.onresult = function (event) {
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -40,6 +41,8 @@ window.onload = function() {
         console.log(keys);
         //limite alle prime 10 parole da cercare
         console.log(keys.slice(0,10));
+        searchfield = document.getElementById('searchfield').value  = keys.slice(0,10).toString();
+
         /*        resetDiv();
                 cloud();*/
     }
