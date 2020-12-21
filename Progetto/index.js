@@ -17,7 +17,7 @@ window.onload = function() {
     recognition.onresult = function (event) {
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
-                textarea.value += event.results[i][0].transcript;
+                textarea.value += event.results[i][0].transcript + ' ';
             }
         }
         const text = textarea.value;
@@ -42,9 +42,9 @@ window.onload = function() {
         //limite alle prime 10 parole da cercare
         console.log(keys.slice(0,10));
         searchfield = document.getElementById('searchfield').value  = keys.slice(0,10).toString();
-
-        /*        resetDiv();
-                cloud();*/
+             //
+           resetDiv();
+              cloud();
     }
 
     function reset() {
@@ -64,7 +64,7 @@ window.onload = function() {
             button.innerHTML = "Click to Stop";
         }
     }
-/*
+
 
 function cloud() {
     anychart.onDocumentReady(function () {
@@ -100,6 +100,6 @@ function resetDiv(){
     div.id = "container";
     document.body.appendChild(div);
 }
-*/
+
 
 }

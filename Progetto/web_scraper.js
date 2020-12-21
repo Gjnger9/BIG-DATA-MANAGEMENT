@@ -37,7 +37,7 @@ function Ricerca() {
 }
 
 function RicercaDocomunti(termine){
-    getHTML( baseUrl + termine + "filetype:pdf", function (response) {
+    getHTML( baseUrl + termine + " filetype:pdf", function (response) {
         var someElem = document.querySelector( '#pdf' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
@@ -61,7 +61,7 @@ function RicercaDocomunti(termine){
 }
 
 function RicercaVideo(termine){
-    getHTML( baseUrl + termine + "site:youtube.com", function (response) {
+    getHTML( baseUrl + termine + " site:youtube.com", function (response) {
         var someElem = document.querySelector( '#video' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
@@ -85,7 +85,7 @@ function RicercaVideo(termine){
 }
 
 function RicercaLink(termine){
-    getHTML( baseUrl + termine , function (response) {
+    getHTML( baseUrl + termine + ' ' , function (response) {
         var someElem = document.querySelector( '#link' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
