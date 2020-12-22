@@ -41,20 +41,8 @@ function RicercaDocomunti(termine){
         var someElem = document.querySelector( '#pdf' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
-            var x = someOtherElem.querySelectorAll("a");
-            var myarray = []
-            for (var i=0; i<maxDocument; i++){
-                var nametext = x[i].textContent;
-                var cleantext = nametext.replace(/\s+/g, ' ').trim();
-                var cleanlink = x[i].href;
-                myarray.push([cleantext,cleanlink]);
-            }
-            var table = '<h3>Documenti</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
-            for (var i=0; i<maxDocument; i++) {
-                table += '<tr><td>' + myarray[i][0] + '</td><td>' + myarray[i][1] + '</td></tr>';
-            }
-            someElem.innerHTML = table;
-        }else{
+            myarray = get_all_link(someOtherElem);
+            someElem.innerHTML = clean_data("Documenti");
             console.log("Ricerca andata male");
         }
     });
@@ -65,19 +53,8 @@ function RicercaVideo(termine){
         var someElem = document.querySelector( '#video' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
-            var x = someOtherElem.querySelectorAll("a");
-            var myarray = []
-            for (var i=0; i<maxDocument; i++){
-                var nametext = x[i].textContent;
-                var cleantext = nametext.replace(/\s+/g, ' ').trim();
-                var cleanlink = x[i].href;
-                myarray.push([cleantext,cleanlink]);
-            }
-            var table = '<h3>video</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
-            for (var i=0; i<maxDocument; i++) {
-                table += '<tr><td>' + myarray[i][0] + '</td><td>' + myarray[i][1] + '</td></tr>';
-            }
-            someElem.innerHTML = table;
+            myarray = get_all_link(someOtherElem);
+            someElem.innerHTML = clean_data("Video");
         }else{
             console.log("Ricerca andata male");
         }
@@ -89,21 +66,35 @@ function RicercaLink(termine){
         var someElem = document.querySelector( '#link' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
-            var x = someOtherElem.querySelectorAll("a");
-            var myarray = []
-            for (var i=0; i<maxDocument; i++){
-                var nametext = x[i].textContent;
-                var cleantext = nametext.replace(/\s+/g, ' ').trim();
-                var cleanlink = x[i].href;
-                myarray.push([cleantext,cleanlink]);
-            }
-            var table = '<h3>Link</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
-            for (var i=0; i<maxDocument; i++) {
-                table += '<tr><td>' + myarray[i][0] + '</td><td>' + myarray[i][1] + '</td></tr>';
-            }
-            someElem.innerHTML = table;
+            myarray = get_all_link(someOtherElem);
+            someElem.innerHTML = clean_data("Link");
         }else{
             console.log("Ricerca andata male");
         }
     });
+}
+
+function get_all_link(someOtherElem){
+	var classElem = someOtherElem.getElementsByClassName("yuRUbf");
+	var x = []
+	for (var i=0; i<classElem.length; i++){
+		var links = classElem[i].querySelectorAll("a");
+		x.push(links[0]);
+	}
+	var myarray = []
+	for (var i=0; i<maxDocument; i++){
+		var nametext = x[i].textContent;
+		var cleantext = nametext.replace(/\s+/g, ' ').trim();
+		var cleanlink = x[i].href;
+		myarray.push([cleantext,cleanlink]);
+	}
+	return myarray;
+}
+
+function clean_data(type){
+	var table = '<h3>'+type+'</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
+            for (var i=0; i<maxDocument; i++) {
+                table += '<tr><td>' + myarray[i][0] + '</td><td>' + myarray[i][1] + '</td></tr>';
+            }
+            return table;
 }
