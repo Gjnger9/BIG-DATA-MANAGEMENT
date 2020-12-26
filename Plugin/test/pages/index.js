@@ -1,12 +1,7 @@
 window.onload = function() {
 	
 
-    const queryString = window.location.search;
-    //console.log(queryString);
-    //console.log("ci sono!")
-    const urlParams = new URLSearchParams(queryString);
-    const userID = urlParams.get("userID");
-    console.log("User id: "+userID);
+
 
     var textarea =document.getElementById("textarea");
     var button = document.getElementById("button");

@@ -419,6 +419,7 @@ window.onload = function() {
         "piuttosto",
         "più",
         "po",
+        "po'",
         "pochissimo",
         "poco",
         "poi",
