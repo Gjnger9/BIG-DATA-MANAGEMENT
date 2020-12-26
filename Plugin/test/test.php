@@ -13,9 +13,10 @@
 
 function add_last_nav_item($items, $args) {
 	$user = wp_get_current_user();
+    ;
 
     //aggiunta elemento plugin con link alla directory del nostro plugin
-    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='. wp_create_nonce( 'wp_rest' ).'"> Plugin</a></li>';
+    $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Plugin</a></li>';
 
 //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
