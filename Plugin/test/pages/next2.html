@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JavaScript Tag Cloud Chart</title>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+</head>
+<body>
+>
+<script src="wpapi.js"></script>
+<script src="web_scraper.js"></script>
+<script src="recognition.js"></script>
+<script src="hello.js"></script>
+
+<style>
+    html, body, #container {
+        width: 100%;
+        height: 50%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<div align="left">
+    <form name="ricerca">
+        <b>Campo di ricerca</b>
+        <input type="text" name="cerca" size="30" id="searchfield">
+        <input type="button" value="Cerca" onClick="Ricerca()">
+
+    </form>
+</div>
+<div id="result">
+    <div id="video"></div>
+    <div id="pdf"></div>
+    <div id="link"></div>
+</div>
+
+<div>
+
+    <h1 id="HelloWorld"></h1>
+
+</div>
+<div id="container"></div>
+
+
+</body>
+
+
+
+
+</html>
