@@ -1,7 +1,6 @@
 window.onload = function() {
 
-
-
+    import ("./web_scraper");
 
     var textarea =document.getElementById("textarea");
     var button = document.getElementById("button");
@@ -653,12 +652,14 @@ window.onload = function() {
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
                 textarea.value += event.results[i][0].transcript + ' ';
+
+                Ricerca();
             }
         }
         const text = textarea.value;
 
         result = text.toLowerCase().split(" ").reduce((hash, word) => {
-            if(!stopwords.includes(word)) {
+            if(!stopwords.includes(word) && word !== "") {
                 hash[word] = hash[word] || 0;
                 hash[word]++;
             }
@@ -676,7 +677,7 @@ window.onload = function() {
         console.log(keys);
         //limite alle prime 10 parole da cercare
         console.log(keys.slice(0,10));
-        searchfield = document.getElementById('searchfield').value  = keys.slice(0,10).toString();
+        document.getElementById('searchfield').value  = keys.slice(0,10).toString();
         //
         resetDiv();
         cloud();
@@ -705,7 +706,7 @@ window.onload = function() {
         anychart.onDocumentReady(function () {
 
             var data = [];
-            for (obj in result) {
+            for ( var obj in result) {
 
                 let row = {"x": obj,"value":result[obj]};
                 data.push(row)
