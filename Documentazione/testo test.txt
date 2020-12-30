@@ -1,0 +1,300 @@
+Antonio Monaco, [30.12.20 12:15]
+Lezione 9 – Sistemi vs Piramide di Anthony, MR company, cenni HCI  
+ 
+Tuesday, October 13, 2020 
+10:31 AM 
+ 
+ESERCIZIO  
+Progettazione hci  
+Modellazione business  
+"caratterizzazione dinamica di goal e requisiti che sono in evoluzione" 
+ 
+Algoritmo di mapping da entità relazioni a modello relazionale  
+Servono giustificazioni per la trasformazioni delle tabelle, le ragioni per le scelte diverse dall'algoritmo di mapping è un errore  
+ 
+Database company  
+ 
+ 
+ 
+Relazione ricorsiva employee supervisee + relazione gerarchica, modello a piramide di anthony  
+ 
+Modello 3 livelli - piramide 
+Direzionale  
+Manageriale  
+operativo  
+ 
+Cambia il sw utilizzato all'interno dei livelli 
+ 
+Ogni impiegato lavora per qualche dipartimenti works for direzionae dipartimento rivedi  
+ 
+Progetti controllati da dipartimenti  
+Ogni dipartimento controlla 1+ progetti ogni progetto ha un numero di impoiegati che ci lavorano sopra; << RELAZIONE WORKS ON  
+ Un certo numero di impiegati lavorano su un progetto per un certo numero di ore.  
+  
+ Il numero di ore spese su un progetto da parte di alcuni impiegati permette di conoscere il costo del progetto  
+  
+ La contabilità per progetto consiste nella valutazione costi-rendite del progetto >> dice se lavoriamo bene o no come azienda  
+  
+l'impiegato secondo la legge ha dei familiari a carico che influiscono sullo stipendio, ogni impiegato riceve incentivi sullo stipendio; è un tipo di entità debole  
+ 
+Il modello concettuale serve agli OPERATIVI 
+ 
+La piramide è divisa in settori/dipartimenti aziendali : OGNI SETTORE HA UNA PERSONA IN DIREZIONE, ALCUNE PERSONE NEL MANAGEMENT E GLI OPERATIVI  
+ Human resources, HR impiegati, è un dipartimento che gestisce le assunzioni, i pagamenti, licenziamenti e tutto ciò che riguarda gli impiegati  
+  
+C'e` una chiara struttura gerarchica  
+ 
+Il db company serve al dipartimento di risorse umane che deve aggiungere, per ogni assuzione, gli employees, i direttori, i progetti su cui lavora, il dipartimento a cui è assegnato  
+ 
+Siamo a livello OPERATIVO - è un pezzo del db azeindale enterprise, che è fatto da più database ognuno per un dipartimento che assolve a uno specifico compito  
+ 
+ Sistemi  
+ oltp on line trasaction processing:  
+  Operazioni crud operative di assunzione, attuazione di operazioni  
+  A livello operativo si occupa hr;  
+   
+  Per gestire le relazioni tra la parte operativa e i clienti dell'azienda usiamo un software di tipo CRM - customer relationship management  
+   
+Si distingue cioò che viene datto nella parte alta dell'azione come  
+ olap online analytical processes 
+  
+ Il direttore non licenzia o assume nessuno, dice in basso quanti licenziare o assumere  
+    
+   
+a livello più alto si fa un ragionamento ANALITICO, che valuta i costi, i numeri degli impiegati, le spese, per prendere DECISIONI. Ad alto livello è interesse OLAP, business intelligence, data mining, analitiche in generale etc  
+ 
+ 
+Customizzeremo db di sistemi già essitenti, ci si può specalizzare su sistemi crm.  
+ 
+Per interfacciare la clientela con l'azienda  
+I sistemi nella parte più alta della piramide, di gestione delle risorse umane e materiali 
+  
+Erp - enterprise resource planning: sistema per la gestione-pianificazione delle risorse aziendali  
+ Risorse materiali: merci, materiali, macchine, spazi  
+ Risorse umane  
+ Risorse immateriali: know how, conoscenza, dati  
+  
+Bisogna conoscere chi fa cosa giorno per giorno  
+ 
+ 
+Nella parte più alta si usano sistemi di analisi dei dati che vengono da sotto:  
+Business intelligence 
+Data mining  
+Analytics  
+ 
+Nella parte alta OLAP  
+Nella parte bassa OLTP  
+ 
+ 
+Nella olap si usano db di tipo multidimensional che compongono data WAREHOUSES – database di database : si mettono insieme tutti i dati dalle parti basse dell'azienda e se ne fa ANALISI MULTIDIMENSIONALE  
+ 
+Machine learning a ogni livello  
+ 
+Reccomendation system diffusi a livello operativo che ci suggeriscono cosa ci può interessare senza che noi lo sappiamo  
+Data mart pezzo di db multidimensionale: trasformiamo i dati operativi in dati multidimensionali, o
+
+Antonio Monaco, [30.12.20 12:15]
+gni dato e` un punto di uno spazio multidimensionale;  
+Possiamo estrarre dei data mart come sottoinsiemi di data warehouse per capire altre cose  
+ 
+Domanda fondamentlae: a chi serve e per fare cosa? >> trasformazione nel modello logico  
+Hr per assunzioni licenziamenti stipendi lavori fatti da chi  etc  
+ 
+ALGORITMO DI MAPPING   
+Employee works for department  
+ Secondo l'algoritmo possiamo mettere l'id department dentro impiegato  
+  
+Employee manages departmenet possiamo accorpare o scegliere dove mettere le chiavi; 
+Conviene mettere id impiegato dentro dipartimento: ci sono più impiegati che dipartimenti;  
+Se mettiamo la chiave esterna in employee ci saranno molti null; dentro departmenet non ne abbiamo nessuno  
+ 
+Department controls project  
+1:n una sola scelta possibile  
+ 
+Project works on department  n:m diventa una tabella non possiamo fare niente  
+ 
+Depends on 1:n owning side è dependent  
+ 
+Employee supervision employee  
+Includiamo sul lato n : ogni impiegato avrà l'id del supervisor  
+ 
+>> quante sono le tabelle di questo db?  
+Mapping: 
+ 1 - Ogni tipo di entità diventa una tabella: 4 tabelle 
+ 2 - Tipi di relazione 
+  a. Le 1:n non diventano tabelle  
+  b. Le 1:1 nemmeno, potremmo accorpare tabelle ma in questo caso non conviene perché employee deve essere separato per le altre relazioni works for  
+  c. Le n:m diventano tabelle ne abbiamo soltanto 1 che è works on --> ricordiamo che per la storicizzazione del db nella manages (start date, end date), avremmo employee n:m manages department; non è questo il caso, ma se fosse così avremmo una tabella extra che identifica la n:m manages  
+Abbiamo in tutto 5 tabelle, con le opportune relaizoni chiavi esterne  
+ 
+6 per la department attributo multiplo  
+ 
+Valutiamo le relazioni USCENTI DA OGNI TABELLA per chiarire come sono legate le tabelle mappate  
+LA PUNTA VA SEMPRE VERSO LA CHIAVE ESTERNA OCCHIO       
+ 
+Employee  Super ssn punta a ssn  
+Depatm numbpunta a departmnt 
+Department  Manager ssn a employee  
+Dept location(s, va meglio in singolare) Dnumber punta a department; le locations sono attributi multipli o entita` debole 
+ Attributo multiplo trasformato in entita` debole; nel concettuale viene descritto solo come attributo multiplo, ma nel relazionale diventano in ogni caso tabelle  
+gli attributi multipli si gestiscono in una tabella che contiene le info che ci servono LOOKUP TABLE - AGGIUNGI ALLA LEZIONE 8 
+ È come se fosse un tipo di entitò debole come relazione di possesso: esempio impiegato 1 possiede n telefoni  
+         Può essere gestito come attributo multiplo o tipo di entità debole: tabella aggiuntiva come dept locations 
+Project  Esce il depnum, collegato al dipartimento che controlla il progetto; 
+ 
+ 
+Works on  Un certo progetto vede come impiegati che ci lavorano un numero di impiegati: employee ssn  
+ project number che punta a progetto 
+  
+ n:m works onemployee ssn + project numer identificato sul lato descrtro  
+ È la chiave primaria della tabella works on;  
+Dependenent Relazione essn verso impiegato  
+ 
+questo è il modello relazionale del company - gli id  basati su ssn dovrebbero essere già interi, e non c'è la necessità di un identificativo numerico surrogato; in dependent il dep name potrebbe vedere aggiunto un id numerico per non cercare la stringa nome; se ci fosse un id in questo modo avremmo un tipo di tabella con una dignità maggiore e in grado di identificarsi da solo senza la relazione di possesso.  
+ 
+ 
+ 
+ 
+MAPPING DI ATTRIBUTO MULTIPLO-COMPOSTO  
+LOOKUP TABLE tabella di consultazione  CHE CONTIENE TUTTE LE INFORMAZIONI CHE CI SERVONO NELL'ATTRIBUTO MULTIPLO  es num telefono, esattamente come una entita` debole  
+ 
+Esempio indirizzo: attributo multiplo fa uso di tabelle dei comuni italiani con codice di avviamento postale  
+ 
+Non sono entità del tabase ma trasformiamo in tabelle perché non sono riempite dall'utente ma sono già pronte - si danno nomi univoci agli oggetti già pronti e si offre la possibilità di scegliere tra questi oggetti  
+ 
+Ssn già è un intero in america; l'id non è strettamente necessario; dovessimo
+
+Antonio Monaco, [30.12.20 12:15]
+fare una gestione dei sospesi in realtà è utile  
+ 
+Entità debole o attributo multiplo composto? Dipende se pensiamo che ci serva in altre relazioni che facciano uso della stessa entità,   o che possa essere usato in altri record ella stessa tabella  (riutilizzato più volte dallo stesso tipo di entità)  
+ Se pensiamo che non ci serva altrove, possiamo usare attributo multiplo  
+  
+ 
+ 
+Domande esame  
+1 er  
+2 modello logico e mapping dall'er per il mr  
+3 sql tre in algebra relazionale o sql; è concettualmente uguale ma i db parlano SQL 
+ A query semplice 
+ B query intermedia  
+ C query complessa  
+  
+ 
+Ammette 3 valutazioni non sufficiente sufficiente - fino a 26 buono - fino a 30L 
+ 
+ 
+ 
+ 
+HCI  
+ 
+Fa parte del manuale di progettazione che ci chiede di scrivere per la prova finale  
+ 
+Computer human interface/interactions  
+ 
+Interfaccia tra computer e humans - Limite di separazione tra due mondi  
+ 
+Rapporoto tra computer e umani come pensano e come leggono  
+ 
+È nato con le schede perforate, schermi a fosfori verdi, schermo a caratteri cli - per persone esperte  
+Per utenti non esperti la gui  
+ - interfacce WIMP : windows icons menus pointers  
+  ○ Mostriamo che cosa c'è nei MENU raggruppati per tipologia, come se mostrasse tutti i comandi disponibili; 
+  ○ Col multitasking possiamo fare pù cose insieme, mettendole nelle finestre  
+  ○ Le informazioni come le rappresentiamo? Con oggetti rappresentati da icone - che rappresentano classi e oggetti ogni icona ha un menu se ci clicchiamo sopra  LE ICONE SONO RAPPRESENTAZIONE DI CAPACITà DI SCRIVERE IN MODO OBJ ORIENTED  
+  ○ Il pointer punta, dà informazioni su cosa si può fare e cosa NO, se sono disponibili metodi nella finestra  
+  ○ da cui derivano/wysiwyg  
+ - What you see is what you get 
+ - Interfaccia NAVIGAZIONALE SITI WEB  
+ - Interfacce vocali 
+ - Gestuali  
+ - Brain to computer interace  
+Al database possiamo accedere con QUALUNQUE INTERFACCIA  
+ 
+Manuali di stile per ogni sistema operativo - manuale di stile per windows :  dicono quali regole applicare per una interfaccia windows fatta bene  
+ 
+Ci soffermiamo sul mondo navigazionale  
+ 
+Chiarimento concetti hci per la progettazione utile 
+ 
+Interfacce navigazionali permette di navigare tra pagine o widget  
+Concetti 
+ - navigazione in the large : tra unità navigazionali chiamate pagine (che si spostano sul concetto di widget) 
+  ○ Le pagine sono unità navigazionali collegate tramite dei link 
+  ○ Widget è la fusione tra windows e object LA CRASI indica pezzi di oggetti: tabelle,alberi (barre dei menu>tab>tooltab, lista dei segnalibri, riquadro del contenuto, anche gerarchici) 
+  ○ Widget asincroni che permettono di esserea ggiornati indipendentemente dallla pagina  
+ - Navigazione in the small: l'oggetto di navigazione è la struttura di ogni pagina o di ogni widget  
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+Come si progetta un sito web di tipo datacentrc incentrato sui dati  
+ 
+Dal punto di vista dell'utente  
+ l'utente  
+  
+IN THE LARGE: 
+l'app magazzino ha una homepage  che punta a diverse pagine - in totale ne abbiamo individuate 5  
+ 
+Read mostra tutti gli oggetti del magazzino "elenco oggetti" 
+Create crea un nuovo oggetto  "crea oggetto" 
+Update modifica oggetto  
+Delete Cancella un oggetto  
+ 
+Interfacce ad oggetti è il modo migliore  
+ 
+IN THE SMALL:  
+Prevede un wireframe per ogni pagina - ogni pagina è quella nei riquadri a destra  
+ 
+Wireframe pagina 1 home  
+Gabbia editoriale per la creazione del wireframe  
+Spazio per logo, contenuti, elenco di link menu navigazione 
+ 
+Il contenuto può essere usato per splash screen come animazione per richiamare l'idea di magazzino 
+ 
+Wireframe pagina 2, mantiene la stessa struttura delle pagine 
+Nel menu di navigazione dobbiamo distinguere la pagina per mostrare all'utente dove si trova  
+Breadcrumb trail: una sezione che dice dove siamo. Home/read#tab1 etc 
+ Anche questa è un widget o un testo volendo  
+Il contenuto contiene il form con tutti  i campi del tipo di entità che abbiamo nel db e che mostriamo all'utente  
+ 
+ 
+Distinguiamo la vista di inisieme  dalla vista di dettaglio
+
+Antonio Monaco, [30.12.20 12:15]
+l'interrogazione al db può mostrare diverse cose; se il db non ci restituisce nulla mostriamo un messaggio di errore  
+O 
+1 oggett 
+O  
+Molti oggetti  
+O  
+Moltissimi  
+ 
+Il desktop mostra un insieme di oggetti (vista di insieme) ogni icona è un oggetto su ogni oggetto possiamo clicclare e andiamo alla vista di dettaglio in cui mostriamo il dettaglio riferita all'oggetto aperto; questa è allo stesso tempo una vista di insieme di tutti gli oggetti che costituiscono un oggetto word;  
+ 
+Dal punto di vista del database una cosa del genere si progetta così 
+ 
+Tipo di entità prodotto ha un numero di attributi  
+ 
+La vista di insieme dei prodotti è il catalogo  
+Homepage  
+Login 
+Prodotto in vista di insieme --> ricerca filtraggio ordinamento selezione (singola o multipla) 
+ 
+Prodotto in vista di dettaglio --> mostra crud e relazioni con altri oggetti  
+ 
+Classico in the small data centric navigazionale  
+ 
+ 
+ 
+ 
+Posiamo vedere i prodotti acquistati dal cliente o i clienti che hanno acquistato un certo prodotto dettaglio>elenco  
+ 
+Non è solo l'attributo a costruire la vista di dettagloio; possiamo vedere altri attributi calcolati che sono le query  
+Dato un cliente possiamo vedre cosa ha comprato 
+Possiamo vedere un cliente cosa ha comprato e chi altro ha comprato le stesse cose.  
+ È un suggerimento amazon sostanzialmente
