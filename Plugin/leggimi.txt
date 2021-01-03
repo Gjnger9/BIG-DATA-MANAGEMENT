@@ -2,3 +2,29 @@ Copiate la cartella "test" nel vosto wordpress/wp-content/plugin, poi aprite wor
 plugin già installato, ma non attivato. Attivatelo, ora andate sul sito di prova e dovrebbe uscire un tasto in alto che 
 si chiama "Plugin", ora si apre il nostro sistema, e in console stamperà "UserID = numero", quindi per ora lo abbiamo in 
 console, poi quando dobbiamo utilizzarlo sta lì
+
+Per provarlo creare un post e modificare post_content come con il seguente contenuto:
+
+<!-- wp:paragraph -->
+ <p>Benvenuto in WordPress. Questo è il tuo primo articolo. Modificalo o cancellalo e quindi inizia a scrivere!</p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:buttons {"align":"center"} -->
+ <div class="wp-block-buttons aligncenter"><!-- wp:button -->
+ <div id="get-Users" class="wp-block-button"><a class="wp-block-button__link">OTTIENI UTENTI</a></div>
+ <!-- /wp:button -->
+ 
+ <!-- wp:button -->
+ <div class="wp-block-button"><a class="wp-block-button__link">Ottieni ordini</a></div>
+ <!-- /wp:button --></div>
+ <!-- /wp:buttons -->
+ 
+ <!-- wp:table {"className":"is-style-stripes"} -->
+ <figure id="table-Users" class="wp-block-table is-style-stripes"><table><thead><tr><th>ID</th><th><strong>Email</strong></th><th><strong>Nome</strong></th><th><strong>Cognome</strong></th><th class="has-text-align-center" data-align="center"><strong>Telefono</strong></th></tr></thead></table></figure>
+ <!-- /wp:table -->
+ 
+ <!-- wp:paragraph -->
+ <p></p>
+ <!-- /wp:paragraph -->
+
+il file request.js va inserito nella cartella principale di wordpress.
