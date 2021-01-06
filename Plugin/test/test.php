@@ -9,6 +9,44 @@
 * Author URI: https://mainwp.com
 * License: GPL2
 */
+
+
+
+
+if( ! defined ('ABSPATH') ) {
+    die;
+}
+
+class TestPlugin
+{
+
+    function activate()
+    {
+        add_new_page();       //echo 'questo è un errore';
+        //in genere usiamo questa funzione per l'attivazione di connessioni a db o creazione di custom post types (che non useremo)
+
+    }
+
+    function deactivate()
+    {
+
+        delete_old_page();
+        //echo 'questo è un errore' che non vedremo;
+
+    }
+
+    function uninstall()
+    {
+    }
+
+
+
+
+
+}
+
+
+
 class Database{
     private $conn;
 
@@ -52,12 +90,80 @@ function add_last_nav_item($items, $args) {
     ;
 
     //aggiunta elemento plugin con link alla directory del nostro plugin
-    $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Plugin</a></li>';
+    $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Old Plugin</a></li>';
+    $items .= '<li><a id=998 href="'.get_site_url(null,"",null).'/pagina_plugin_new_lesson"> Shortcut Plugin Loris </a></li>';
 
 //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
 
     return $items;
+}
+
+function add_new_page() {
+    $content = '<!-- wp:columns {"verticalAlignment":"top"} -->
+<div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column {"verticalAlignment":"top"} -->
+<div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
+<p>Cloud Word</p>
+<div>inserisci cloud word qui</div>
+<!-- /wp:freeform --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"verticalAlignment":"top"} -->
+<div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
+<p>Trascrizione</p>
+<div>inserisci trascrizione qui</div>
+<!-- /wp:freeform -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator"/>
+<!-- /wp:separator -->
+
+<div>
+<h4>Blocco contenuti</h4>
+<div>Inserisci contenuti qui</div>
+</div>
+
+<!-- wp:group -->
+<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div></div>
+<!-- /wp:group -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->';
+    //aggiunta elemento plugin con link alla directory del nostro plugin
+    $post = array (
+        'post_title' => 'Pagina Plugin Nuova Lezione',
+        'post_content' => $content,
+        'post_status' => 'publish',
+        'post_name' => 'pagina_plugin_new_lesson',
+        'post_type' => 'page'
+    );
+//non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
+//    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
+
+    wp_insert_post($post);
+}
+
+function delete_old_page() {
+    //todo: eliminazione pagina creata dalla activate
+    //get post id
+    // wp_post_delete('postid'=...);
 }
 /*
 function variable_pass()
@@ -136,7 +242,9 @@ function say_hello_test_callback()
     $databaseConnection->closeConnection();
     die();
 }
-
+if (class_exists('TestPlugin')){
+    $testPlugin = new TestPlugin();
+}
 
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
@@ -147,4 +255,5 @@ add_action( 'wp_ajax_nopriv_say_hello_test', 'say_hello_test_callback' );
 // Utenti non autenticati
 add_action( 'wp_ajax_say_hello_test', 'say_hello_test_callback' );
 
-
+register_activation_hook(__FILE__, array($testPlugin, 'activate'));
+register_activation_hook(__FILE__, array($testPlugin, 'deactivate'));
