@@ -92,7 +92,7 @@ function add_last_nav_item($items, $args) {
     //aggiunta elemento plugin con link alla directory del nostro plugin
     $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Old Plugin</a></li>';
     $items .= '<li><a id=998 href="'.get_site_url(null,"",null).'/pagina_plugin_new_lesson"> Shortcut Plugin Loris </a></li>';
-
+    $items .= '<li><a id=997 href="'.get_site_url(null,"",null).'/plugin_homepage"> Vai Al Plugin </a></li>';
 //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
 
@@ -100,26 +100,34 @@ function add_last_nav_item($items, $args) {
 }
 
 function add_new_page() {
-    $content = '<!-- wp:columns {"verticalAlignment":"top"} -->
+//    $fileNewLesson =  fopen("plugin_new_lesson.html", "r");
+//    $filePluginHome = fopen("plugin_home.html", "r");
+
+// = fread($fileNewLesson, filesize("../pages/plugin_new_lesson.html"));
+//    $fileContentNewLesson = file_get_contents("plugin_new_lesson.html", false, null, 0, filesize("plugin_new_lesson.html") );
+//    $fileContentPluginHome = fread($filePluginHome, filesize("../pages/plugin_home.html"));
+//    $linesNewLesson = file("./plugin_new_lesson.html");
+//    $htmlNewLesson = implode('', file("plugin_new_lesson.html"));
+   $contentNewLesson = '<!-- wp:columns {"verticalAlignment":"top"} -->
 <div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column {"verticalAlignment":"top"} -->
-<div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
-<p>Cloud Word</p>
-<div>inserisci cloud word qui</div>
-<!-- /wp:freeform --></div>
-<!-- /wp:column -->
+    <div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
+        <p>Cloud Word</p>
+        <div>inserisci cloud word qui</div>
+        <!-- /wp:freeform --></div>
+    <!-- /wp:column -->
 
-<!-- wp:column {"verticalAlignment":"top"} -->
-<div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
-<p>Trascrizione</p>
-<div>inserisci trascrizione qui</div>
-<!-- /wp:freeform -->
+    <!-- wp:column {"verticalAlignment":"top"} -->
+    <div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
+        <p>Trascrizione</p>
+        <div>inserisci trascrizione qui</div>
+        <!-- /wp:freeform -->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
-<!-- /wp:column --></div>
+        <!-- wp:buttons -->
+        <div class="wp-block-buttons"><!-- wp:button -->
+            <div class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
+            <!-- /wp:button --></div>
+        <!-- /wp:buttons --></div>
+    <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:separator -->
@@ -127,37 +135,103 @@ function add_new_page() {
 <!-- /wp:separator -->
 
 <div>
-<h4>Blocco contenuti</h4>
-<div>Inserisci contenuti qui</div>
+    <h4>Blocco contenuti</h4>
+    <div>Inserisci contenuti qui</div>
 </div>
 
 <!-- wp:group -->
 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
-<!-- /wp:button -->
+    <div class="wp-block-buttons"><!-- wp:button -->
+        <div class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
+        <!-- /wp:button -->
 
-<!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
+        <!-- wp:button -->
+        <div class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
+        <!-- /wp:button --></div>
+    <!-- /wp:buttons --></div></div>
 <!-- /wp:group -->
 
 <!-- wp:paragraph -->
 <p></p>
 <!-- /wp:paragraph -->';
+
+
+   $contentHomepage = '<!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+ <p>Blocco di lezioni</p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+ <p>Elenco Lezioni</p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:html -->
+ <ul> LEZIONE X 
+ <br> Anteprima Lezione
+ <br> 
+  <button type="button">Modifica Lezione</button> 
+ </ul>
+ <ul> LEZIONE X 
+ <br> Anteprima Lezione
+ <br> 
+  <button type="button">Modifica Lezione</button> 
+ </ul>
+ 
+ <ul> LEZIONE X 
+ <br> Anteprima Lezione
+ <br> 
+  <button type="button">Modifica Lezione</button> 
+ </ul>
+ <ul> LEZIONE X 
+ <br> Anteprima Lezione
+ <br> 
+  <button type="button">Modifica Lezione</button> 
+ </ul>
+ </li>
+ <!-- /wp:html -->
+ 
+ <!-- wp:paragraph -->
+ <p></p>
+ <!-- /wp:paragraph --></div></div>
+ <!-- /wp:group --></div></div>
+ <!-- /wp:group --></div></div>
+ <!-- /wp:group -->
+ 
+ <!-- wp:buttons -->
+ <div class="wp-block-buttons"><!-- wp:button -->
+ <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
+ <!-- /wp:button --></div>
+ <!-- /wp:buttons --></div></div>
+ <!-- /wp:group -->
+ 
+ <!-- wp:paragraph -->
+ <p></p>
+ <!-- /wp:paragraph -->';
+
     //aggiunta elemento plugin con link alla directory del nostro plugin
-    $post = array (
+    $postNewLesson = array (
         'post_title' => 'Pagina Plugin Nuova Lezione',
-        'post_content' => $content,
+        'post_content' => $contentNewLesson,
         'post_status' => 'publish',
         'post_name' => 'pagina_plugin_new_lesson',
         'post_type' => 'page'
     );
+    $postHomepage = array (
+        'post_title' => 'Plugin Homepage',
+        'post_content' => $contentHomepage,
+        'post_status' => 'publish',
+        'post_name' => 'plugin_homepage',
+        'post_type' => 'page'
+    );
+
 //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
 
-    wp_insert_post($post);
+    wp_insert_post($postNewLesson);
+    wp_insert_post($postHomepage);
 }
 
 function delete_old_page() {
