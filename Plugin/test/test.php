@@ -241,9 +241,9 @@ function delete_old_page() {
     // wp_post_delete('postid'=...);
 
     $homepageToDelete = get_page_by_title('Plugin Homepage', $output = OBJECT, 'page');
-  // wp_delete_post($homepageToDelete->ID, true);
+   wp_delete_post($homepageToDelete->ID, true);
     $newpageToDelete = get_page_by_title('Pagina Plugin Nuova Lezione' , $output = OBJECT, 'page');
- //   wp_delete_post($newpageToDelete->ID, true);
+    wp_delete_post($newpageToDelete->ID, true);
 
 }
 /*
@@ -337,4 +337,4 @@ add_action( 'wp_ajax_nopriv_say_hello_test', 'say_hello_test_callback' );
 add_action( 'wp_ajax_say_hello_test', 'say_hello_test_callback' );
 
 register_activation_hook(__FILE__, array($testPlugin, 'activate'));
-register_activation_hook(__FILE__, array($testPlugin, 'deactivate'));
+register_deactivation_hook(__FILE__, array($testPlugin, 'deactivate'));
