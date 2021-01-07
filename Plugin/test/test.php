@@ -235,9 +235,16 @@ function add_new_page() {
 }
 
 function delete_old_page() {
+
     //todo: eliminazione pagina creata dalla activate
     //get post id
     // wp_post_delete('postid'=...);
+
+    $homepageToDelete = get_page_by_title('Plugin Homepage', $output = OBJECT, 'page');
+  // wp_delete_post($homepageToDelete->ID, true);
+    $newpageToDelete = get_page_by_title('Pagina Plugin Nuova Lezione' , $output = OBJECT, 'page');
+ //   wp_delete_post($newpageToDelete->ID, true);
+
 }
 /*
 function variable_pass()
