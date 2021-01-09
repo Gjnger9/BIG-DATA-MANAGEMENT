@@ -19,10 +19,7 @@ if( ! defined ('ABSPATH') ) {
 
 include 'createpages.php';
 include 'database.php';
-<<<<<<< HEAD
-=======
 include 'requestManager.php';
->>>>>>> Integrazione
 
 class TestPlugin
 {
@@ -67,8 +64,6 @@ function add_last_nav_item($items, $args) {
     return $items;
 }
 
-<<<<<<< HEAD
-=======
 function my_enqueue_scripts() {
     wp_register_script( 'hello', 'http://localhost/wordpress/wp-content/plugins/test/pages/hello.js', array() ); //put any dependencies (including jQuery) into the array
     wp_enqueue_script( 'hello' );
@@ -91,20 +86,12 @@ function enqueue_ajax_script_test()
     ));
 }
 
->>>>>>> Integrazione
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
-add_action( "wp_enqueue_scripts", "enqueue_ajax_script_test" );
-<<<<<<< HEAD
 
-// Utenti autenticati
-add_action( 'wp_ajax_nopriv_say_hello_test', 'say_hello_test_callback' );
-// Utenti non autenticati
-add_action( 'wp_ajax_say_hello_test', 'say_hello_test_callback' );
-=======
+add_action( "wp_enqueue_scripts", "enqueue_ajax_script_test" );
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
->>>>>>> Integrazione
 
 if (class_exists('TestPlugin')){
     $testPlugin = new TestPlugin();

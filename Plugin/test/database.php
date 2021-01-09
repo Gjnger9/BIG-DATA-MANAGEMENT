@@ -39,62 +39,6 @@ class Database{
 
 }
 
-<<<<<<< HEAD
-function request($url,$method = 'GET', $argument = []){
-
-    // use key 'http' even if you send the request to https://...
-    $options = array(
-        'http' => array(
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => $method,
-            'content' => http_build_query($argument)
-        )
-    );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    if ($result === FALSE) {
-        return $result;
-    }
-
-    return $result;
-
-}
-
-
-function my_enqueue_scripts() {
-    wp_register_script( 'hello', 'http://localhost/wordpress/wp-content/plugins/test/pages/hello.js', array() ); //put any dependencies (including jQuery) into the array
-    wp_enqueue_script( 'hello' );
-
-    wp_localize_script( 'hello', 'WP_API_Settings', array(
-        'endpoint' => esc_url_raw( rest_url() ),
-        'nonce' => wp_create_nonce( 'wp_rest' )
-    ) );
-}
-
-function enqueue_ajax_script_test()
-{
-    wp_enqueue_script('jquery');
-    wp_enqueue_script( 'script_ajax_test', home_url("") . '/requests.js' );
-    wp_localize_script( 'script_ajax_test', 'test_ajax', array(
-        'url'      => admin_url( 'admin-ajax.php' ),
-        'security' => wp_create_nonce('ajax_test_nonce_string')
-    ));
-}
-
-function say_hello_test_callback()
-{
-    check_ajax_referer( 'ajax_test_nonce_string', 'security' );
-
-    //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
-    $databaseConnection = new Database("localhost", "root", "");
-    wp_send_json( $databaseConnection->makeSelect("persona") );
-    $databaseConnection->closeConnection();
-    die();
-}
-
-
-=======
->>>>>>> Integrazione
 function create_db () {
     $link = mysqli_connect("localhost", "root", "root");
 
