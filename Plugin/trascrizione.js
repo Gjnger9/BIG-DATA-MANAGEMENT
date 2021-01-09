@@ -641,14 +641,19 @@ function saveRequest(callback) {
             security: test_ajax.security,
             links: arrayLink,
             videos: arrayVideo,
-            documents: arrayDocumenti
+            documents: arrayDocumenti,
+            trascrizione: document.getElementById("trascrizione").innerHTML
         },
         success: function (data) {
             // Azioni da eseguire in caso di successo chiamata
+            //TODO: Avvertire l'utente che tutto è andato bene
+            console.log("ok");
             console.log(data);
+            callback();
         },
         error: function (error) {
             // Azioni da eseguire in caso di errore chiamata
+            console.log("errore");
             console.log(error);
         }
     });
@@ -659,9 +664,13 @@ window.onload = function () {
     var textarea =document.getElementById("trascrizione");
     var button = document.getElementById("toggleReg");
     var saveButton = document.getElementById("saveButton");
+    var cancelButton = document.getElementById("cancelButton");
+
+    console.log(cancelButton);
 
     button.onclick = toggleStartStop;
     saveButton.onclick = saveToDatabase;
+    cancelButton.onclick = resetPage;
 
    // console.log(stopwords);
 
@@ -767,9 +776,20 @@ window.onload = function () {
 
     function saveToDatabase() {
         if (textarea.innerHTML != 'inserisci trascrizione qui') {
-            saveRequest("");
+            saveRequest(resetPage);
         } else {
             console.log("error");
         }
+    }
+
+
+    function resetPage() {
+        document.getElementById("trascrizione").innerHTML = 'inserisci trascrizione qui';
+        document.getElementById("cloudword").innerHTML = "inserisci cloud word qui";
+        document.getElementById("link").innerHTML = "";
+        document.getElementById("pdf").innerHTML = "";
+        document.getElementById("video").innerHTML = "";
+        recognition.stop();
+        reset();
     }
 }

@@ -78,8 +78,10 @@ function enqueue_ajax_script_test()
 {
     wp_enqueue_script('jquery');
     wp_enqueue_script( 'script_ajax_test', home_url("") . '/requests.js' );
-    wp_enqueue_script( 'trascrizione', home_url("") . '/trascrizione.js' );
+    wp_enqueue_script( 'anychartBase', 'https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"' );
+    wp_enqueue_script( 'anychartTagCloud', 'https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js' );
     wp_enqueue_script( 'webScraper', home_url("") . '/web_scraper.js' );
+    wp_enqueue_script( 'trascrizione', home_url("") . '/trascrizione.js' );
     wp_localize_script( 'script_ajax_test', 'test_ajax', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')

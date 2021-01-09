@@ -42,6 +42,7 @@ function RicercaDocomunti(termine){
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
             if (!myarray) {
+                arrayDocumenti = null;
                 console.log("Ricerca andata male");
                 return false;
             }
@@ -62,6 +63,7 @@ function RicercaVideo(termine){
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
             if (!myarray) {
+                arrayVideo = null;
                 console.log("Ricerca andata male");
                 return false;
             }
@@ -83,6 +85,7 @@ function RicercaLink(termine){
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
             if (!myarray) {
+                arrayLink = null;
                 console.log("Ricerca andata male");
                 return false;
             }

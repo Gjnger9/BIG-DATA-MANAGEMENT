@@ -28,6 +28,28 @@ class Database{
         return json_encode($resultArray);
     }
 
+    public function addLezione($id, $idprofessore, $idutente, $idsezione, $titolo, $trascrizione){
+        $sql = "INSERT INTO `wordpress`.`lezione` (`idlezione`, `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione`) VALUES ('".$id."', '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+
+        if (mysqli_query($this->conn, $sql)) {
+            echo "New record created successfully";
+        } else {
+            echo mysqli_error($this->conn);
+        }
+    }
+
+    public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
+        $sql = "INSERT INTO `wordpress`.`contenuto` (`idcontenuto`, `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ('".$id."', '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
+
+        echo $sql;
+
+        if (mysqli_query($this->conn, $sql)) {
+            echo "New record created successfully";
+        } else {
+            echo mysqli_error($this->conn);
+        }
+    }
+
     //Usata per capire la connessione è stata gia aperta
     public function getConnection(){
         return $this->conn;
@@ -40,7 +62,7 @@ class Database{
 }
 
 function create_db () {
-    $link = mysqli_connect("localhost", "root", "root");
+    $link = mysqli_connect("localhost", "root", "");
 
     $sql  = "-- MySQL Workbench Forward Engineering
 

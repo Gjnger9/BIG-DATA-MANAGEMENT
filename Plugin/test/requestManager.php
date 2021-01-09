@@ -22,13 +22,37 @@ function request($url,$method = 'GET', $argument = []){
 
 function save_callback()
 {
-check_ajax_referer( 'ajax_test_nonce_string', 'security' );
+    check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
-echo "Links: ".print_r($_REQUEST[links]);
-echo "Video: ".print_r($_REQUEST[videos]);
-echo "Documenti: ".print_r($_REQUEST[documents]);
+    $databaseConnection = new Database("localhost", "root", "");
 
-die();
+    //Per test
+    $idprofessore = 1;
+    $idutente = 4;
+    $idsezione = 1;
+    $titolo = "Titolo di prova";
+    $idlezione = rand();
+
+    $trascrizione = $_REQUEST[trascrizione];
+
+    $databaseConnection->addLezione($idlezione,  $idprofessore, $idutente, $idsezione, $titolo, $trascrizione);
+    foreach ($_REQUEST[links] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    }
+    foreach ($_REQUEST[videos] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    }
+    foreach ($_REQUEST[documents] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    }
+    $databaseConnection->closeConnection();
+
+    //echo "Links: ".print_r($_REQUEST[links]);
+    //echo "Video: ".print_r($_REQUEST[videos]);
+    //echo "Documenti: ".print_r($_REQUEST[documents]);
+    //echo "Trascrizione: ".print_r($_REQUEST[trascrizione]);
+
+    die();
 }
 
 function say_hello_test_callback()

@@ -1,0 +1,6 @@
+idutente,nome,cognome,cf,email,indirizzo,wp_id
+1,Loris,Cino,cf1,email1,indirizzo1,NULL
+2,Antonio,Monaco,cf2,email2,indirizzo2,NULL
+3,Jonathan,Micelli,cf3,email3,indirizzo3,NULL
+4,Professore,Italiano,cfpi,emailpi,indirizzopi,NULL
+5,Professore,Matematica,cfpm,emailpm,indirizzopm,NULL

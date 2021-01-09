@@ -11,14 +11,14 @@ function add_new_page() {
    $contentNewLesson = '<!-- wp:columns {"verticalAlignment":"top"} -->
 <div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column {"verticalAlignment":"top"} -->
     <div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
-        <p>Cloud Word</p>
+        <h4>Cloud Word</h4>
         <div id="cloudword" >inserisci cloud word qui</div>
         <!-- /wp:freeform --></div>
     <!-- /wp:column -->
 
     <!-- wp:column {"verticalAlignment":"top"} -->
     <div class="wp-block-column is-vertically-aligned-top"><!-- wp:freeform -->
-        <p>Trascrizione</p>
+        <h4>Trascrizione</h4>
         <div id="trascrizione">inserisci trascrizione qui</div>
         <!-- /wp:freeform -->
 
@@ -44,7 +44,7 @@ function add_new_page() {
 <!-- wp:group -->
 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:buttons -->
     <div class="wp-block-buttons"><!-- wp:button -->
-        <div class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
+        <div id="cancelButton" class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
         <!-- /wp:button -->
 
         <!-- wp:button -->
