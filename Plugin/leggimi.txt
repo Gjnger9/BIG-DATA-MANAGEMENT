@@ -27,4 +27,4 @@ Per provarlo creare un post e modificare post_content come con il seguente conte
  <p></p>
  <!-- /wp:paragraph -->
 
-il file request.js va inserito nella cartella principale di wordpress.
+i file request.js, trascrizione.js e web_scraper.js vanno inseriti nella cartella principale di wordpress.

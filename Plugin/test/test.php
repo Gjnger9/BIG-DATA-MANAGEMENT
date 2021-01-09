@@ -19,6 +19,10 @@ if( ! defined ('ABSPATH') ) {
 
 include 'createpages.php';
 include 'database.php';
+<<<<<<< HEAD
+=======
+include 'requestManager.php';
+>>>>>>> Integrazione
 
 class TestPlugin
 {
@@ -63,14 +67,44 @@ function add_last_nav_item($items, $args) {
     return $items;
 }
 
+<<<<<<< HEAD
+=======
+function my_enqueue_scripts() {
+    wp_register_script( 'hello', 'http://localhost/wordpress/wp-content/plugins/test/pages/hello.js', array() ); //put any dependencies (including jQuery) into the array
+    wp_enqueue_script( 'hello' );
+
+    wp_localize_script( 'hello', 'WP_API_Settings', array(
+        'endpoint' => esc_url_raw( rest_url() ),
+        'nonce' => wp_create_nonce( 'wp_rest' )
+    ) );
+}
+
+function enqueue_ajax_script_test()
+{
+    wp_enqueue_script('jquery');
+    wp_enqueue_script( 'script_ajax_test', home_url("") . '/requests.js' );
+    wp_enqueue_script( 'trascrizione', home_url("") . '/trascrizione.js' );
+    wp_enqueue_script( 'webScraper', home_url("") . '/web_scraper.js' );
+    wp_localize_script( 'script_ajax_test', 'test_ajax', array(
+        'url'      => admin_url( 'admin-ajax.php' ),
+        'security' => wp_create_nonce('ajax_test_nonce_string')
+    ));
+}
+
+>>>>>>> Integrazione
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
 add_action( "wp_enqueue_scripts", "enqueue_ajax_script_test" );
+<<<<<<< HEAD
 
 // Utenti autenticati
 add_action( 'wp_ajax_nopriv_say_hello_test', 'say_hello_test_callback' );
 // Utenti non autenticati
 add_action( 'wp_ajax_say_hello_test', 'say_hello_test_callback' );
+=======
+add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
+add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
+>>>>>>> Integrazione
 
 if (class_exists('TestPlugin')){
     $testPlugin = new TestPlugin();

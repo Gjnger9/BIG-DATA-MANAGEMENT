@@ -39,6 +39,7 @@ class Database{
 
 }
 
+<<<<<<< HEAD
 function request($url,$method = 'GET', $argument = []){
 
     // use key 'http' even if you send the request to https://...
@@ -92,6 +93,8 @@ function say_hello_test_callback()
 }
 
 
+=======
+>>>>>>> Integrazione
 function create_db () {
     $link = mysqli_connect("localhost", "root", "root");
 
