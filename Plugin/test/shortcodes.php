@@ -116,6 +116,7 @@ function new_lesson_page_shortcode_function () {
         </style>
         
     <div id = "mainview" class = "row" style="display: table">
+      <input type="text" id="lessonTitle" name="l" value="" placeholder="Inserisci il titolo della lezione" style="width: 500px;">
      
      <div  class = "column left" style="background-color:#f5f5f5;" >
      
