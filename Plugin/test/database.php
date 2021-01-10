@@ -62,7 +62,7 @@ class Database{
 }
 
 function create_db () {
-    $link = mysqli_connect("localhost", "root", "");
+    $link = mysqli_connect("localhost", "root", "root");
 
     $sql  = "-- MySQL Workbench Forward Engineering
 
