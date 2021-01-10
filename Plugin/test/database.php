@@ -29,7 +29,7 @@ class Database{
     }
 
     public function addLezione($id, $idprofessore, $idutente, $idsezione, $titolo, $trascrizione){
-        $sql = "INSERT INTO `wordpress`.`lezione` (`idlezione`, `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione`) VALUES ('".$id."', '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione`) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
 
         if (mysqli_query($this->conn, $sql)) {
             echo "New record created successfully";
@@ -39,7 +39,7 @@ class Database{
     }
 
     public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
-        $sql = "INSERT INTO `wordpress`.`contenuto` (`idcontenuto`, `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ('".$id."', '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
+        $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
 
         echo $sql;
 
@@ -195,7 +195,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `wordpress`.`lezione`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wordpress`.`lezione` (
-  `idlezione` INT NOT NULL,
+  `idlezione` INT NOT NULL AUTO INCREMENT,
   `data` DATE NOT NULL,
   `professore_idprofessore` INT NOT NULL,
   `professore_utente_idutente` INT NOT NULL,

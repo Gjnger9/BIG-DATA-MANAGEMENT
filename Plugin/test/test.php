@@ -90,9 +90,6 @@ function enqueue_ajax_script_test()
     ));
 }
 
-add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
-add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
-
 add_action( "wp_enqueue_scripts", "enqueue_ajax_script_test" );
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
