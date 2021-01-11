@@ -85,7 +85,7 @@ function new_lesson_page_shortcode_function () {
         
          .dropbtn {
            align-content: center;
-            width: 100px;
+            width: 200px;
               text-align: center;
        }
         
@@ -222,7 +222,7 @@ function homepage_shortcode_function () {
         
          .dropbtn {
            align-content: center;
-            width: 100px;
+                    width: 200px;
               text-align: center;
        }
         
@@ -313,21 +313,19 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
+     <select style="width: 280px" id="dropdown" name="scuola">
+        <option selected="">Materia</option>
 
-        <div class="dropdown">
-          <button class="wp-block-button dropbtn">Materia</button>
-
-         <div class="dropdown-content">
         ' ;
 
     $materie = $wpdb->get_results("SELECT * FROM materia", OBJECT);
 
 
     foreach ($materie as $materia) {
-        $materia_dropdown.= '<a href="#" > '. $materia->nome . '</a>';
+        $materia_dropdown.= '<option> '. $materia->nome . '</option>';
     }
 
-    $materia_dropdown.='</div></div>';
+    $materia_dropdown.='</select>';
 
     return $materia_dropdown;
 }
@@ -337,21 +335,25 @@ function create_scuola_dropdown () {
 
 
     $scuola_dropdown ='
-     
-        <div class="dropdown">
+     <select style="width: 280px" id="dropdown" name="scuola">
+        <option selected="">Scuola</option>
+
+
+
+      <!--  <div class="dropdown">
           <button class="wp-block-button dropbtn">Scuola</button>
 
-         <div class="dropdown-content">
+         <div class="dropdown-content">-->
         ' ;
 
     $scuole = $wpdb->get_results("SELECT * FROM scuola", OBJECT);
 
 
     foreach ($scuole as $scuola) {
-        $scuola_dropdown.= '<a href="#" > '. $scuola->nome . '</a>';
+        $scuola_dropdown.= '<option>'.  $scuola->nome . '</option>';
     }
 
-    $scuola_dropdown.='</div></div>';
+    $scuola_dropdown.='</select>';
 
     return $scuola_dropdown;
 }
@@ -363,21 +365,20 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-     
-        <div class="dropdown">
-          <button class="wp-block-button dropbtn">Argomento</button>
+          <select style="width: 280px" id="dropdown" name="scuola">
+        <option selected="">Argomento</option>
 
-         <div class="dropdown-content">
+      
         ' ;
 
     $argomenti = $wpdb->get_results("SELECT * FROM argomento", OBJECT);
 
 
     foreach ($argomenti as $argomento) {
-        $argomento_dropdown.= '<a href="#" > '. $argomento->nome . '</a>';
+        $argomento_dropdown.= '<option> '. $argomento->nome . '</option>';
     }
 
-    $argomento_dropdown.='</div></div>';
+    $argomento_dropdown.='</select>';
 
     return $argomento_dropdown;
 }
