@@ -4,6 +4,7 @@ function shortcodes_init() {
     add_shortcode('lessons', 'lessons_shortcode_function');
     add_shortcode('sidebar', 'sidebar_shortcode_function');
     add_shortcode('new_page', 'new_lesson_page_shortcode_function');
+//    add_shortcode('script','shortcode_scripts');
     add_shortcode('homepage', 'homepage_shortcode_function');
 }
 //parametri non credo ci servano  ($atts, $content, $tag)
@@ -278,28 +279,8 @@ function homepage_shortcode_function () {
         <!-- /wp:button --></div>
      
      </div>        <!-- my end column -->  
-       <div  class = "column right">
+       <div  class = "column right" id="elencolezioni">
         
-        <!-- wp:group -->
-         <div class="wp-block-group"><div class="wp-block-group__inner-container">
-         
-             <!-- wp:paragraph -->
-           <!--  <p>Blocco di lezioni</p> -->
-             <!-- /wp:paragraph -->
-
-             <!-- wp:group -->
-             <div class="wp-block-group"><div class="wp-block-group__inner-container">
-                 <!-- wp:group -->
-                 <div class="wp-block-group"><div class="wp-block-group__inner-container">
-                     <!-- wp:paragraph -->
-                     <p>Elenco Lezioni</p>
-                     <!-- /wp:paragraph -->
-
-                     <!-- wp:buttons -->
-
-                     <!-- /wp:buttons --></div></div></div>
-
-
         </div>     <!-- my end column --> 
     </div>
 
@@ -380,4 +361,11 @@ function create_argomento_dropdown () {
     $argomento_dropdown.='</div></div>';
 
     return $argomento_dropdown;
+}
+
+function shortcode_scripts(){
+
+    $script = '<script src= "'.ABSPATH.'"wp-content/plugin/test/pages/ajax_query.js"></script>';
+    return $script;
+
 }

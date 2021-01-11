@@ -11,7 +11,8 @@ function add_new_page() {
    $contentNewLesson = '[new_page]';
 
 
-   $contentHomepage = '[homepage]';
+//   $contentHomepage = '[script][homepage]';
+    $contentHomepage = '[homepage]';
 
     //aggiunta elemento plugin con link alla directory del nostro plugin
     $postNewLesson = array (

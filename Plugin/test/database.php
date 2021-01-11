@@ -38,6 +38,21 @@ class Database{
         }
     }
 
+    public function read($param)
+    {
+        $sql = "SELECT * FROM `wordpress`.`" . $param . "`;";
+
+
+        $result = mysqli_query($this->conn, $sql);
+
+        $resultArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultArray[] = $row;
+        }
+
+        return json_encode($resultArray);
+    }
+
     public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
         $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
 
@@ -60,13 +75,9 @@ class Database{
     }
 
 }
-function clear_db () {
-    $link = mysqli_connect("localhost", "root", "root");
-    $sql = 'DROP TABLE `wordpress`.`aggrega`, `wordpress`.`alunno`, `wordpress`.`argomento`, `wordpress`.`contenuto`, `wordpress`.`dipendente`, `wordpress`.`e_in`, `wordpress`.`e_tipo`, `wordpress`.`impiega`, `wordpress`.`include`, `wordpress`.`lezione`, `wordpress`.`materia`, `wordpress`.`professore`, `wordpress`.`scuola`, `wordpress`.`sezione`, `wordpress`.`tipo_di_scuola`, `wordpress`.`utente`;';
-    mysqli_multi_query($link, $sql);
-}
+
 function create_db () {
-    $link = mysqli_connect("localhost", "root", "root");
+    $link = mysqli_connect("localhost", "root", "password");
 
     $sql  = "
         SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
