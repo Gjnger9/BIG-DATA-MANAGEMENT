@@ -1,0 +1,65 @@
+<!-- wp:paragraph -->
+ <p>TRASCRIZIONE LEZIONE </p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+ <p><strong>ELENCO CONTENUTI</strong></p>
+ <!-- /wp:paragraph --></div></div>
+ <!-- /wp:group -->
+ 
+ <!-- wp:columns -->
+ <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
+ <div class="wp-block-column" style="flex-basis:100%"><!-- wp:columns {"verticalAlignment":"center"} -->
+ <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"100%"} -->
+ <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:100%"><!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns -->
+ <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
+ <div class="wp-block-column" style="flex-basis:100%"></div>
+ <!-- /wp:column --></div>
+ <!-- /wp:columns -->
+ 
+ <!-- wp:columns {"align":"full"} -->
+ <div class="wp-block-columns alignfull"><!-- wp:column -->
+ <div class="wp-block-column"><!-- wp:paragraph -->
+ <p>LINKS</p>
+ <!-- /wp:paragraph --></div>
+ <!-- /wp:column -->
+ 
+ <!-- wp:column -->
+ <div class="wp-block-column"><!-- wp:paragraph -->
+ <p>DOCUMENTI</p>
+ <!-- /wp:paragraph --></div>
+ <!-- /wp:column -->
+ 
+ <!-- wp:column -->
+ <div class="wp-block-column"><!-- wp:paragraph -->
+ <p>VIDEO</p>
+ <!-- /wp:paragraph --></div>
+ <!-- /wp:column --></div>
+ <!-- /wp:columns --></div></div>
+ <!-- /wp:group --></div></div>
+ <!-- /wp:group -->
+ 
+ <!-- wp:paragraph -->
+ <p></p>
+ <!-- /wp:paragraph --></div>
+ <!-- /wp:column --></div>
+ <!-- /wp:columns --></div>
+ <!-- /wp:column --></div>
+ <!-- /wp:columns -->
+ 
+ <!-- wp:group -->
+ <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+ <p>scuola</p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:paragraph -->
+ <p>sezione</p>
+ <!-- /wp:paragraph -->
+ 
+ <!-- wp:paragraph -->
+ <p>autore</p>
+ <!-- /wp:paragraph --></div></div>
+ <!-- /wp:group -->
