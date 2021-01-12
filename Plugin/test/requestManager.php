@@ -22,9 +22,13 @@ function request($url,$method = 'GET', $argument = []){
 
 function save_callback()
 {
+
+    //creazione post di wordpress con inserimento
+
+
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
-    $databaseConnection = new Database("localhost", "root", "");
+    $databaseConnection = new Database("localhost", "root", "root");
 
     //Per test
     $idprofessore = 1;
@@ -62,7 +66,7 @@ function read_callback()
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", "password");
+    $databaseConnection = new Database("localhost", "root", "root");
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -88,7 +92,7 @@ function read_lezioni_filtrate_callback()
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", "password");
+    $databaseConnection = new Database("localhost", "root", "root");
 //
     wp_send_json($databaseConnection->read_lezioni_filtrate($param));
 //
@@ -107,7 +111,7 @@ check_ajax_referer('nonce-requests', 'nonce');
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", "password");
+    $databaseConnection = new Database("localhost", "root", "root");
 //
     wp_send_json($databaseConnection->read_argomenti_materia($param));
 //
@@ -124,7 +128,7 @@ function say_hello_test_callback()
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
-    $databaseConnection = new Database("localhost", "root", "");
+    $databaseConnection = new Database("localhost", "root", "root");
     wp_send_json( $databaseConnection->makeSelect("persona") );
     $databaseConnection->closeConnection();
     die();

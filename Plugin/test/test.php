@@ -53,9 +53,9 @@ class TestPlugin
 }
 
 
-function add_last_nav_item($items, $args) {
+function add_last_nav_item($items) {
 	$user = wp_get_current_user();
-    ;
+
 
     //aggiunta elemento plugin con link alla directory del nostro plugin
     $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Old Plugin</a></li>';
@@ -106,6 +106,7 @@ add_action('init', 'shortcodes_init');
 
 if (class_exists('TestPlugin')){
     $testPlugin = new TestPlugin();
+    register_activation_hook(__FILE__, array($testPlugin, 'activate'));
+    register_deactivation_hook(__FILE__, array($testPlugin, 'deactivate'));
 }
-register_activation_hook(__FILE__, array($testPlugin, 'activate'));
-register_deactivation_hook(__FILE__, array($testPlugin, 'deactivate'));
+

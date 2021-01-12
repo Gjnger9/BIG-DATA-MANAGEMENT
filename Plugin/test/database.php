@@ -7,7 +7,7 @@ class Database{
     //Per inserire i propri dati andare sotto
     public function __construct($servername , $username ,$password)
     {
-        $this->conn = mysqli_connect($servername, $username, $password);
+        $this->conn = mysqli_connect($servername, $username, $password, 'wordpress' );
         // Check connection
         if (!$this->conn) {
             die("Connection failed: " . mysqli_connect_error());
@@ -45,8 +45,13 @@ class Database{
             $id = wp_insert_post($newLesson);
             if (!$id) //id false su fallimento -> !id su successo
             {
+/*
+	            $num1 = 3;
+	            $mum2 = 2;
+	            $sql = "  call test_procedure ('$num1' , '$mum2');";
+            	*/
                 $lesson_id= mysqli_insert_id($this->conn);
-                $syncsql = "CALL 'sync_lesson_to_post'('{$id}', '{$lesson_id}' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+                $syncsql = "CALL sync_lesson_to_post('$id' , '$lesson_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
                 $wpdb->query($syncsql);
 
             } else {
@@ -61,20 +66,24 @@ class Database{
         }
     }
 
-    public function read($param)
-    {
-        $sql = "SELECT * FROM `wordpress`.`" . $param . "`;";
+	public function read($param)
+	{
+		$sql = "SELECT * FROM `wordpress`.`" . $param . "`;";
 
 
-        $result = mysqli_query($this->conn, $sql);
+		$result = mysqli_query($this->conn, $sql);
 
-        $resultArray = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $resultArray[] = $row;
-        }
+		if( !$result ) { // se errore
+			die(  mysqli_error( $this->conn ));
+		}
+		$resultArray = array();
+		while ($row = mysqli_fetch_assoc($result)) {
+			$resultArray[] = $row;
+		}
 
-        return json_encode($resultArray);
-    }
+		return json_encode($resultArray);
+	}
+
     public function read_lezioni_filtrate($param)
     {
 //          $param =[

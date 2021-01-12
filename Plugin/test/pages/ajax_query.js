@@ -10,7 +10,7 @@ jQuery(document).ready( function (){
                 nonce : vars.security
             },
             success: function (data){
-
+                console.log(data);
                 console.log(JSON.parse(data));
 
                 showLessons(JSON.parse(data))
