@@ -70,15 +70,22 @@ jQuery(document).ready( function (){
         let scuolaValue = null;
         let argomentoValue = null;
         materiaDropdown.onchange=function (){
+
             materiaValue = materiaDropdown.value;
+            if(materiaDropdown.selectedIndex===0)
+                materiaValue = null;
             console.log(materiaValue);
         }
         scuolaDropdown.onchange=function (){
             scuolaValue = scuolaDropdown.value;
+            if(scuolaDropdown.selectedIndex===0)
+                scuolaValue = null;
             console.log(scuolaValue);
         }
         argomentoDropdown.onchange=function (){
             argomentoValue = argomentoDropdown.value;
+            if(argomentoDropdown.selectedIndex===0)
+                argomentoValue = null;
             console.log(argomentoValue);
         }
 
