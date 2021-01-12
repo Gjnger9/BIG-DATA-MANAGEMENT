@@ -133,12 +133,12 @@ function new_lesson_page_shortcode_function () {
         create_argomento_dropdown()
         //codice per creare le liste di filtraggio
         .'
-        
+       <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
         <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
         <!-- /wp:button --></div>
      
-     </div>        <!-- my end column -->  
+     </div>   
        <div  class = "column right">
         
         <!-- wp:group -->

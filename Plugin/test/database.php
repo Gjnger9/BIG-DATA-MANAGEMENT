@@ -28,11 +28,34 @@ class Database{
         return json_encode($resultArray);
     }
 
-    public function addLezione($id, $idprofessore, $idutente, $idsezione, $titolo, $trascrizione){
-        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione`) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+    public function addLezione($idprofessore, $idutente, $idsezione, $titolo, $trascrizione){
+        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+
+        GLOBAL $wpdb;
+
 
         if (mysqli_query($this->conn, $sql)) {
+
+            $newLesson = array (
+                'post_title' => $titolo,
+                'post_status' => 'publish',
+                'post_type' => 'post'
+            );
+
+            $id = wp_insert_post($newLesson);
+            if (!$id) //id false su fallimento -> !id su successo
+            {
+                $lesson_id= mysqli_insert_id($this->conn);
+                $syncsql = "CALL 'sync_lesson_to_post'('{$id}', '{$lesson_id}' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+                $wpdb->query($syncsql);
+
+            } else {
+                echo "Lesson created successfully, couldn't sync post";
+            }
+
             echo "New record created successfully";
+
+
         } else {
             echo mysqli_error($this->conn);
         }
