@@ -110,9 +110,12 @@ class Database{
 
     public function read_argomenti_materia($param)
     {
-        $sql = "SELECT arg.* FROM wordpress.argomento AS arg
+        if($param!=null) {
+            $sql = "SELECT arg.* FROM wordpress.argomento AS arg
                 JOIN wordpress.materia AS m ON m.idmateria = arg.materia_idmateria
-                WHERE m.nome = '".$param."';";
+                WHERE m.nome = '" . $param . "';";
+        }else
+            $sql = "SELECT * FROM wordpress.argomento";
 
 
         $result = mysqli_query($this->conn, $sql);
