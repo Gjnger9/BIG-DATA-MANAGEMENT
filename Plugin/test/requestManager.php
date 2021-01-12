@@ -80,6 +80,25 @@ function read_callback()
     die();
 }
 
+function read_lezioni_filtrate_callback()
+{
+    check_ajax_referer('nonce-requests', 'nonce');
+//    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+//        die("FOLD");
+//    }
+    $param = $_REQUEST['param'];
+//        echo "readLEzFiltr Dentro";
+    $databaseConnection = new Database("localhost", "root", "password");
+//
+    wp_send_json($databaseConnection->read_lezioni_filtrate($param));
+//
+    $databaseConnection->closeConnection();
+
+
+
+    die();
+}
+
 
 function say_hello_test_callback()
 {
@@ -103,3 +122,6 @@ add_action( 'wp_ajax_save', 'save_callback' );
 
 add_action( 'wp_ajax_nopriv_read', 'read_callback' );
 add_action( 'wp_ajax_read', 'read_callback' );
+
+add_action( 'wp_ajax_nopriv_read_lezioni_filtrate', 'read_lezioni_filtrate_callback' );
+add_action( 'wp_ajax_read_lezioni_filtrate', 'read_lezioni_filtrate_callback' );

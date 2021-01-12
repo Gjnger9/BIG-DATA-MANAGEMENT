@@ -248,7 +248,7 @@ function homepage_shortcode_function () {
           display: block;
         }
         
-        .dropdown-content a:hover {background-color: #ddd;}
+        .dropdown-content a:hover {background-color: #dddddd;}
         
         .dropdown:hover .dropdown-content {display: block;}
         </style>
@@ -260,7 +260,7 @@ function homepage_shortcode_function () {
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
      <input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>
-     '.
+     ' .
 
         create_materia_dropdown() .
         '<br>' .
@@ -273,7 +273,7 @@ function homepage_shortcode_function () {
 
 
      .'
-        
+        <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
         <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
         <!-- /wp:button --></div>
@@ -294,7 +294,7 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
-     <select style="width: 280px" id="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Materia</option>
 
         ' ;
@@ -316,7 +316,7 @@ function create_scuola_dropdown () {
 
 
     $scuola_dropdown ='
-     <select style="width: 280px" id="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Scuola</option>
 
 
@@ -346,7 +346,7 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-          <select style="width: 280px" id="dropdown" name="scuola">
+          <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Argomento</option>
 
       

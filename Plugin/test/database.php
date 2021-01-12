@@ -52,6 +52,61 @@ class Database{
 
         return json_encode($resultArray);
     }
+    public function read_lezioni_filtrate($param)
+    {
+//          $param =[
+//              "materia" => "matematica",
+////              "scuola" => "scuola1",
+//              "argomento" => "derivate"
+//          ];
+//            $materia = $param[0]="matem"
+        $sql = "SELECT l.*
+                FROM `wordpress`.`materia` AS m
+                    JOIN `wordpress`.`argomento` AS arg ON m.idmateria = arg.materia_idmateria
+                    JOIN `wordpress`.`aggrega` AS agg ON agg.argomento_idargomento = arg.idargomento
+                    JOIN `wordpress`.`contenuto` AS cont ON cont.idcontenuto = agg.contenuto_idcontenuto
+                    JOIN `wordpress`.`lezione` AS l ON cont.lezione_idlezione1 = l.idlezione
+                    JOIN `wordpress`.`sezione` AS se ON se.idsezione = l.sezione_idsezione
+                    JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
+                    
+                WHERE ";
+
+        if(($materia=$param["materia"])!=null){
+            $sql.=" m.nome = '".$materia."' ";
+        }else{
+            $sql.= " TRUE " ;
+        }
+        $sql.=" AND ";
+        if(($scuola=$param["scuola"])!=null){
+            $sql.= "sc.nome = '".$scuola."' ";
+        }else{
+            $sql.= " TRUE " ;
+        }
+        $sql.=" AND ";
+        if(($argomento=$param["argomento"])!=null){
+            $sql.=" arg.nome = '".$argomento."' ";
+        }else{
+            $sql.= " TRUE " ;
+        }
+        $sql.=";";
+//        $sql = "SELECT * FROM `wordpress`.`lezione`;";
+//        echo $sql;
+        $result = mysqli_query($db=$this->conn, $sql);
+        if(!$result){
+            die(mysqli_error($db));
+        }
+        $resultArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultArray[] = $row;
+        }
+//
+        return json_encode($resultArray);
+//        echo json_encode("okkokokokokokok");
+//        die(json_encode($resultArray));
+
+    }
+
+
 
     public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
         $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
