@@ -49,6 +49,34 @@ jQuery(document).ready( function (){
         });
     }
 
+    function argMateria(param,dropdown) {
+        jQuery.ajax({
+            type: "GET",
+            url: vars.url,
+            data: {
+                action : 'read_argomenti_materia',
+                param: param,
+                nonce : vars.security
+            },
+            success: function (data){
+
+                // showLessons(JSON.parse(data))
+                // fottiti(data)
+                // return JSON.parse(data);
+
+                // console.log(JSON.parse(data));
+                // showLessons(JSON.parse(data))
+                clearDropdown(dropdown,"Argomento");
+                fillDropdown(dropdown,JSON.parse(data));
+            },
+            error: function (error) {
+                // Azioni da eseguire in caso di errore chiamata
+                console.log("errore");
+                console.log(error);
+            }
+        });
+    }
+
 
     // console.log("ok");
     // console.log(r)
@@ -75,6 +103,12 @@ jQuery(document).ready( function (){
             if(materiaDropdown.selectedIndex===0)
                 materiaValue = null;
             console.log(materiaValue);
+
+            // clearDropdown(argomentoDropdown,"Argomento");
+
+            argMateria(materiaValue,argomentoDropdown);
+          
+
         }
         scuolaDropdown.onchange=function (){
             scuolaValue = scuolaDropdown.value;
@@ -166,7 +200,26 @@ jQuery(document).ready( function (){
 
     }
 
+    function clearDropdown(dropdown,text){
 
+        for(opt in dropdown.options) {
 
+            dropdown.remove(opt.index);
+        }
+        var option = document.createElement("option");
+        option.text = text;
+        dropdown.add(option);
+
+    }
+
+    function fillDropdown(dropdown,data){
+        for(let i=0;i<data.length; i++) {
+            let obj = data[i];
+            let option = document.createElement("option");
+            option.text = obj.nome;
+            dropdown.add(option);
+        }
+
+    }
 
 })

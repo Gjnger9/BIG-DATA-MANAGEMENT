@@ -108,6 +108,24 @@ class Database{
 
 
 
+    public function read_argomenti_materia($param)
+    {
+        $sql = "SELECT arg.* FROM wordpress.argomento AS arg
+                JOIN wordpress.materia AS m ON m.idmateria = arg.materia_idmateria
+                WHERE m.nome = '".$param."';";
+
+
+        $result = mysqli_query($this->conn, $sql);
+
+        $resultArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultArray[] = $row;
+        }
+
+        return json_encode($resultArray);
+    }
+
+
     public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
         $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
 
@@ -281,11 +299,11 @@ function create_db () {
           `idlezione` INT NOT NULL AUTO_INCREMENT,
           `data` DATE NOT NULL,
           `professore_idprofessore` INT NOT NULL,
+      
           `sezione_idsezione` INT NOT NULL,
           `titolo` VARCHAR(45) NULL,
           `trascrizione` LONGTEXT NULL,
           `wp_post_id` BIGINT UNSIGNED NULL,
-          `materia_idmateria` INT NOT NULL,
           PRIMARY KEY (`idlezione`),
           INDEX `fk_lezione_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_lezione_sezione1_idx` (`sezione_idsezione` ASC),
@@ -303,11 +321,6 @@ function create_db () {
             FOREIGN KEY (`wp_post_id`)
             REFERENCES `wordpress`.`wp_posts` (`ID`)
             ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-          CONSTRAINT `fk_materia_idmateria1`
-            FOREIGN KEY (`materia_idmateria`)
-            REFERENCES `wordpress`.`materia` (`idmateria`)
-            ON DELETE NO ACTION
             ON UPDATE NO ACTION)
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;
@@ -324,16 +337,16 @@ function create_db () {
           `percorso` MEDIUMTEXT NOT NULL,
           `professore_idprofessore` INT NULL DEFAULT NULL,
           `data_accettazione` DATETIME NULL DEFAULT NULL,
-          `lezione_idlezione` INT NOT NULL,
+          `lezione_idlezione1` INT NOT NULL,
           `wp_post_id` BIGINT UNSIGNED NULL,
           PRIMARY KEY (`idcontenuto`),
           INDEX `fk_contenuto_professore1_idx` (`professore_idprofessore` ASC),
-          INDEX `fk_contenuto_lezione2_idx` (`lezione_idlezione` ASC),
+          INDEX `fk_contenuto_lezione2_idx` (`lezione_idlezione1` ASC),
           CONSTRAINT `fk_contenuto_professore1`
             FOREIGN KEY (`professore_idprofessore`)
             REFERENCES `wordpress`.`professore` (`idprofessore`),
           CONSTRAINT `fk_contenuto_lezione2`
-            FOREIGN KEY (`lezione_idlezione`)
+            FOREIGN KEY (`lezione_idlezione1`)
             REFERENCES `wordpress`.`lezione` (`idlezione`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION)
