@@ -61,14 +61,14 @@ class Database{
 //          ];
 //            $materia = $param[0]="matem"
         $sql = "SELECT l.*
-                FROM `wordpress`.`materia` AS m
-                    JOIN `wordpress`.`argomento` AS arg ON m.idmateria = arg.materia_idmateria
-                    JOIN `wordpress`.`aggrega` AS agg ON agg.argomento_idargomento = arg.idargomento
-                    JOIN `wordpress`.`contenuto` AS cont ON cont.idcontenuto = agg.contenuto_idcontenuto
-                    JOIN `wordpress`.`lezione` AS l ON cont.lezione_idlezione1 = l.idlezione
+                
+                FROM `wordpress`.`lezione` AS l
+					JOIN `wordpress`.`materia` AS m ON m.idmateria = l.materia_idmateria
+                    JOIN `wordpress`.`argomento`AS arg on arg.materia_idmateria = m.idmateria
+                   
+                    
                     JOIN `wordpress`.`sezione` AS se ON se.idsezione = l.sezione_idsezione
                     JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
-                    
                 WHERE ";
 
         if(($materia=$param["materia"])!=null){
