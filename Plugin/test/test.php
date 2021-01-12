@@ -43,6 +43,7 @@ class TestPlugin
 
     function uninstall()
     {
+        //clear db
     }
 
 
@@ -79,12 +80,12 @@ function my_enqueue_scripts() {
 function enqueue_ajax_script_test()
 {
     wp_enqueue_script('jquery');
-    wp_enqueue_script('script_ajax_requests',home_url("").'/wp-content/plugins/test/pages/ajax_query.js');
-    wp_enqueue_script( 'script_ajax_test', home_url("") . '/requests.js' );
+    wp_enqueue_script('script_ajax_requests', '/wp-content/plugins/test/pages/ajax_query.js');
+    wp_enqueue_script( 'script_ajax_test', '/wp-content/plugins/test/pages/requests.js' );
     wp_enqueue_script( 'anychartBase', 'https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"' );
     wp_enqueue_script( 'anychartTagCloud', 'https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js' );
-    wp_enqueue_script( 'webScraper', home_url("") . '/web_scraper.js' );
-    wp_enqueue_script( 'trascrizione', home_url("") . '/trascrizione.js' );
+    wp_enqueue_script( 'webScraper',   '/wp-content/plugins/test/pages/web_scraper.js' );
+    wp_enqueue_script( 'trascrizione', '/wp-content/plugins/test/pages/trascrizione.js' );
     wp_localize_script( 'script_ajax_test', 'test_ajax', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')
@@ -95,7 +96,7 @@ function enqueue_ajax_script_test()
     ));
 }
 
-add_action( "wp_enqueue_scripts", "enqueue_ajax_script_test" );
+add_action( "wp_enqueue_scripts", 'enqueue_ajax_script_test' );
 add_filter( 'wp_nav_menu_items', 'add_last_nav_item', 10, 2);
 add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
 
