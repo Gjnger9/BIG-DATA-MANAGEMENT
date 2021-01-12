@@ -55,6 +55,51 @@ function save_callback()
     die();
 }
 
+function read_callback()
+{
+    check_ajax_referer('nonce-requests', 'nonce');
+//    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+//        die("FOLD");
+//    }
+
+    $databaseConnection = new Database("localhost", "root", "password");
+//        $param = "lezioni";
+    $param = $_REQUEST['param'];
+//        echo $param;
+    wp_send_json($data = $databaseConnection->read($param));
+//    GLOBAL $wpdb;
+//    wp_send_json(json_encode($wpdb->get_results("SELECT * from ".$param,OBJECT)));
+    $databaseConnection->closeConnection();
+
+    //echo "Links: ".print_r($_REQUEST[links]);
+    //echo "Video: ".print_r($_REQUEST[videos]);
+    //echo "Documenti: ".print_r($_REQUEST[documents]);
+    //echo "Trascrizione: ".print_r($_REQUEST[trascrizione]);
+//    wp_send_json( $param);
+
+    die();
+}
+
+function read_lezioni_filtrate_callback()
+{
+    check_ajax_referer('nonce-requests', 'nonce');
+//    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+//        die("FOLD");
+//    }
+    $param = $_REQUEST['param'];
+//        echo "readLEzFiltr Dentro";
+    $databaseConnection = new Database("localhost", "root", "password");
+//
+    wp_send_json($databaseConnection->read_lezioni_filtrate($param));
+//
+    $databaseConnection->closeConnection();
+
+
+
+    die();
+}
+
+
 function say_hello_test_callback()
 {
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
@@ -74,3 +119,9 @@ add_action( 'wp_ajax_say_hello_test', 'say_hello_test_callback' );
 add_action( 'wp_ajax_nopriv_save', 'save_callback' );
 // Utenti non autenticati (da cancellare)
 add_action( 'wp_ajax_save', 'save_callback' );
+
+add_action( 'wp_ajax_nopriv_read', 'read_callback' );
+add_action( 'wp_ajax_read', 'read_callback' );
+
+add_action( 'wp_ajax_nopriv_read_lezioni_filtrate', 'read_lezioni_filtrate_callback' );
+add_action( 'wp_ajax_read_lezioni_filtrate', 'read_lezioni_filtrate_callback' );

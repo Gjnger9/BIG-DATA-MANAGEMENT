@@ -4,6 +4,7 @@ function shortcodes_init() {
     add_shortcode('lessons', 'lessons_shortcode_function');
     add_shortcode('sidebar', 'sidebar_shortcode_function');
     add_shortcode('new_page', 'new_lesson_page_shortcode_function');
+//    add_shortcode('script','shortcode_scripts');
     add_shortcode('homepage', 'homepage_shortcode_function');
 }
 //parametri non credo ci servano  ($atts, $content, $tag)
@@ -247,7 +248,7 @@ function homepage_shortcode_function () {
           display: block;
         }
         
-        .dropdown-content a:hover {background-color: #ddd;}
+        .dropdown-content a:hover {background-color: #dddddd;}
         
         .dropdown:hover .dropdown-content {display: block;}
         </style>
@@ -259,7 +260,7 @@ function homepage_shortcode_function () {
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
      <input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>
-     '.
+     ' .
 
         create_materia_dropdown() .
         '<br>' .
@@ -272,34 +273,14 @@ function homepage_shortcode_function () {
 
 
      .'
-        
+        <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
         <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
         <!-- /wp:button --></div>
      
      </div>        <!-- my end column -->  
-       <div  class = "column right">
+       <div  class = "column right" id="elencolezioni">
         
-        <!-- wp:group -->
-         <div class="wp-block-group"><div class="wp-block-group__inner-container">
-         
-             <!-- wp:paragraph -->
-           <!--  <p>Blocco di lezioni</p> -->
-             <!-- /wp:paragraph -->
-
-             <!-- wp:group -->
-             <div class="wp-block-group"><div class="wp-block-group__inner-container">
-                 <!-- wp:group -->
-                 <div class="wp-block-group"><div class="wp-block-group__inner-container">
-                     <!-- wp:paragraph -->
-                     <p>Elenco Lezioni</p>
-                     <!-- /wp:paragraph -->
-
-                     <!-- wp:buttons -->
-
-                     <!-- /wp:buttons --></div></div></div>
-
-
         </div>     <!-- my end column --> 
     </div>
 
@@ -313,7 +294,7 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
-     <select style="width: 280px" id="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Materia</option>
 
         ' ;
@@ -335,7 +316,7 @@ function create_scuola_dropdown () {
 
 
     $scuola_dropdown ='
-     <select style="width: 280px" id="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Scuola</option>
 
 
@@ -365,7 +346,7 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-          <select style="width: 280px" id="dropdown" name="scuola">
+          <select style="width: 280px" class="dropdown" name="scuola">
         <option selected="">Argomento</option>
 
       
@@ -381,4 +362,11 @@ function create_argomento_dropdown () {
     $argomento_dropdown.='</select>';
 
     return $argomento_dropdown;
+}
+
+function shortcode_scripts(){
+
+    $script = '<script src= "'.ABSPATH.'"wp-content/plugin/test/pages/ajax_query.js"></script>';
+    return $script;
+
 }
