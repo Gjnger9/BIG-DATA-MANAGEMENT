@@ -1,5 +1,5 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sync_lesson_to_post`(
-	in idlezione int, 
+	in idlezione int,  
     in wp_post_id int
 )
 BEGIN
