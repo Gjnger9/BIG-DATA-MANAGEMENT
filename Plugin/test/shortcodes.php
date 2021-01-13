@@ -168,14 +168,14 @@ function new_lesson_page_shortcode_function () {
         <!-- wp:separator -->
         <hr class="wp-block-separator"/>
         <!-- /wp:separator -->
-        <div align="left">
+      <!--  <div align="left">
     <form name="ricerca">
         <b>Campo di ricerca</b>
         <input type="text" name="cerca"  id="searchfield">
         <input type="button" value="Cerca" onClick="Ricerca()">
 
     </form>
-</div>
+</div>-->
         
         <div >
            

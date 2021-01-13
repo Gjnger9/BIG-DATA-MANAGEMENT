@@ -29,14 +29,14 @@ var getHTML = function ( url, callback ) {
 
 };
 
-function Ricerca() {
-    var termine = document.ricerca.cerca.value;
-    RicercaDocomunti(termine);
+function Ricerca(termine) {
+    // var termine = document.ricerca.cerca.value;
+    RicercaDocumenti(termine);
     RicercaVideo(termine);
     RicercaLink(termine);
 }
 
-function RicercaDocomunti(termine){
+function RicercaDocumenti(termine){
     getHTML( baseUrl + termine + " filetype:pdf", function (response) {
         var someElem = document.querySelector( '#pdf' );
         var someOtherElem = response.querySelector( '#search' );

@@ -653,7 +653,7 @@ window.onload = function() {
             if (event.results[i].isFinal) {
                 textarea.value += event.results[i][0].transcript + ' ';
 
-                Ricerca();
+                Ricerca(termine);
             }
         }
         const text = textarea.value;
