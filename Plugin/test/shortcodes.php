@@ -58,7 +58,6 @@ function new_lesson_page_shortcode_function () {
   
   }
 
-
         /* Create two unequal columns that floats next to each other */
         .column {
           float: left;
@@ -144,25 +143,25 @@ function new_lesson_page_shortcode_function () {
         <!-- wp:group -->
          <div class="wp-block-group"><div class="wp-block-group__inner-container">
          <!-- wp:columns {"verticalAlignment":"top"} -->
-            <div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column {"verticalAlignment":"top"} -->
-            <div class="wp-block-column is-vertically-aligned-top"  ><!-- wp:freeform -->
+         
+                <h4>Trascrizione</h4>
+                <div id="trascrizione"></div>
+                <!-- /wp:freeform -->
+          
                 <h4>Cloud Word</h4>
-                <div id="cloudword" style="object-fit: cover;width: auto; height: auto;" >inserisci cloud word qui</div>
-                <!-- /wp:freeform --></div>
+                <div id="cloudword" style="object-fit: cover;width: auto; height: auto;" ></div>
+
             <!-- /wp:column -->
         
             <!-- wp:column {"verticalAlignment":"top"} -->
-            <div class="wp-block-column is-vertically-aligned-top""><!-- wp:freeform -->
-                <h4>Trascrizione</h4>
-                <div id="trascrizione">inserisci trascrizione qui</div>
-                <!-- /wp:freeform -->
+        
         
                 <!-- wp:buttons -->
                 <div class="wp-block-buttons"><!-- wp:button -->
                     <div id="toggleReg" class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
                     <!-- /wp:button --></div>
-                <!-- /wp:buttons --></div>
-            <!-- /wp:column --></div>
+       
+    
         <!-- /wp:columns -->
         
         <!-- wp:separator -->

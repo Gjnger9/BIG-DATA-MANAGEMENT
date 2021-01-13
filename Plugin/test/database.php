@@ -539,7 +539,7 @@ function create_db () {
         SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
         SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
        ";
-
+	//TODO ADD CREATE PROCEDURE AS SOON AS IT IS DONE
     mysqli_multi_query($link, $sql);
 
 }

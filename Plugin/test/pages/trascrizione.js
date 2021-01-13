@@ -116,13 +116,14 @@ jQuery(document).ready(function() {
             chart.colorRange(true);
             // set the color range length
             chart.colorRange().length('80%');
-    // display the word cloud chart
+            // display the word cloud chart
+            chart.colorRange().labels(false);
             chart.container("cloudword");
             chart.draw();
         });
     }
         function resetDiv() {
-            document.getElementById("cloudword").innerHTML = "inserisci cloud word qui"
+            document.getElementById("cloudword").innerHTML = "";
     }
 
     /*****************************************************************************************

@@ -43,7 +43,9 @@ function RicercaDocumenti(termine){
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
             someElem.innerHTML = clean_data("Documenti");
+        } else {
             console.log("Ricerca andata male");
+
         }
     });
 }
@@ -94,7 +96,8 @@ function get_all_link(someOtherElem){
 function clean_data(type){
 	var table = '<h3>'+type+'</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
             for (var i=0; i<maxDocument; i++) {
-                table += '<tr><td>' + myarray[i][0] + '</td><td>' + myarray[i][1] + '</td></tr>';
+                //aggiunto link
+                table += '<tr><td> ' + myarray[i][0] + '</td>  <td><a href=" ' + myarray[i][1] + '" target="_blank" > ' +  myarray[i][1] + ' </a> </td></tr>';
             }
             return table;
 }
