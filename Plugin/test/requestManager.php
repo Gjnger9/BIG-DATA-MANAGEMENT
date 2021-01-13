@@ -1,5 +1,8 @@
 <?php
 
+$_PASSWORD_DB_="password";
+
+
 function request($url,$method = 'GET', $argument = []){
 
     // use key 'http' even if you send the request to https://...
@@ -24,11 +27,11 @@ function save_callback()
 {
 
     //creazione post di wordpress con inserimento
-
+    global $_PASSWORD_DB_;
 
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
-    $databaseConnection = new Database("localhost", "root", "root");
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 
     //Per test
     $idprofessore = 1;
@@ -61,12 +64,13 @@ function save_callback()
 
 function read_callback()
 {
+    global $_PASSWORD_DB_;
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", "root");
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -86,13 +90,14 @@ function read_callback()
 
 function read_lezioni_filtrate_callback()
 {
+    global $_PASSWORD_DB_;
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", "root");
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 //
     wp_send_json($databaseConnection->read_lezioni_filtrate($param));
 //
@@ -105,13 +110,14 @@ function read_lezioni_filtrate_callback()
 
 function read_argomenti_materia_callback()
 {
+    global $_PASSWORD_DB_;
 check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", "root");
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 //
     wp_send_json($databaseConnection->read_argomenti_materia($param));
 //
@@ -125,10 +131,11 @@ check_ajax_referer('nonce-requests', 'nonce');
 
 function say_hello_test_callback()
 {
+    global $_PASSWORD_DB_;
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
-    $databaseConnection = new Database("localhost", "root", "root");
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
     wp_send_json( $databaseConnection->makeSelect("persona") );
     $databaseConnection->closeConnection();
     die();

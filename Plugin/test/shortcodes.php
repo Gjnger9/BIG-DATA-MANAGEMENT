@@ -168,9 +168,17 @@ function new_lesson_page_shortcode_function () {
         <!-- wp:separator -->
         <hr class="wp-block-separator"/>
         <!-- /wp:separator -->
+        <div align="left">
+    <form name="ricerca">
+        <b>Campo di ricerca</b>
+        <input type="text" name="cerca"  id="searchfield">
+        <input type="button" value="Cerca" onClick="Ricerca()">
+
+    </form>
+</div>
         
-        <div style="height: 400px; width:1065px;">
-            <h4>Blocco contenuti</h4>
+        <div >
+           
             <div id="pdf"></div>
             <div id="link"></div>
             <div id="video"></div>

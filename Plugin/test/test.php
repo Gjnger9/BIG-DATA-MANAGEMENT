@@ -90,6 +90,10 @@ function enqueue_ajax_script_test()
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')
     ));
+//    wp_localize_script( 'trascrizione', 'test_ajax', array(
+//        'url'      => admin_url( 'admin-ajax.php' ),
+//        'security' => wp_create_nonce('ajax_test_nonce_string')
+//    ));
     wp_localize_script('script_ajax_requests', 'vars', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('nonce-requests')
