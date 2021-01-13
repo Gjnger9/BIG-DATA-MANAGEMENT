@@ -145,14 +145,14 @@ function new_lesson_page_shortcode_function () {
          <div class="wp-block-group"><div class="wp-block-group__inner-container">
          <!-- wp:columns {"verticalAlignment":"top"} -->
             <div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column {"verticalAlignment":"top"} -->
-            <div class="wp-block-column is-vertically-aligned-top" style="height: 400px; width:700px; "><!-- wp:freeform -->
+            <div class="wp-block-column is-vertically-aligned-top"  ><!-- wp:freeform -->
                 <h4>Cloud Word</h4>
-                <div id="cloudword" >inserisci cloud word qui</div>
+                <div id="cloudword" style="object-fit: cover;width: auto; height: auto;" >inserisci cloud word qui</div>
                 <!-- /wp:freeform --></div>
             <!-- /wp:column -->
         
             <!-- wp:column {"verticalAlignment":"top"} -->
-            <div class="wp-block-column is-vertically-aligned-top" style="height: 400px; width:700px; "><!-- wp:freeform -->
+            <div class="wp-block-column is-vertically-aligned-top""><!-- wp:freeform -->
                 <h4>Trascrizione</h4>
                 <div id="trascrizione">inserisci trascrizione qui</div>
                 <!-- /wp:freeform -->
@@ -178,7 +178,7 @@ function new_lesson_page_shortcode_function () {
 </div>-->
         
         <div >
-           
+           <h4>Ricerca</h4>
             <div id="pdf"></div>
             <div id="link"></div>
             <div id="video"></div>

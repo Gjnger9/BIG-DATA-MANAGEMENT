@@ -117,7 +117,7 @@ jQuery(document).ready(function() {
             // set the color range length
             chart.colorRange().length('80%');
     // display the word cloud chart
-            chart.container("container");
+            chart.container("cloudword");
             chart.draw();
         });
     }
