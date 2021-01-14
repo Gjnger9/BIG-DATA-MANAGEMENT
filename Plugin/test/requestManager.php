@@ -38,19 +38,21 @@ function save_callback()
     $idutente = 4;
     $idsezione = 1;
     $titolo = "Titolo di prova";
-
+	$idmateria=1;
 
     $trascrizione = $_REQUEST['trascrizione'];
 
-    $databaseConnection->addLezione(   $idprofessore, $idutente, $idsezione, $titolo, $trascrizione);
+	$lesson_id = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria);
+
+
     foreach ($_REQUEST['links'] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
+        $databaseConnection->addContenuto( $lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
     }
     foreach ($_REQUEST['videos'] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
+        $databaseConnection->addContenuto( $lesson_id , $contenuto[0], $contenuto[1], $idprofessore, "video");
     }
     foreach ($_REQUEST['documents'] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
+        $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
     }
     $databaseConnection->closeConnection();
 

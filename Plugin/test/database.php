@@ -28,11 +28,11 @@ class Database{
         return json_encode($resultArray);
     }
 
-    public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione){
-        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+    public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria){
+        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . " );";
 
         GLOBAL $wpdb;
-
+		$lesson_id=0;
 
         if (mysqli_query($this->conn, $sql)) {
 
@@ -42,7 +42,7 @@ class Database{
                 'post_type' => 'post'
             );
 
-            $id = wp_insert_post($newLesson);
+            $id = wp_insert_post($newLesson)->ID;
             if (!$id) //id false su fallimento -> !id su successo
             {
 /*
@@ -50,7 +50,8 @@ class Database{
 	            $mum2 = 2;
 	            $sql = "  call test_procedure ('$num1' , '$mum2');";
             	*/
-                $lesson_id= mysqli_insert_id($this->conn);
+                $lesson_id = mysqli_insert_id($this->conn);
+	            echo  ' idlezione ' . $lesson_id;
                 $syncsql = "CALL sync_lesson_to_post('$id' , '$lesson_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
                 $wpdb->query($syncsql);
 
@@ -62,8 +63,11 @@ class Database{
 
 
         } else {
+
             echo mysqli_error($this->conn);
         }
+
+        return $lesson_id;
     }
 
 	public function read($param)
@@ -161,8 +165,8 @@ class Database{
     }
 
 
-    public function addContenuto(  $titolo, $percorso, $idprofessore  ){
-        $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore` ) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ')";
+    public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
+        $sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo` ) VALUES ( '". $lesson_id."','". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ' , ' ".$tipo."')";
 
         echo $sql;
 

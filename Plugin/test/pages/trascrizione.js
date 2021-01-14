@@ -3,6 +3,8 @@ var stopwords = ["", "a", "abbastanza", "abbia", "abbiamo", "abbiano", "abbiate"
 
 
 function saveRequest(callback, array) {
+    console.log( document.getElementById("lessonTitle").innerHTML)
+    console.log (  document.getElementsByClassName("dropdown").item(0).value)
     jQuery.ajax({
         type: "POST",
         url: test_ajax.url,
@@ -12,7 +14,9 @@ function saveRequest(callback, array) {
             links: arrayLink,
             videos: arrayVideo,
             documents: arrayDocumenti,
-            trascrizione: document.getElementById("trascrizione").innerHTML
+            trascrizione: document.getElementById("trascrizione").innerHTML,
+            //materia: document.getElementById("dropdown")[0].nome
+            //titolo: document.getElementById("lessonTitle").innerHTML
         },
         success: function (data) {
             // Azioni da eseguire in caso di successo chiamata
