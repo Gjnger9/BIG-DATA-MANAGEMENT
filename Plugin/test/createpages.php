@@ -31,7 +31,7 @@ function add_new_pages() {
         'post_type' => 'page'
     );
 
-	$postHomepage = array (
+	$editLessonVar = array (
 		'post_title' => 'Modifica Lezione',
 		'post_content' => $editLessonPage,
 		'post_status' => 'publish',
@@ -44,7 +44,7 @@ function add_new_pages() {
 
     wp_insert_post($postNewLesson);
     wp_insert_post($postHomepage);
-	wp_insert_post($editLessonPage);
+	wp_insert_post($editLessonVar );
 }
 
 function delete_old_page() {
@@ -54,8 +54,9 @@ function delete_old_page() {
     // wp_post_delete('postid'=...);
 
     $homepageToDelete = get_page_by_title('Plugin Homepage', $output = OBJECT, 'page');
-   wp_delete_post($homepageToDelete->ID, true);
+    wp_delete_post($homepageToDelete->ID, true);
     $newpageToDelete = get_page_by_title('Pagina Plugin Nuova Lezione' , $output = OBJECT, 'page');
     wp_delete_post($newpageToDelete->ID, true);
-
+	$editpageToDelete = get_page_by_title('Modifica Lezione' , $output = OBJECT, 'page');
+	wp_delete_post($editpageToDelete->ID, true);
 }

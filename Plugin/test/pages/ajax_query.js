@@ -184,6 +184,13 @@ jQuery(document).ready( function (){
             ul.innerText = "LEZIONE "+obj.idlezione+" \n Titolo Lezione: "+obj.titolo;
             // // label.innerText = "Anteprima lezione";
             button.innerText = "MODIFICA LEZIONE";
+            button.onclick=function() {
+                window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
+
+            }
+                console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
+                // window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
+
             // ul.appendChild(br);
             // // ul.appendChild(label)
             ul.appendChild(br);

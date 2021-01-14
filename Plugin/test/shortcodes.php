@@ -210,7 +210,19 @@ function edit_lesson_shortcode_function () {
 <!-- /wp:freeform --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div></div>
-<!-- /wp:group -->' ;
+
+<!-- /wp:group -->
+
+<div class="wp-block-buttons"><!-- wp:button -->
+<div id="cancelButton" class="wp-block-button"  ><a class="wp-block-button__link"  onclick="history.back()" >Indietro</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button -->
+<div id="saveButton" class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
+<!-- /wp:button --></div>
+
+
+' ;
 
 	return $page;
 
