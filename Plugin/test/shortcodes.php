@@ -6,6 +6,7 @@ function shortcodes_init() {
     add_shortcode('new_page', 'new_lesson_page_shortcode_function');
 //    add_shortcode('script','shortcode_scripts');
     add_shortcode('homepage', 'homepage_shortcode_function');
+	add_shortcode('edit_lesson_page', 'edit_lesson_shortcode_function');
 }
 //parametri non credo ci servano  ($atts, $content, $tag)
 //https://kinsta.com/it/blog/shortcode-wordpress/  <  tutte le informazioni necessarie qui
@@ -20,7 +21,7 @@ function lessons_shortcode_function() {
 function sidebar_shortcode_function() {
 
 
-
+	wp_enqueue_style("style");
 
 
     $sidebar = '
@@ -41,79 +42,12 @@ function sidebar_shortcode_function() {
 }
 
 function new_lesson_page_shortcode_function () {
-    $page = '
+
+	wp_enqueue_style("style");
+
+	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-.site-footer {
-  background-color: #eeeeee;
-  position: fixed;
-  top: auto;
-  bottom: 0;
-  width: 100%;
-  display: inline-block;
-}
-
-.page-template-default {
-    height: 1300px;
-  
-  }
-
-        /* Create two unequal columns that floats next to each other */
-        .column {
-          float: left;
-          padding: 10px;
-          height: 500px; /* Should be removed. Only for demonstration */
-          width: 1000px;
-        }
         
-        .left {
-         
-          width: 25%;
-        }
-        
-        .right {
-           width: 75%;
-        }
-        
-        /* Clear floats after the columns */
-        .row:after {
-          content: "";
-          display: table;
-          clear: both;
-          width: 1200px;
-        }
-        
-         .dropbtn {
-           align-content: center;
-            width: 200px;
-              text-align: center;
-       }
-        
-        .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-        
-        .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-          min-width: 160px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-        }
-        
-        .dropdown-content a {
-        
-        padding: 12px 16px;
-       
-          display: block;
-        }
-        
-        .dropdown-content a:hover {background-color: #ddd;}
-        
-        .dropdown:hover .dropdown-content {display: block;}
-        </style>
         
     <div id = "mainview" class = "row" style="display: table">
       <input type="text" id="lessonTitle" name="l" value="" placeholder="Inserisci il titolo della lezione" style="width: 500px;">
@@ -199,67 +133,12 @@ function new_lesson_page_shortcode_function () {
 }
 
 function homepage_shortcode_function () {
-    $page = '
+
+	wp_enqueue_style("style");
+
+	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-        
-        /* Create two unequal columns that floats next to each other */
-        .column {
-          float: left;
-          padding: 10px;
-          height: 500px; /* Should be removed. Only for demonstration */
-          width: 1000px;
-        }
-        
-        .left {
-         
-          width: 25%;
-        }
-        
-        .right {
-           width: 75%;
-        }
-        
-        /* Clear floats after the columns */
-        .row:after {
-          content: "";
-          display: table;
-          clear: both;
-          width: 1200px;
-        }
-        
-         .dropbtn {
-           align-content: center;
-                    width: 200px;
-              text-align: center;
-       }
-        
-        .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-        
-        .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-          min-width: 160px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-        }
-        
-        .dropdown-content a {
-        
-        padding: 12px 16px;
        
-          display: block;
-        }
-        
-        .dropdown-content a:hover {background-color: #dddddd;}
-        
-        .dropdown:hover .dropdown-content {display: block;}
-        </style>
-        
     <div id = "mainview" class = "row" style="display: table">
      
      <div  class = "column left" style="background-color:#f5f5f5;" >
@@ -294,6 +173,47 @@ function homepage_shortcode_function () {
 
     ';
     return $page;
+}
+
+function edit_lesson_shortcode_function () {
+
+	wp_enqueue_style("style");
+
+	$page = ' <div id="trascrizione">
+<p>Trascrizione</p>
+</div>
+
+<!-- wp:group -->
+<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"align":"full"} -->
+<div class="wp-block-columns alignfull"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:freeform -->
+<div id="link">
+<p>Link</p>
+</div>
+<!-- /wp:freeform --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:freeform -->
+<div id="documenti">
+<p>Documenti</p>
+<div> </div>
+</div>
+<!-- /wp:freeform --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:freeform -->
+<div id="video">
+<p>Video</p>
+</div>
+<!-- /wp:freeform --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div></div>
+<!-- /wp:group -->' ;
+
+	return $page;
+
 }
 
 function create_materia_dropdown () {

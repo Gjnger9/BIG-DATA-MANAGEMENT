@@ -77,27 +77,34 @@ function RicercaLink(termine){
 }
 
 function get_all_link(someOtherElem){
-	var classElem = someOtherElem.getElementsByClassName("yuRUbf");
-	var x = []
-	for (var i=0; i<classElem.length; i++){
-		var links = classElem[i].querySelectorAll("a");
-		x.push(links[0]);
-	}
-	var myarray = []
-	for (var i=0; i<maxDocument; i++){
-		var nametext = x[i].textContent;
-		var cleantext = nametext.replace(/\s+/g, ' ').trim();
-		var cleanlink = x[i].href;
-		myarray.push([cleantext,cleanlink]);
-	}
-	return myarray;
+    var classElem = someOtherElem.getElementsByClassName("yuRUbf");
+    var x = []
+    for (var i=0; i<classElem.length; i++){
+        var links = classElem[i].querySelectorAll("a");
+        x.push(links[0]);
+    }
+    var myarray = []
+    for (var i=0; i<maxDocument; i++){
+        if (x[i]) var nametext = x[i].textContent;
+        else {
+            console.log(x[i]);
+            return false;
+        }
+        var cleantext = nametext.replace(/\s+/g, ' ').trim();
+        var cleanlink = x[i].href;
+        myarray.push([cleantext,cleanlink]);
+    }
+    return myarray;
+}
+// generazione link per contenuti: inserimento di pulsanti accept/reject --- default accept -> pulsante reject;
+function clean_data(type){
+    var table = '<h3>'+type+'</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
+    for (var i=0; i<maxDocument; i++) {
+        table += '<tr><td>' + myarray[i][0] + '</td><td> <a class="link" href="' + myarray[i][1] + '" target="_blank" >' + myarray[i][1] + '</a>' +
+
+            '</br> <button id="reject" > Reject </button>' +
+            '</td></tr>';
+    }
+    return table;
 }
 
-function clean_data(type){
-	var table = '<h3>'+type+'</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
-            for (var i=0; i<maxDocument; i++) {
-                //aggiunto link
-                table += '<tr><td> ' + myarray[i][0] + '</td>  <td><a href=" ' + myarray[i][1] + '" target="_blank" > ' +  myarray[i][1] + ' </a> </td></tr>';
-            }
-            return table;
-}

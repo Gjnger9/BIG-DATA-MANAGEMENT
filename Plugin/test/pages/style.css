@@ -1,0 +1,58 @@
+
+    /* Create two unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+    height: 500px; /* Should be removed. Only for demonstration */
+    width: 1000px;
+}
+
+.left {
+
+    width: 25%;
+}
+
+.right {
+    width: 75%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    width: 1200px;
+}
+
+.dropbtn {
+    align-content: center;
+    width: 200px;
+    text-align: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+
+    padding: 12px 16px;
+
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #dddddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+        

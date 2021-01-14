@@ -1,5 +1,5 @@
 <?php
-function add_new_page() {
+function add_new_pages() {
 //    $fileNewLesson =  fopen("plugin_new_lesson.html", "r");
 //    $filePluginHome = fopen("plugin_home.html", "r");
 
@@ -12,6 +12,8 @@ function add_new_page() {
 
 
    $contentHomepage = '[homepage]';
+
+   $editLessonPage = '[edit_lesson_page]';
 
     //aggiunta elemento plugin con link alla directory del nostro plugin
     $postNewLesson = array (
@@ -29,11 +31,20 @@ function add_new_page() {
         'post_type' => 'page'
     );
 
+	$postHomepage = array (
+		'post_title' => 'Modifica Lezione',
+		'post_content' => $editLessonPage,
+		'post_status' => 'publish',
+		'post_name' => 'edit_lesson_page',      //link da inserire nel pulsante modifica lezione
+		'post_type' => 'page'
+	);
+
 //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
 
     wp_insert_post($postNewLesson);
     wp_insert_post($postHomepage);
+	wp_insert_post($editLessonPage);
 }
 
 function delete_old_page() {

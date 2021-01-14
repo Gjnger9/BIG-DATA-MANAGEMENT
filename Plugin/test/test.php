@@ -28,7 +28,7 @@ class TestPlugin
 
     function activate()
     {
-        add_new_page();       //echo 'questo è un errore';
+        add_new_pages();
         //in genere usiamo questa funzione per l'attivazione di connessioni a db o creazione di custom post types (che non useremo)
         create_db();
     }
@@ -90,14 +90,11 @@ function enqueue_ajax_script_test()
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')
     ));
-//    wp_localize_script( 'trascrizione', 'test_ajax', array(
-//        'url'      => admin_url( 'admin-ajax.php' ),
-//        'security' => wp_create_nonce('ajax_test_nonce_string')
-//    ));
     wp_localize_script('script_ajax_requests', 'vars', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('nonce-requests')
     ));
+    wp_register_style('style', plugins_url("/pages/style.css",__FILE__));
 }
 
 add_action( "wp_enqueue_scripts", 'enqueue_ajax_script_test' );
