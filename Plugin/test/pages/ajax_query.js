@@ -1,5 +1,9 @@
 
 jQuery(document).ready( function (){
+    //console.log(window.location.pathname);
+    if (window.location.pathname!=="/wordpress/plugin_homepage/") {
+        return;
+    }
     function readFromDb(param,callback) {
         jQuery.ajax({
             type: "GET",

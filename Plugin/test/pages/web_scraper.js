@@ -1,12 +1,13 @@
-
 let baseUrl = "http://www.google.it/search?q=";
 let maxDocument = 3;
-
+var arrayLink, arrayVideo, arrayDocumenti;
 /**
  * Get HTML asynchronously
  * @param  {String}   url      The URL to get HTML from
  * @param  {Function} callback A callback funtion. Pass in "response" variable to use returned HTML.
  */
+
+
 var getHTML = function ( url, callback ) {
 
     // Feature detection
@@ -30,23 +31,34 @@ var getHTML = function ( url, callback ) {
 };
 
 function Ricerca(termine) {
-    // var termine = document.ricerca.cerca.value;
-    RicercaDocumenti(termine);
-    RicercaVideo(termine);
-    RicercaLink(termine);
+
+RicercaLink(termine);
+
+RicercaVideo(termine);
+ RicercaDocomunti(termine);
+
 }
 
-function RicercaDocumenti(termine){
+function RicercaDocomunti(termine){
     getHTML( baseUrl + termine + " filetype:pdf", function (response) {
         var someElem = document.querySelector( '#pdf' );
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
-            someElem.innerHTML = clean_data("Documenti");
-        } else {
-            console.log("Ricerca andata male");
+            if (!myarray) {
+                arrayDocumenti = null;
+                console.log("Ricerca andata male");
+                return false;
+            }
 
-        }
+            someElem.innerHTML = clean_data("pdf");
+            //Trasformarla in una tabella wordpress
+            someElem.classList.add("is-style-stripes");
+            someElem.classList.add("wp-block-table");
+              arrayDocumenti = myarray;
+              console.log(arrayDocumenti);
+        } else
+            console.log("Ricerca andata male");
     });
 }
 
@@ -56,7 +68,18 @@ function RicercaVideo(termine){
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
+            if (!myarray) {
+                arrayVideo = null;
+                console.log("Ricerca andata male");
+                return false;
+            }
+
             someElem.innerHTML = clean_data("Video");
+            //Trasformarla in una tabella wordpress
+            someElem.classList.add("is-style-stripes");
+            someElem.classList.add("wp-block-table");
+              arrayVideo = myarray;
+            console.log(arrayVideo);
         }else{
             console.log("Ricerca andata male");
         }
@@ -69,7 +92,20 @@ function RicercaLink(termine){
         var someOtherElem = response.querySelector( '#search' );
         if(someOtherElem) {
             myarray = get_all_link(someOtherElem);
+            if (!myarray) {
+                arrayLink = null;
+                console.log("Ricerca andata male");
+                return false;
+            }
+
             someElem.innerHTML = clean_data("Link");
+            //Trasformarla in una tabella wordpress
+            someElem.classList.add("is-style-stripes");
+            someElem.classList.add("wp-block-table");
+
+            arrayLink = myarray;
+
+            console.log(arrayLink);
         }else{
             console.log("Ricerca andata male");
         }
@@ -78,9 +114,11 @@ function RicercaLink(termine){
 
 function get_all_link(someOtherElem){
     var classElem = someOtherElem.getElementsByClassName("yuRUbf");
+    //console.log(classElem);
     var x = []
     for (var i=0; i<classElem.length; i++){
         var links = classElem[i].querySelectorAll("a");
+        //console.log(links);
         x.push(links[0]);
     }
     var myarray = []
@@ -88,7 +126,7 @@ function get_all_link(someOtherElem){
         if (x[i]) var nametext = x[i].textContent;
         else {
             console.log(x[i]);
-            return false;
+            continue;
         }
         var cleantext = nametext.replace(/\s+/g, ' ').trim();
         var cleanlink = x[i].href;

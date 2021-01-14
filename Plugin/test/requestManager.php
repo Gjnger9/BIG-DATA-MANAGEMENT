@@ -1,6 +1,6 @@
 <?php
 
-$_PASSWORD_DB_="password";
+$_PASSWORD_DB_="root";
 
 
 function request($url,$method = 'GET', $argument = []){
@@ -38,19 +38,19 @@ function save_callback()
     $idutente = 4;
     $idsezione = 1;
     $titolo = "Titolo di prova";
-    $idlezione = rand();
 
-    $trascrizione = $_REQUEST[trascrizione];
 
-    $databaseConnection->addLezione($idlezione,  $idprofessore, $idutente, $idsezione, $titolo, $trascrizione);
-    foreach ($_REQUEST[links] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    $trascrizione = $_REQUEST['trascrizione'];
+
+    $databaseConnection->addLezione(   $idprofessore, $idutente, $idsezione, $titolo, $trascrizione);
+    foreach ($_REQUEST['links'] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
     }
-    foreach ($_REQUEST[videos] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    foreach ($_REQUEST['videos'] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
     }
-    foreach ($_REQUEST[documents] as &$contenuto) {
-        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore, $idlezione);
+    foreach ($_REQUEST['documents'] as &$contenuto) {
+        $databaseConnection->addContenuto(rand(),  $contenuto[0], $contenuto[1], $idprofessore);
     }
     $databaseConnection->closeConnection();
 

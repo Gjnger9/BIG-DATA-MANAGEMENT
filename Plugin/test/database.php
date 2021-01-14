@@ -28,8 +28,8 @@ class Database{
         return json_encode($resultArray);
     }
 
-    public function addLezione($idprofessore, $idutente, $idsezione, $titolo, $trascrizione){
-        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore`, `professore_utente_idutente`, `sezione_idsezione`, `titolo`, `trascrizione` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."', '". $idutente ."', '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
+    public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione){
+        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."');";
 
         GLOBAL $wpdb;
 
@@ -161,8 +161,8 @@ class Database{
     }
 
 
-    public function addContenuto($id, $titolo, $percorso, $idprofessore, $idlezione){
-        $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `lezione_idlezione1`) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ."', '". $idlezione ."')";
+    public function addContenuto(  $titolo, $percorso, $idprofessore  ){
+        $sql = "INSERT INTO `wordpress`.`contenuto` ( `titolo`, `data_creazione`, `percorso`, `professore_idprofessore` ) VALUES ( '". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ')";
 
         echo $sql;
 
@@ -182,6 +182,16 @@ class Database{
         mysqli_close($this->conn);
     }
 
+}
+
+//per pagina modifica lezione
+function get_lesson_and_contents () {
+	$data="";
+
+
+
+
+	return json_encode($data);
 }
 
 function create_db () {
