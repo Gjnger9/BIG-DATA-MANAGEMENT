@@ -34,7 +34,7 @@ select  GROUP_CONCAT(new_content.links separator "<br>" ) as allLinks
 from ( 
 	select  CONCAT ( '<a href = "', percorso , '" >  ', titolo , ' </a> ')  as  links
 	from contenuto  
-      where contenuto.tipo="link" and contenutolezione_idlezione
+      where contenuto.tipo="link" and contenuto.lezione_idlezione=3
     ) as new_content
  )
  

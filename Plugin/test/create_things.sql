@@ -189,7 +189,6 @@
           `professore_idprofessore` INT NULL DEFAULT NULL,
           `data_accettazione` DATETIME NULL DEFAULT NULL,
           `lezione_idlezione` INT NOT NULL,
-          `wp_post_id` BIGINT UNSIGNED NULL,
           PRIMARY KEY (`idcontenuto`),
           INDEX `fk_contenuto_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_contenuto_lezione2_idx` (`lezione_idlezione` ASC),

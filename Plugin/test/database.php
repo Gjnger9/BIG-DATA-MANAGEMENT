@@ -29,7 +29,7 @@ class Database{
     }
 
     public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria){
-        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria` ) VALUES (  '". date("Y-m-d") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . " );";
+        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria` ) VALUES (  '". date("Y-m-d H:i:s") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . "  );";
 
         GLOBAL $wpdb;
 		$lesson_id=0;
@@ -42,8 +42,9 @@ class Database{
                 'post_type' => 'post'
             );
 
-            $id = wp_insert_post($newLesson)->ID;
-            if (!$id) //id false su fallimento -> !id su successo
+            $id = wp_insert_post($newLesson) ;
+            echo "post id " . $id;
+            if ( $id ) //id false su fallimento ->  id su successo
             {
 /*
 	            $num1 = 3;
@@ -52,9 +53,13 @@ class Database{
             	*/
                 $lesson_id = mysqli_insert_id($this->conn);
 	            echo  ' idlezione ' . $lesson_id;
-                $syncsql = "CALL sync_lesson_to_post('$id' , '$lesson_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
-                $wpdb->query($syncsql);
+                $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+	           //  $wpdb->show_errors(false);
+	            $wpdb->query($syncsql);
+	            //mysqli_query($this->conn, $syncsql);
 
+                $wpdb->query("UPDATE  `wordpress`.`lezione` SET wp_post_id = " . $id . " WHERE idlezione = " . $lesson_id);
+			//	mysqli_query($this->conn, "UPDATE  `wordpress`.`lezione` SET wp_post_id = " . $id . " WHERE idlezione = " . $lesson_id);
             } else {
                 echo "Lesson created successfully, couldn't sync post";
             }
@@ -66,8 +71,7 @@ class Database{
 
             echo mysqli_error($this->conn);
         }
-
-        return $lesson_id;
+		return $lesson_id;
     }
 
 	public function read($param)
@@ -168,7 +172,7 @@ class Database{
     public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
         $sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo` ) VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."')";
 
-        echo $sql;
+        //echo $sql;
 
         if (mysqli_query($this->conn, $sql)) {
             echo "New record created successfully";
