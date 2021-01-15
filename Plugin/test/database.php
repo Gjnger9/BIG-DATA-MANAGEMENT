@@ -240,11 +240,12 @@ class Database{
         echo $sql;
 
         if (mysqli_query($this->conn, $sql)) {
-            $idQuery = "SELECT wp_post_id FROM wordpress.lezione WHERE idlezione =".$idlezione." ;";
-            $id = $wpdb->get_var($idQuery);
-            $syncsql = "CALL sync_lesson_to_post('$id' , '$idlezione' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
-//            $wpdb->query($syncsql);
-            echo $id;
+            $query_for_id = "SELECT wp_post_id FROM `wordpress`.`lezione` WHERE `idlezione` =".$idlezione." ;";
+            $results = $wpdb->get_results($query_for_id);
+            $post_id = $results[0]->wp_post_id;
+            $syncsql = "CALL sync_lesson_to_post('$idlezione' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+            $wpdb->query($syncsql);
+            echo "PORCODIO: ". $post_id ."\n";
             echo "New record created successfully";
         } else {
             echo mysqli_error($this->conn);
