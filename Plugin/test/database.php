@@ -33,7 +33,7 @@ class Database{
 
         GLOBAL $wpdb;
 		$lesson_id=0;
-
+		$id=0;
         if (mysqli_query($this->conn, $sql)) {
 
             $newLesson = array (
@@ -53,9 +53,9 @@ class Database{
             	*/
                 $lesson_id = mysqli_insert_id($this->conn);
 	            echo  ' idlezione ' . $lesson_id;
-                $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+               // $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
 	           //  $wpdb->show_errors(false);
-	            $wpdb->query($syncsql);
+	          //  $wpdb->query($syncsql);
 	            //mysqli_query($this->conn, $syncsql);
 
                 $wpdb->query("UPDATE  `wordpress`.`lezione` SET wp_post_id = " . $id . " WHERE idlezione = " . $lesson_id);
@@ -71,7 +71,7 @@ class Database{
 
             echo mysqli_error($this->conn);
         }
-		return $lesson_id;
+		return array($lesson_id, $id);
     }
 
 	public function read($param)

@@ -28,7 +28,7 @@ function save_callback()
 
     //creazione post di wordpress con inserimento
     global $_PASSWORD_DB_;
-
+	GLOBAL $wpdb;
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
@@ -42,7 +42,7 @@ function save_callback()
 
     $trascrizione = $_REQUEST['trascrizione'];
 
-	$lesson_id = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria);
+	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria);
 
 
     foreach ($_REQUEST['links'] as &$contenuto) {
@@ -54,6 +54,11 @@ function save_callback()
     foreach ($_REQUEST['documents'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
     }
+
+   $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+   $wpdb->query($syncsql);
+
+
     $databaseConnection->closeConnection();
 
     //echo "Links: ".print_r($_REQUEST[links]);
