@@ -166,7 +166,7 @@ class Database{
 
 
     public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
-        $sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo` ) VALUES ( '". $lesson_id."','". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ' , ' ".$tipo."')";
+        $sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo` ) VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."')";
 
         echo $sql;
 
