@@ -189,7 +189,6 @@
           `professore_idprofessore` INT NULL DEFAULT NULL,
           `data_accettazione` DATETIME NULL DEFAULT NULL,
           `lezione_idlezione` INT NOT NULL,
-          `wp_post_id` BIGINT UNSIGNED NULL,
           PRIMARY KEY (`idcontenuto`),
           INDEX `fk_contenuto_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_contenuto_lezione2_idx` (`lezione_idlezione` ASC),
@@ -383,7 +382,7 @@ BEGIN
 
 -- 2 prendiamo i dati che riguardano i contenuti
 htmllinkview as (
-		 select  GROUP_CONCAT(new_content.links separator '<br>') as allLinks
+select COALESCE ( GROUP_CONCAT(new_content.links separator '<br>'), " ")  as allLinks
 from (
 	select  CONCAT ( '<a href = "', percorso , '"  data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener">  ', titolo , ' </a> ')  as  links
 	from contenuto
@@ -391,7 +390,7 @@ from (
     ) as new_content
 ),
 htmldocumentoview as (
-		 select  GROUP_CONCAT(new_content.links separator "<br>" ) as allLinks
+		  select COALESCE (  GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
 from (
 	select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener" >  ', titolo , ' </a> ')  as  links
 	from contenuto
@@ -399,7 +398,7 @@ from (
     ) as new_content
 ),
 htmlvideoview as (
-		 select  GROUP_CONCAT(new_content.links separator "<br>" ) as allLinks
+		 select  COALESCE ( GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
 from (
 	select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener"  >  ', titolo , ' </a> ')  as  links
 	from contenuto
@@ -411,7 +410,7 @@ from (
 
 UPDATE wp_posts
 	SET  post_content=
-        CONCAT(
+        CONCAT (
 			-- trascrizione
             '
             <!-- wp:paragraph --><p>',
@@ -439,7 +438,9 @@ UPDATE wp_posts
 			 <div class="wp-block-columns alignfull"><!-- wp:column -->
 			 <div class="wp-block-column"><!-- wp:paragraph -->
 			 <p>LINKS </br> ',
+
 				(select * from htmllinkview)
+
                 ,
                 '</p>',
 				'<!-- /wp:paragraph --></div>
