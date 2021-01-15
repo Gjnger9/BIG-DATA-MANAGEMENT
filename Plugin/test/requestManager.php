@@ -1,6 +1,6 @@
 <?php
 
-$_PASSWORD_DB_="root";
+$_PASSWORD_DB_="password";
 
 
 function request($url,$method = 'GET', $argument = []){
@@ -90,6 +90,57 @@ function read_callback()
     die();
 }
 
+function read_lezione_callback()
+{
+    global $_PASSWORD_DB_;
+    check_ajax_referer('nonce-requests', 'nonce');
+//    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+//        die("FOLD");
+//    }
+
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+//        $param = "lezioni";
+    $param = $_REQUEST['param'];
+//        echo $param;
+    wp_send_json($data = $databaseConnection->readLezione($param));
+//    GLOBAL $wpdb;
+//    wp_send_json(json_encode($wpdb->get_results("SELECT * from ".$param,OBJECT)));
+    $databaseConnection->closeConnection();
+
+    //echo "Links: ".print_r($_REQUEST[links]);
+    //echo "Video: ".print_r($_REQUEST[videos]);
+    //echo "Documenti: ".print_r($_REQUEST[documents]);
+    //echo "Trascrizione: ".print_r($_REQUEST[trascrizione]);
+//    wp_send_json( $param);
+
+    die();
+}
+function read_contenuto_callback()
+{
+    global $_PASSWORD_DB_;
+    check_ajax_referer('nonce-requests', 'nonce');
+//    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+//        die("FOLD");
+//    }
+
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+//        $param = "lezioni";
+    $param = $_REQUEST['param'];
+//        echo $param;
+    wp_send_json($data = $databaseConnection->readContenuto($param));
+//    GLOBAL $wpdb;
+//    wp_send_json(json_encode($wpdb->get_results("SELECT * from ".$param,OBJECT)));
+    $databaseConnection->closeConnection();
+
+    //echo "Links: ".print_r($_REQUEST[links]);
+    //echo "Video: ".print_r($_REQUEST[videos]);
+    //echo "Documenti: ".print_r($_REQUEST[documents]);
+    //echo "Trascrizione: ".print_r($_REQUEST[trascrizione]);
+//    wp_send_json( $param);
+
+    die();
+}
+
 function read_lezioni_filtrate_callback()
 {
     global $_PASSWORD_DB_;
@@ -130,6 +181,75 @@ check_ajax_referer('nonce-requests', 'nonce');
     die();
 }
 
+function update_contenuto_callback()
+{
+
+    //creazione post di wordpress con inserimento
+    global $_PASSWORD_DB_;
+
+    check_ajax_referer( 'nonce-requests', 'nonce' );
+
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+//
+//    //Per test
+//
+//
+//    $contenuto = $_REQUEST['param'];
+    $idcontenuto = $_REQUEST['idcontenuto'];
+    $titolo = $_REQUEST['titolo'];
+    $tipo = $_REQUEST['tipo'];
+    echo "titolo: " .$titolo ;
+
+     $databaseConnection->updateContenuto($idcontenuto, $titolo,$tipo);
+//
+//     echo "Ok";
+
+
+
+    $databaseConnection->closeConnection();
+
+
+
+    die();
+}
+
+function update_lezione_callback()
+{
+
+    //creazione post di wordpress con inserimento
+    global $_PASSWORD_DB_;
+
+    check_ajax_referer( 'nonce-requests', 'nonce' );
+
+    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+//
+//    //Per test
+//
+//
+//    $contenuto = $_REQUEST['param'];
+//    $idcontenuto = $_REQUEST['idcontenuto'];
+//    $titolo = $_REQUEST['titolo'];
+//    $tipo = $_REQUEST['tipo'];
+//    echo "titolo: " .$titolo ;
+    $idlezione  = $_REQUEST['idlezione'];
+    $trascrizione = $_REQUEST['trascrizione'];
+//    $idpost = $_REQUEST['idpost'];
+
+//    $databaseConnection->updateLezione($idlezione, $trascrizione,$idpost);
+    $databaseConnection->updateLezione($idlezione, $trascrizione);
+//
+//     echo "Ok";
+
+
+
+    $databaseConnection->closeConnection();
+
+
+
+    die();
+}
+
+
 
 function say_hello_test_callback()
 {
@@ -159,3 +279,7 @@ add_action( 'wp_ajax_nopriv_read_lezioni_filtrate', 'read_lezioni_filtrate_callb
 add_action( 'wp_ajax_read_lezioni_filtrate', 'read_lezioni_filtrate_callback' );
 add_action( 'wp_ajax_nopriv_read_argomenti_materia', 'read_argomenti_materia_callback' );
 add_action( 'wp_ajax_read_argomenti_materia', 'read_argomenti_materia_callback' );
+add_action( 'wp_ajax_read_lezione', 'read_lezione_callback' );
+add_action( 'wp_ajax_read_contenuto', 'read_contenuto_callback' );
+add_action( 'wp_ajax_update_contenuto', 'update_contenuto_callback' );
+add_action( 'wp_ajax_update_lezione', 'update_lezione_callback' );

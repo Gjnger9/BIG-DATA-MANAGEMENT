@@ -180,7 +180,7 @@ function edit_lesson_shortcode_function () {
 	wp_enqueue_style("style");
 
 	$page = ' <div id="trascrizione">
-<p>Trascrizione</p>
+<h3>Trascrizione</h3>
 </div>
 
 <!-- wp:group -->
@@ -188,7 +188,7 @@ function edit_lesson_shortcode_function () {
 <div class="wp-block-columns alignfull"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:freeform -->
 <div id="link">
-<p>Link</p>
+<h3>Link</h3>
 </div>
 <!-- /wp:freeform --></div>
 <!-- /wp:column -->
@@ -196,8 +196,8 @@ function edit_lesson_shortcode_function () {
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:freeform -->
 <div id="documenti">
-<p>Documenti</p>
-<div> </div>
+<h3>Documenti</h3>
+
 </div>
 <!-- /wp:freeform --></div>
 <!-- /wp:column -->
@@ -205,7 +205,7 @@ function edit_lesson_shortcode_function () {
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:freeform -->
 <div id="video">
-<p>Video</p>
+<h3>Video</h3>
 </div>
 <!-- /wp:freeform --></div>
 <!-- /wp:column --></div>
@@ -218,7 +218,7 @@ function edit_lesson_shortcode_function () {
 <!-- /wp:button -->
 
 <!-- wp:button -->
-<div id="saveButton" class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
+<div id="modifyButton" class="wp-block-button"><a class="wp-block-button__link">Modifica</a></div>
 <!-- /wp:button --></div>
 
 

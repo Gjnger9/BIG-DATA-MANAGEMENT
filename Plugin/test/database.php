@@ -88,6 +88,45 @@ class Database{
 		return json_encode($resultArray);
 	}
 
+    public function readLezione($param)
+    {
+        $sql = "SELECT * FROM `wordpress`.`lezione` WHERE idlezione =".$param.";";
+
+
+        $result = mysqli_query($this->conn, $sql);
+        $contenuto = $this->readContenuto($param);
+
+        if( !$result ) { // se errore
+            die(  mysqli_error( $this->conn ));
+        }
+        $resultArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultArray[] = $row;
+        }
+
+//        echo $resultArray;
+
+        return array(json_encode($resultArray),$contenuto);
+//        return $resultArray;
+    }
+    public function readContenuto($param)
+    {
+        $sql = "SELECT * FROM `wordpress`.`contenuto` WHERE lezione_idlezione =".$param.";";
+
+
+        $result = mysqli_query($this->conn, $sql);
+
+        if( !$result ) { // se errore
+            die(  mysqli_error( $this->conn ));
+        }
+        $resultArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultArray[] = $row;
+        }
+
+        return json_encode($resultArray);
+    }
+
     public function read_lezioni_filtrate($param)
     {
 //          $param =[
@@ -176,6 +215,37 @@ class Database{
             echo mysqli_error($this->conn);
         }
     }
+    public function updateContenuto( $idcontenuto, $titolo, $tipo="update" ){
+        if($tipo == "update")
+            $sql = "UPDATE `wordpress`.`contenuto` SET `titolo` = '".$titolo."' WHERE (`idcontenuto` = ".$idcontenuto.");";
+        else
+            $sql = "UPDATE `wordpress`.`contenuto` SET `data_accettazione` = NULL WHERE (`idcontenuto` = ".$idcontenuto.");";
+
+        echo $sql;
+
+        if (mysqli_query($this->conn, $sql)) {
+            echo "New record created successfully";
+        } else {
+            echo mysqli_error($this->conn);
+        }
+    }
+
+    public function updateLezione( $idlezione,$trascrizione){
+        GLOBAL $wpdb;
+        $sql = "UPDATE `wordpress`.`lezione` SET `trascrizione` = '".$trascrizione."' WHERE (`idlezione` = ".$idlezione.");";
+        echo $sql;
+
+        if (mysqli_query($this->conn, $sql)) {
+            $idQuery = "SELECT wp_post_id FROM wordpress.lezione WHERE idlezione =".$idlezione." ;";
+            $id = $wpdb->get_var($idQuery);
+            $syncsql = "CALL sync_lesson_to_post('$id' , '$idlezione' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+//            $wpdb->query($syncsql);
+            echo $id;
+            echo "New record created successfully";
+        } else {
+            echo mysqli_error($this->conn);
+        }
+    }
 
     //Usata per capire la connessione è stata gia aperta
     public function getConnection(){
@@ -199,7 +269,7 @@ function get_lesson_and_contents () {
 }
 
 function create_db () {
-    $link = mysqli_connect("localhost", "root", "root");
+    $link = mysqli_connect("localhost", "root", "password");
 
     $sql  = file_get_contents (ABSPATH."wp-content/plugins/test/create_things.sql"  );
 

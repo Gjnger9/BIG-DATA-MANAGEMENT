@@ -86,11 +86,16 @@ function enqueue_ajax_script_test()
     wp_enqueue_script( 'anychartTagCloud', 'https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js' );
     wp_enqueue_script( 'webScraper',   '/wp-content/plugins/test/pages/web_scraper.js' );
     wp_enqueue_script( 'trascrizione', '/wp-content/plugins/test/pages/trascrizione.js' );
+    wp_enqueue_script( 'edit_lesson', '/wp-content/plugins/test/pages/edit_lesson.js' );
     wp_localize_script( 'script_ajax_test', 'test_ajax', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')
     ));
     wp_localize_script('script_ajax_requests', 'vars', array(
+        'url'      => admin_url( 'admin-ajax.php' ),
+        'security' => wp_create_nonce('nonce-requests')
+    ));
+    wp_localize_script('edit_lesson', 'vars', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('nonce-requests')
     ));

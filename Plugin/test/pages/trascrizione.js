@@ -34,6 +34,9 @@ function saveRequest(callback, array) {
 }
 
 jQuery(document).ready(function() {
+    if (window.location.pathname!=="/wordpress/pagina_plugin_new_lesson/") {
+        return;
+    }
 
     var textarea =document.getElementById("trascrizione");
     var button = document.getElementById("toggleReg");
