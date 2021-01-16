@@ -150,6 +150,7 @@
           `trascrizione` LONGTEXT NULL,
           `wp_post_id` BIGINT UNSIGNED NULL,
           `materia_idmateria` INT NOT NULL,
+          `argomento_idargomento` INT NOT NULL,
           PRIMARY KEY (`idlezione`),
           INDEX `fk_lezione_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_lezione_sezione1_idx` (`sezione_idsezione` ASC),
@@ -172,7 +173,13 @@
             FOREIGN KEY (`materia_idmateria`)
             REFERENCES `wordpress`.`materia` (`idmateria`)
             ON DELETE NO ACTION
-            ON UPDATE NO ACTION)
+            ON UPDATE NO ACTION,
+          CONSTRAINT `fk_argomento_idargomento`
+            FOREIGN KEY (`argomento_idargomento`)
+            REFERENCES `wordpress`.`argomento` (`idargomento`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
+            )
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;
 
@@ -348,8 +355,12 @@
         SET SQL_MODE=@OLD_SQL_MODE;
         SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
         SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 -- end db
+
+-- DML PROCEDURE TO INSERT FOO VALUES FOR UNKNOWN ENTITIES (TODO: default VALUES)
+
+
+
 
 -- start procedure sync lesson to post
         -- create procedure
@@ -357,25 +368,25 @@ USE `wordpress`;
 DROP procedure IF EXISTS `sync_lesson_to_post`;
 
 CREATE  PROCEDURE `sync_lesson_to_post`(
-	in idlezione int,
+  in idlezione int,
     in wp_post_id int
 )
 BEGIN
-	with lezioneview as (
+  with lezioneview as (
     select l.titolo as titolo,
     l.trascrizione as trascrizione,
     m.nome as materia,
     group_concat(arg.nome ) as argomento,
     CONCAT(u.nome, ' ', u.cognome) as autore,
     sc.nome as scuola,
-	CONCAT(se.lettera,' ', se.anno) as sezione
+  CONCAT(se.lettera,' ', se.anno) as sezione
     from lezione as l join materia as m on m.idmateria = l.materia_idmateria
         join argomento as arg on m.idmateria = arg.materia_idmateria
         join sezione as se on se.idsezione = l.sezione_idsezione
         join scuola as sc on sc .idscuola=se.scuola_idscuola
         join professore as p on p.idprofessore = l.professore_idprofessore
         join utente as u on u.idutente=p.utente_idutente
-	where l.idlezione= idlezione
+  where l.idlezione= idlezione
     group by l.idlezione
 ) ,
 -- select * from lezioneview;
@@ -384,24 +395,24 @@ BEGIN
 htmllinkview as (
 select COALESCE ( GROUP_CONCAT(new_content.links separator '<br>'), " ")  as allLinks
 from (
-	select  CONCAT ( '<a href = "', percorso , '"  data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener">  ', titolo , ' </a> ')  as  links
-	from contenuto
+  select  CONCAT ( '<a href = "', percorso , '"  data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener">  ', titolo , ' </a> ')  as  links
+  from contenuto
     where contenuto.tipo="link" and contenuto.lezione_idlezione=idlezione
     ) as new_content
 ),
 htmldocumentoview as (
-		  select COALESCE (  GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
+      select COALESCE (  GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
 from (
-	select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener" >  ', titolo , ' </a> ')  as  links
-	from contenuto
+  select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener" >  ', titolo , ' </a> ')  as  links
+  from contenuto
     where contenuto.tipo="documento" and contenuto.lezione_idlezione=idlezione
     ) as new_content
 ),
 htmlvideoview as (
-		 select  COALESCE ( GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
+     select  COALESCE ( GROUP_CONCAT(new_content.links separator "<br>" ), " ")  as allLinks
 from (
-	select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener"  >  ', titolo , ' </a> ')  as  links
-	from contenuto
+  select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener"  >  ', titolo , ' </a> ')  as  links
+  from contenuto
     where contenuto.tipo="video" and contenuto.lezione_idlezione=idlezione
     ) as new_content
 )
@@ -409,76 +420,76 @@ from (
 -- SELECT trascrizione from lezioneview ;
 
 UPDATE wp_posts
-	SET  post_content=
+  SET  post_content=
         CONCAT (
-			-- trascrizione
+      -- trascrizione
             '
             <!-- wp:paragraph --><p>',
             ( select trascrizione from lezioneview) ,
             '</p><!-- /wp:paragraph -->',
             '<!-- wp:group -->
-			 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
-			 <p><strong>ELENCO CONTENUTI</strong></p>
-			 <!-- /wp:paragraph --></div></div>
-			 <!-- /wp:group -->
+       <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+       <p><strong>ELENCO CONTENUTI</strong></p>
+       <!-- /wp:paragraph --></div></div>
+       <!-- /wp:group -->
 
-			 <!-- wp:columns -->
-			 <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
-			 <div class="wp-block-column" style="flex-basis:100%"><!-- wp:columns {"verticalAlignment":"center"} -->
-			 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"100%"} -->
-			 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:100%"><!-- wp:group -->
-			 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:group -->
-			 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns -->
-			 <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
-			 <div class="wp-block-column" style="flex-basis:100%"></div>
-			 <!-- /wp:column --></div>
-			 <!-- /wp:columns -->
+       <!-- wp:columns -->
+       <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
+       <div class="wp-block-column" style="flex-basis:100%"><!-- wp:columns {"verticalAlignment":"center"} -->
+       <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"100%"} -->
+       <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:100%"><!-- wp:group -->
+       <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:group -->
+       <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns -->
+       <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
+       <div class="wp-block-column" style="flex-basis:100%"></div>
+       <!-- /wp:column --></div>
+       <!-- /wp:columns -->
 
-			 <!-- wp:columns {"align":"full"} -->
-			 <div class="wp-block-columns alignfull"><!-- wp:column -->
-			 <div class="wp-block-column"><!-- wp:paragraph -->
-			 <p>LINKS </br> ',
+       <!-- wp:columns {"align":"full"} -->
+       <div class="wp-block-columns alignfull"><!-- wp:column -->
+       <div class="wp-block-column"><!-- wp:paragraph -->
+       <p>LINKS </br> ',
 
-				(select * from htmllinkview)
+        (select * from htmllinkview)
 
                 ,
                 '</p>',
-				'<!-- /wp:paragraph --></div>
-				 <!-- /wp:column -->
+        '<!-- /wp:paragraph --></div>
+         <!-- /wp:column -->
 
-				 <!-- wp:column -->
-				 <div class="wp-block-column"><!-- wp:paragraph -->
-				 <p>DOCUMENTI </br>',
+         <!-- wp:column -->
+         <div class="wp-block-column"><!-- wp:paragraph -->
+         <p>DOCUMENTI </br>',
                  (select * from htmldocumentoview),
                  '</p> ', '<!-- /wp:paragraph --></div>
-				 <!-- /wp:column -->
+         <!-- /wp:column -->
 
-				 <!-- wp:column -->
-				 <div class="wp-block-column"><!-- wp:paragraph -->
-				 <p>VIDEO </br>',
+         <!-- wp:column -->
+         <div class="wp-block-column"><!-- wp:paragraph -->
+         <p>VIDEO </br>',
                  (select * from htmlvideoview),
                  '</p>' ,
                  ' <!-- /wp:paragraph --></div>
-				 <!-- /wp:column --></div>
-				 <!-- /wp:columns --></div></div>
-				 <!-- /wp:group --></div></div>
-				 <!-- /wp:group -->
-				</div>
-				 <!-- /wp:column --></div>
-				 <!-- /wp:columns --></div>
-				 <!-- /wp:column --></div>
-				 <!-- /wp:columns -->
+         <!-- /wp:column --></div>
+         <!-- /wp:columns --></div></div>
+         <!-- /wp:group --></div></div>
+         <!-- /wp:group -->
+        </div>
+         <!-- /wp:column --></div>
+         <!-- /wp:columns --></div>
+         <!-- /wp:column --></div>
+         <!-- /wp:columns -->
 
-				 <!-- wp:group -->
-				 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
-				 <p> Scuola - ', (select scuola from lezioneview), '</br>Classe - ',
+         <!-- wp:group -->
+         <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
+         <p> Scuola - ', (select scuola from lezioneview), '</br>Classe - ',
                  (select sezione from lezioneview) , '</br>Professore - ',
                  (select autore from lezioneview),
                  '</p>
-				 <!-- /wp:paragraph --></div></div><!-- /wp:group -->
+         <!-- /wp:paragraph --></div></div><!-- /wp:group -->
                  '
         )
-	where ID= wp_post_id;
+  where ID= wp_post_id;
 
 END;
 -- end procedure sync lesson to post

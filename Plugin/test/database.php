@@ -28,10 +28,12 @@ class Database{
         return json_encode($resultArray);
     }
 
-    public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria){
-        $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria` ) VALUES (  '". date("Y-m-d H:i:s") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . "  );";
+	public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria, $idargomento){
+	    $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria`,`argomento_idargomento` ) 
+			VALUES
+ 			(  '". date("Y-m-d H:i:s") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . ",  " . $idargomento. "   );";
 
-        GLOBAL $wpdb;
+	    GLOBAL $wpdb;
 		$lesson_id=0;
 		$id=0;
         if (mysqli_query($this->conn, $sql)) {
@@ -208,17 +210,18 @@ class Database{
     }
 
 
-    public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
-        $sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo` ) VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."')";
+	public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
+		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`) 
+		VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d H:i:s") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."', ' ". date("Y-m-d H:i:s") ."')";
 
-        //echo $sql;
+		//echo $sql;
 
-        if (mysqli_query($this->conn, $sql)) {
-            echo "New record created successfully";
-        } else {
-            echo mysqli_error($this->conn);
-        }
-    }
+		if (mysqli_query($this->conn, $sql)) {
+			echo "New record created successfully \n";
+		} else {
+			echo mysqli_error($this->conn);
+		}
+	}
     public function updateContenuto( $idcontenuto, $titolo, $tipo="update" ){
         if($tipo == "update")
             $sql = "UPDATE `wordpress`.`contenuto` SET `titolo` = '".$titolo."' WHERE (`idcontenuto` = ".$idcontenuto.");";

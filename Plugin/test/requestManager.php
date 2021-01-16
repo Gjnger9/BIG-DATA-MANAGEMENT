@@ -39,10 +39,11 @@ function save_callback()
     $idsezione = 1;
     $titolo = "Titolo di prova";
 	$idmateria=1;
+	$idargomento=1;
 
-    $trascrizione = $_REQUEST['trascrizione'];
+	$trascrizione = $_REQUEST['trascrizione'];
 
-	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria);
+	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria, $idargomento );
 
 
     foreach ($_REQUEST['links'] as &$contenuto) {
