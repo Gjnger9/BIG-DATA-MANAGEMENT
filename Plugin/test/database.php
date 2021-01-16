@@ -275,13 +275,18 @@ function get_lesson_and_contents () {
 
 	return json_encode($data);
 }
+include 'create_db.php';
 
 function create_db () {
-    $link = mysqli_connect("localhost", "root", "password");
+	GLOBAL $_PASSWORD_DB_;
+	$_PASSWORD_DB_ = "root";
+   // $link = mysqli_connect("localhost", "root", $_PASSWORD_DB_);
 
-    $sql  = file_get_contents (ABSPATH."wp-content/plugins/test/create_things.sql"  );
+	create_db_wpdb();
+    // $sql  = file_get_contents (ABSPATH."wp-content/plugins/test/create_procedure.sql"  );
 
 
-    mysqli_multi_query($link, $sql);
+
+    // mysqli_multi_query($link, $sql);
 
 }

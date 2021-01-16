@@ -1,6 +1,7 @@
 <?php
 
-$_PASSWORD_DB_="password";
+GLOBAL $_PASSWORD_DB_;
+$_PASSWORD_DB_ = "root";
 
 
 function request($url,$method = 'GET', $argument = []){
