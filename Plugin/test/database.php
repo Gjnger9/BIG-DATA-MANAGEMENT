@@ -248,7 +248,7 @@ class Database{
             $post_id = $results[0]->wp_post_id;
             $syncsql = "CALL sync_lesson_to_post('$idlezione' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
             $wpdb->query($syncsql);
-            echo "PORCODIO: ". $post_id ."\n";
+            echo "POstIDio: ". $post_id ."\n";
             echo "New record created successfully";
         } else {
             echo mysqli_error($this->conn);

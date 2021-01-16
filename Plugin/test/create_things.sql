@@ -372,22 +372,26 @@ CREATE  PROCEDURE `sync_lesson_to_post`(
     in wp_post_id int
 )
 BEGIN
-  with lezioneview as (
+
+SET group_concat_max_len=65536;
+
+
+with lezioneview as (
     select l.titolo as titolo,
     l.trascrizione as trascrizione,
     m.nome as materia,
-    group_concat(arg.nome ) as argomento,
+    group_concat( arg.nome  ) as argomento,
     CONCAT(u.nome, ' ', u.cognome) as autore,
     sc.nome as scuola,
-  CONCAT(se.lettera,' ', se.anno) as sezione
+	CONCAT(se.lettera,' ', se.anno) as sezione
     from lezione as l join materia as m on m.idmateria = l.materia_idmateria
-        join argomento as arg on m.idmateria = arg.materia_idmateria
+        join argomento as arg on l.argomento_idargomento = arg.idargomento
         join sezione as se on se.idsezione = l.sezione_idsezione
         join scuola as sc on sc .idscuola=se.scuola_idscuola
         join professore as p on p.idprofessore = l.professore_idprofessore
         join utente as u on u.idutente=p.utente_idutente
-  where l.idlezione= idlezione
-    group by l.idlezione
+	where l.idlezione= idlezione
+
 ) ,
 -- select * from lezioneview;
 
