@@ -32,7 +32,7 @@ function save_callback()
 	GLOBAL $wpdb;
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 
     //Per test
     $idprofessore = 1;
@@ -46,15 +46,15 @@ function save_callback()
 
 	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria, $idargomento );
 
-	if($_REQUEST['links'])
+	//if(!is_null($_REQUEST['links']))
     foreach ($_REQUEST['links'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
     }
-   if( $_REQUEST['videos'])
+   // if(!is_null($_REQUEST['videos']))
     foreach ($_REQUEST['videos'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id , $contenuto[0], $contenuto[1], $idprofessore, "video");
     }
-   if($_REQUEST['documents'])
+//	if(!is_null($_REQUEST['documents']))
     foreach ($_REQUEST['documents'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
     }
@@ -81,7 +81,7 @@ function read_callback()
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -107,7 +107,7 @@ function read_lezione_callback()
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database();
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -132,7 +132,7 @@ function read_contenuto_callback()
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -159,7 +159,7 @@ function read_lezioni_filtrate_callback()
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
     wp_send_json($databaseConnection->read_lezioni_filtrate($param));
 //
@@ -179,7 +179,7 @@ check_ajax_referer('nonce-requests', 'nonce');
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
     wp_send_json($databaseConnection->read_argomenti_materia($param));
 //
@@ -198,7 +198,7 @@ function update_contenuto_callback()
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
 //    //Per test
 //
@@ -230,7 +230,7 @@ function update_lezione_callback()
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
 //    //Per test
 //
@@ -266,7 +266,7 @@ function say_hello_test_callback()
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
     wp_send_json( $databaseConnection->makeSelect("persona") );
     $databaseConnection->closeConnection();
     die();

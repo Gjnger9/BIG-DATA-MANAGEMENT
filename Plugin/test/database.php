@@ -1,17 +1,8 @@
 <?php
 
 
-class Database{
-    private $conn ;
-    //Per inserire i propri dati andare sotto
-    public function __construct($servername , $username ,$password)
-    {
-        $this->conn = mysqli_connect($servername, $username, $password, 'wordpress' );
-        // Check connection
-        if (!$this->conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-    }
+class Database {
+
 // ok wpdb
     public function makeSelect($table){
         GLOBAL $wpdb;
@@ -275,11 +266,11 @@ class Database{
 
     //Usata per capire la connessione è stata gia aperta
     public function getConnection(){
-        return $this->conn;
+        // return $this->conn;
     }
 
     public function closeConnection(){
-        mysqli_close($this->conn);
+      //  mysqli_close($this->conn);
     }
 
 }
