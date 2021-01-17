@@ -1,9 +1,5 @@
 <?php
-
-GLOBAL $_PASSWORD_DB_;
-$_PASSWORD_DB_ = "password";
-
-
+ 
 function request($url,$method = 'GET', $argument = []){
 
     // use key 'http' even if you send the request to https://...
@@ -50,11 +46,11 @@ function save_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 	GLOBAL $wpdb;
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 
     //Per test
     $idprofessore = 1;
@@ -68,13 +64,15 @@ function save_callback()
 
 	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria, $idargomento );
 
-
+	//if(!is_null($_REQUEST['links']))
     foreach ($_REQUEST['links'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
     }
+   // if(!is_null($_REQUEST['videos']))
     foreach ($_REQUEST['videos'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id , $contenuto[0], $contenuto[1], $idprofessore, "video");
     }
+//	if(!is_null($_REQUEST['documents']))
     foreach ($_REQUEST['documents'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
     }
@@ -95,13 +93,13 @@ function save_callback()
 
 function read_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //        $param = "lezioni";
 //    $id_professore = '';
 //    if($_REQUEST['param'])
@@ -126,13 +124,13 @@ function read_callback()
 
 function read_lezione_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database();
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -151,13 +149,13 @@ function read_lezione_callback()
 }
 function read_contenuto_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //        $param = "lezioni";
     $param = $_REQUEST['param'];
 //        echo $param;
@@ -177,7 +175,7 @@ function read_contenuto_callback()
 
 function read_lezioni_filtrate_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -188,7 +186,7 @@ function read_lezioni_filtrate_callback()
 //    echo $his_own;
 
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
     $id_professore = wp_get_current_user()->ID;
     wp_send_json($databaseConnection->read_lezioni_filtrate($param,$id_professore,$his_own));
@@ -202,14 +200,14 @@ function read_lezioni_filtrate_callback()
 
 function read_argomenti_materia_callback()
 {
-    global $_PASSWORD_DB_;
+ 
 check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
 //    }
     $param = $_REQUEST['param'];
 //        echo "readLEzFiltr Dentro";
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
     wp_send_json($databaseConnection->read_argomenti_materia($param));
 //
@@ -224,11 +222,11 @@ function update_contenuto_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
 //    //Per test
 //
@@ -256,11 +254,11 @@ function update_lezione_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
 //
 //    //Per test
 //
@@ -292,11 +290,11 @@ function update_lezione_callback()
 
 function say_hello_test_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
-    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+    $databaseConnection = new Database( );
     wp_send_json( $databaseConnection->makeSelect("persona") );
     $databaseConnection->closeConnection();
     die();

@@ -30,7 +30,7 @@ select COALESCE ( GROUP_CONCAT(new_content.links separator '<br>'), " ")  as all
 from (
   select  CONCAT ( '<a href = "', percorso , '"  data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener">  ', titolo , ' </a> ')  as  links
   from contenuto
-    where contenuto.tipo="link" and contenuto.lezione_idlezione=idlezione
+    where contenuto.tipo="link" and contenuto.lezione_idlezione=idlezione   and contenuto.data_accettazione is not null
     ) as new_content
 ),
 htmldocumentoview as (
@@ -38,7 +38,7 @@ htmldocumentoview as (
 from (
   select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener" >  ', titolo , ' </a> ')  as  links
   from contenuto
-    where contenuto.tipo="documento" and contenuto.lezione_idlezione=idlezione
+    where contenuto.tipo="documento" and contenuto.lezione_idlezione=idlezione   and contenuto.data_accettazione is not null
     ) as new_content
 ),
 htmlvideoview as (
@@ -46,7 +46,7 @@ htmlvideoview as (
 from (
   select  CONCAT ( '<a href = "', percorso , '" data-type="URL" data-id="link" target="_blank" rel="noreferrer noopener"  >  ', titolo , ' </a> ')  as  links
   from contenuto
-    where contenuto.tipo="video" and contenuto.lezione_idlezione=idlezione
+    where contenuto.tipo="video" and contenuto.lezione_idlezione=idlezione   and contenuto.data_accettazione is not null
     ) as new_content
 )
 
