@@ -1,24 +1,55 @@
 
 jQuery(document).ready( function (){
+
+    //FOOOOOOOOOTER
+    let footer = document.getElementById("footer");
+    footer.hidden = true;
+    //FOOOOOOOOOTER
     //console.log(window.location.pathname);
     if (window.location.pathname!=="/wordpress/plugin_homepage/") {
         return;
     }
-    function readFromDb(param,callback) {
+
+
+    function getCurrentUser(param,callback) {
+        jQuery.ajax({
+            type: "GET",
+            url: vars.url,
+            data: {
+                action : 'get_current_user',
+                // param: param,
+                nonce : vars.security
+            },
+            success: function (data){
+                console.log(data);
+                // console.log(JSON.parse(data));
+                //
+                // showLessons(JSON.parse(data))
+                // fottiti(data)
+                // modifyLezione(data);
+            },
+            error: function (error) {
+                // Azioni da eseguire in caso di errore chiamata
+                console.log("errore");
+                console.log(error);
+            }
+        });
+    }
+    function readLezioniFromDb(param,callback) {
         jQuery.ajax({
             type: "GET",
             url: vars.url,
             data: {
                 action : 'read',
-                param: param,
+                // param: param,
                 nonce : vars.security
             },
             success: function (data){
-                console.log(data);
-                console.log(JSON.parse(data));
+                // console.log(data);
+                // console.log(JSON.parse(data));
 
                 showLessons(JSON.parse(data))
-                // fottiti(data)
+
             }
             // error: function (error) {
             //     // Azioni da eseguire in caso di errore chiamata
@@ -28,22 +59,22 @@ jQuery(document).ready( function (){
         });
     }
 
-    function readLezioniFiltrate(param,callback) {
+    function readLezioniFiltrate(param,hisOwn,callback) {
         jQuery.ajax({
             type: "GET",
             url: vars.url,
             data: {
                 action : 'read_lezioni_filtrate',
                 param: param,
+                hisOwn : hisOwn,
                 nonce : vars.security
             },
             success: function (data){
 
                 // showLessons(JSON.parse(data))
-                // fottiti(data)
 
-                console.log(JSON.parse(data));
-                showLessons(JSON.parse(data))
+                // console.log(JSON.parse(data));
+                showLessons(JSON.parse(data),hisOwn)
             },
             error: function (error) {
                 // Azioni da eseguire in caso di errore chiamata
@@ -65,7 +96,6 @@ jQuery(document).ready( function (){
             success: function (data){
 
                 // showLessons(JSON.parse(data))
-                // fottiti(data)
                 // return JSON.parse(data);
 
                 // console.log(JSON.parse(data));
@@ -84,7 +114,8 @@ jQuery(document).ready( function (){
 
     // console.log("ok");
     // console.log(r)
-    readFromDb("lezione");
+    // console.log(wp_get_current_user());
+    readLezioniFromDb();
     checkFilters();
 
     // window.=function(){
@@ -106,7 +137,7 @@ jQuery(document).ready( function (){
             materiaValue = materiaDropdown.value;
             if(materiaDropdown.selectedIndex===0)
                 materiaValue = null;
-            console.log(materiaValue);
+            // console.log(materiaValue);
 
             // clearDropdown(argomentoDropdown,"Argomento");
 
@@ -118,14 +149,29 @@ jQuery(document).ready( function (){
             scuolaValue = scuolaDropdown.value;
             if(scuolaDropdown.selectedIndex===0)
                 scuolaValue = null;
-            console.log(scuolaValue);
+            // console.log(scuolaValue);
         }
         argomentoDropdown.onchange=function (){
             argomentoValue = argomentoDropdown.value;
             if(argomentoDropdown.selectedIndex===0)
                 argomentoValue = null;
-            console.log(argomentoValue);
+            // console.log(argomentoValue);
         }
+
+        let divCheckbox = document.getElementById("checkbox");
+        let label = document.createElement("label");
+        let cb = document.createElement("input");
+        cb.type = "checkbox";
+        // cb.name = "checkbox kosadkokdo";
+        // cb.value = "kokookokk";
+
+        label.appendChild(cb)
+        cb.after("TUE LEZIONI");
+        // label.appendChild("ciaociaoc");
+        divCheckbox.appendChild(label);
+
+
+
 
         let filtraButton = document.getElementById("filtra");
 
@@ -136,8 +182,8 @@ jQuery(document).ready( function (){
                 scuola: scuolaValue,
                 argomento: argomentoValue
             };
-            readLezioniFiltrate(param);
-
+            readLezioniFiltrate(param,cb.checked);
+            // console.log(cb.checked);
         }
 
 
@@ -155,7 +201,7 @@ jQuery(document).ready( function (){
     function showLessons(data) {
         // Azioni da eseguire in caso di successo chiamata
         //TODO: Avvertire l'utente che tutto è andato bene
-        console.log("ok");
+        // console.log("ok");
         // console.log(data);
         // callback();
 
@@ -188,11 +234,19 @@ jQuery(document).ready( function (){
             ul.innerText = "LEZIONE "+obj.idlezione+" \n Titolo Lezione: "+obj.titolo;
             // // label.innerText = "Anteprima lezione";
             button.innerText = "MODIFICA LEZIONE";
-            button.onclick=function() {
-                window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
-
+            if(obj.is_owner === "0"){
+                button.disabled = true;
             }
-                console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
+            button.onclick=function() {
+                console.log(obj.is_owner);
+                // if(obj.is_owner !== "0"){
+                    window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
+                // }else {
+                //     console.log("NON SEI IL PROPRIETARIO!");
+                //     button.disabled = true;
+                // }
+            }
+                // console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
                 // window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
 
             // ul.appendChild(br);

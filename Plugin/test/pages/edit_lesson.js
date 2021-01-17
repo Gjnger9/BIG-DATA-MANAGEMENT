@@ -1,5 +1,8 @@
 //popolamento e modifica lezione su edit_lesson_page
 
+
+
+
 function readLezione(param,callback) {
     jQuery.ajax({
         type: "GET",
@@ -114,7 +117,7 @@ function modifyLezione(data){
     let contenutiModificati=[];
 
 
-
+    // getCurrentUser();
 
     console.log(lezione);
     console.log(contenuti);

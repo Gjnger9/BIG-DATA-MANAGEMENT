@@ -28,6 +28,8 @@ class Database{
         return json_encode($resultArray);
     }
 
+
+
 	public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria, $idargomento){
 	    $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria`,`argomento_idargomento` ) 
 			VALUES
@@ -76,13 +78,27 @@ class Database{
 		return array($lesson_id, $id);
     }
 
-	public function read($param)
+	public function readLezioni($id_professore)
 	{
-		$sql = "SELECT * FROM `wordpress`.`" . $param . "`;";
-
+//	    if($id_professore == '')
+//		    $sql = "SELECT * FROM `wordpress`.`lezione`;";
+//        else
+//            $sql = "SELECT *, EXISTS (SELECT * FROM wordpress.lezione AS l
+//                JOIN wordpress.professore as p ON l.professore_idprofessore = p.idprofessore
+//                JOIN wordpress.utente AS u ON p.utente_idutente = u.idutente
+//                JOIN wordpress.wp_users as wp_u ON wp_u.ID = u.idutente
+//                JOIN wordpress.wp_posts AS post ON post.post_author = wp_u.ID AND post.ID = l.wp_post_id
+//                WHERE l.idlezione = lez.idlezione AND p.idprofessore = ".$id_professore.") as is_owner
+//                FROM wordpress.lezione AS lez;";
+        $sql="SELECT *, EXISTS (SELECT * FROM wordpress.lezione as l
+                join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
+                join wordpress.utente as u on u.idutente = p.utente_idutente
+                join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
+                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner
+                from wordpress.lezione as lez;";
 
 		$result = mysqli_query($this->conn, $sql);
-
+//            echo $sql;
 		if( !$result ) { // se errore
 			die(  mysqli_error( $this->conn ));
 		}
@@ -94,9 +110,32 @@ class Database{
 		return json_encode($resultArray);
 	}
 
+//    public function get_user_by_wp_id($wp_id)
+//    {
+//        $sql = "SELECT * FROM `wordpress`.`lezione` WHERE idlezione =".$wp_id.";";
+//
+//
+//        $result = mysqli_query($this->conn, $sql);
+//        $contenuto = $this->readContenuto($param);
+//
+//        if( !$result ) { // se errore
+//            die(  mysqli_error( $this->conn ));
+//        }
+//        $resultArray = array();
+//        while ($row = mysqli_fetch_assoc($result)) {
+//            $resultArray[] = $row;
+//        }
+//
+////        echo $resultArray;
+//
+//        return array(json_encode($resultArray),$contenuto);
+////        return $resultArray;
+//    }
+
     public function readLezione($param)
     {
         $sql = "SELECT * FROM `wordpress`.`lezione` WHERE idlezione =".$param.";";
+
 
 
         $result = mysqli_query($this->conn, $sql);
@@ -133,7 +172,7 @@ class Database{
         return json_encode($resultArray);
     }
 
-    public function read_lezioni_filtrate($param)
+    public function read_lezioni_filtrate($param, $id_professore,$hisOwn)
     {
 //          $param =[
 //              "materia" => "matematica",
@@ -141,17 +180,48 @@ class Database{
 //              "argomento" => "derivate"
 //          ];
 //            $materia = $param[0]="matem"
-        $sql = "SELECT l.*
-                
-                FROM `wordpress`.`lezione` AS l
-					JOIN `wordpress`.`materia` AS m ON m.idmateria = l.materia_idmateria
+//        $id_professore =
+//        $owner_sql = "EXISTS (SELECT * FROM wordpress.lezione AS l
+//                JOIN wordpress.professore as p ON l.professore_idprofessore = p.idprofessore
+//                JOIN wordpress.utente AS u ON p.utente_idutente = u.idutente
+//                JOIN wordpress.wp_users as wp_u ON wp_u.ID = u.idutente
+//                JOIN wordpress.wp_posts AS post ON post.post_author = wp_u.ID AND post.ID = l.wp_post_id
+//                WHERE l.idlezione = lez.idlezione AND p.idprofessore = ".$id_professore.") AS is_owner";
+        $owner_sql = "EXISTS (SELECT * FROM wordpress.lezione as l
+                join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
+                join wordpress.utente as u on u.idutente = p.utente_idutente
+                join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
+                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner
+                ";
+
+        $sql = "SELECT lez.*,".$owner_sql. "
+
+                FROM `wordpress`.`lezione` AS lez
+					JOIN `wordpress`.`materia` AS m ON m.idmateria = lez.materia_idmateria
                     JOIN `wordpress`.`argomento`AS arg on arg.materia_idmateria = m.idmateria
-                   
-                    
-                    JOIN `wordpress`.`sezione` AS se ON se.idsezione = l.sezione_idsezione
+                    JOIN wordpress.professore as pr on pr.idprofessore = lez.professore_idprofessore
+
+                    JOIN `wordpress`.`sezione` AS se ON se.idsezione = lez.sezione_idsezione
                     JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
                 WHERE ";
 
+//        $sql = "SELECT l.*
+//
+//                FROM `wordpress`.`lezione` AS l
+//					JOIN `wordpress`.`materia` AS m ON m.idmateria = l.materia_idmateria
+//                    JOIN `wordpress`.`argomento`AS arg on arg.materia_idmateria = m.idmateria
+//
+//
+//                    JOIN `wordpress`.`sezione` AS se ON se.idsezione = l.sezione_idsezione
+//                    JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
+//                WHERE ";
+
+        if($hisOwn =="true"){
+            $sql.= "lez.professore_idprofessore = ".$id_professore." ";
+        }else{
+            $sql.=" TRUE ";
+        }
+        $sql.=" AND ";
         if(($materia=$param["materia"])!=null){
             $sql.=" m.nome = '".$materia."' ";
         }else{

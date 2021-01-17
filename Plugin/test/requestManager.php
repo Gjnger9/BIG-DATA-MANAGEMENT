@@ -1,7 +1,7 @@
 <?php
 
 GLOBAL $_PASSWORD_DB_;
-$_PASSWORD_DB_ = "root";
+$_PASSWORD_DB_ = "password";
 
 
 function request($url,$method = 'GET', $argument = []){
@@ -22,6 +22,28 @@ function request($url,$method = 'GET', $argument = []){
 
     return $result;
 
+}
+
+
+function get_current_user_callback()
+{
+//    global $_PASSWORD_DB_;
+    check_ajax_referer('nonce-requests', 'nonce');
+////    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
+////        die("FOLD");
+////    }
+//    $param = $_REQUEST['param'];
+////        echo "readLEzFiltr Dentro";
+//    $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
+////
+//    wp_send_json($databaseConnection->read_lezioni_filtrate($param));
+////
+//    $databaseConnection->closeConnection();
+
+    wp_send_json(wp_get_current_user());
+
+
+    die();
 }
 
 function save_callback()
@@ -81,9 +103,14 @@ function read_callback()
 
     $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 //        $param = "lezioni";
-    $param = $_REQUEST['param'];
-//        echo $param;
-    wp_send_json($data = $databaseConnection->read($param));
+//    $id_professore = '';
+//    if($_REQUEST['param'])
+//    $id_professore = $_REQUEST['param'];
+    $id_professore = wp_get_current_user()->ID;
+//        wp_send_json( "IIIIDDDDD:".$id_professore);
+    $data = $databaseConnection->readLezioni($id_professore);
+    wp_send_json($data);
+//    echo $data;
 //    GLOBAL $wpdb;
 //    wp_send_json(json_encode($wpdb->get_results("SELECT * from ".$param,OBJECT)));
     $databaseConnection->closeConnection();
@@ -156,10 +183,15 @@ function read_lezioni_filtrate_callback()
 //        die("FOLD");
 //    }
     $param = $_REQUEST['param'];
+    $his_own = $_REQUEST['hisOwn'];
+
+//    echo $his_own;
+
 //        echo "readLEzFiltr Dentro";
     $databaseConnection = new Database("localhost", "root", $_PASSWORD_DB_);
 //
-    wp_send_json($databaseConnection->read_lezioni_filtrate($param));
+    $id_professore = wp_get_current_user()->ID;
+    wp_send_json($databaseConnection->read_lezioni_filtrate($param,$id_professore,$his_own));
 //
     $databaseConnection->closeConnection();
 
@@ -290,3 +322,4 @@ add_action( 'wp_ajax_read_lezione', 'read_lezione_callback' );
 add_action( 'wp_ajax_read_contenuto', 'read_contenuto_callback' );
 add_action( 'wp_ajax_update_contenuto', 'update_contenuto_callback' );
 add_action( 'wp_ajax_update_lezione', 'update_lezione_callback' );
+add_action( 'wp_ajax_get_current_user', 'get_current_user_callback' );
