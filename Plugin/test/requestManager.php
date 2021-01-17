@@ -46,13 +46,15 @@ function save_callback()
 
 	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria, $idargomento );
 
-
+	if($_REQUEST['links'])
     foreach ($_REQUEST['links'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
     }
+   if( $_REQUEST['videos'])
     foreach ($_REQUEST['videos'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id , $contenuto[0], $contenuto[1], $idprofessore, "video");
     }
+   if($_REQUEST['documents'])
     foreach ($_REQUEST['documents'] as &$contenuto) {
         $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
     }

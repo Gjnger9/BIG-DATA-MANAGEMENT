@@ -2,8 +2,7 @@
 
 
 class Database{
-    private $conn;
-
+    private $conn ;
     //Per inserire i propri dati andare sotto
     public function __construct($servername , $username ,$password)
     {
@@ -13,30 +12,37 @@ class Database{
             die("Connection failed: " . mysqli_connect_error());
         }
     }
-
+// ok wpdb
     public function makeSelect($table){
-        $sql = "SELECT * FROM wordpress.".$table;
+        GLOBAL $wpdb;
+    	$sql = "SELECT * FROM wordpress.".$table;
 
-        $result = mysqli_query($this->conn, $sql);
+        $result = $wpdb->query($sql, ARRAY_A);
 
-        $resultArray = array();
-        while($row =mysqli_fetch_assoc($result))
-        {
-            $resultArray[] = $row;
-        }
+        if(check_error())
+        	die($wpdb->last_error);
 
-        return json_encode($resultArray);
+        return json_encode($result );
     }
-
+//ok wpdb
 	public function addLezione($idprofessore,  $idsezione, $titolo, $trascrizione, $idmateria, $idargomento){
-	    $sql = "INSERT INTO `wordpress`.`lezione` (  `data`, `professore_idprofessore` , `sezione_idsezione`, `titolo`, `trascrizione`,`materia_idmateria`,`argomento_idargomento` ) 
-			VALUES
- 			(  '". date("Y-m-d H:i:s") ."', '". $idprofessore ."',   '". $idsezione ."', '". $titolo."', '". $trascrizione ."',  " . $idmateria . ",  " . $idargomento. "   );";
 
 	    GLOBAL $wpdb;
-		$lesson_id=0;
-		$id=0;
-        if (mysqli_query($this->conn, $sql)) {
+
+		$wpdb->insert(
+			'lezione',
+			array (
+				'data' => date("Y-m-d H:i:s"),
+				'professore_idprofessore' => $idprofessore,
+				'sezione_idsezione' =>  $idsezione,
+				'titolo' => $titolo,
+				'trascrizione' => $trascrizione,
+				'materia_idmateria' => $idmateria,
+				'argomento_idargomento' => $idargomento
+			));
+		$lesson_id=$wpdb->insert_id;
+
+		if(!check_error()) {
 
             $newLesson = array (
                 'post_title' => $titolo,
@@ -45,23 +51,14 @@ class Database{
             );
 
             $id = wp_insert_post($newLesson) ;
-            echo "post id " . $id;
+            echo "post id " . $id ."\n";
             if ( $id ) //id false su fallimento ->  id su successo
             {
-/*
-	            $num1 = 3;
-	            $mum2 = 2;
-	            $sql = "  call test_procedure ('$num1' , '$mum2');";
-            	*/
-                $lesson_id = mysqli_insert_id($this->conn);
-	            echo  ' idlezione ' . $lesson_id;
-               // $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
-	           //  $wpdb->show_errors(false);
-	          //  $wpdb->query($syncsql);
-	            //mysqli_query($this->conn, $syncsql);
+
+	            echo  ' idlezione ' . $lesson_id . '\n';
 
                 $wpdb->query("UPDATE  `wordpress`.`lezione` SET wp_post_id = " . $id . " WHERE idlezione = " . $lesson_id);
-			//	mysqli_query($this->conn, "UPDATE  `wordpress`.`lezione` SET wp_post_id = " . $id . " WHERE idlezione = " . $lesson_id);
+
             } else {
                 echo "Lesson created successfully, couldn't sync post";
             }
@@ -71,70 +68,62 @@ class Database{
 
         } else {
 
-            echo mysqli_error($this->conn);
+           die($wpdb->last_error);
         }
+
 		return array($lesson_id, $id);
     }
-
+//ok wpdb
 	public function read($param)
 	{
+		GLOBAL $wpdb;
+
+
 		$sql = "SELECT * FROM `wordpress`.`" . $param . "`;";
 
+		//array associativo ritorna praticamente un json, basta fare encode
 
-		$result = mysqli_query($this->conn, $sql);
+		$result =$wpdb->get_results($sql, ARRAY_A);
 
-		if( !$result ) { // se errore
-			die(  mysqli_error( $this->conn ));
-		}
-		$resultArray = array();
-		while ($row = mysqli_fetch_assoc($result)) {
-			$resultArray[] = $row;
-		}
-
-		return json_encode($resultArray);
+		if(check_error()) //true=c'è errore
+			die($wpdb->last_error);
+		return json_encode($result);
 	}
 
     public function readLezione($param)
     {
+
+	    GLOBAL $wpdb;
         $sql = "SELECT * FROM `wordpress`.`lezione` WHERE idlezione =".$param.";";
 
 
-        $result = mysqli_query($this->conn, $sql);
+	    $result =$wpdb->get_results($sql, ARRAY_A);
         $contenuto = $this->readContenuto($param);
 
-        if( !$result ) { // se errore
-            die(  mysqli_error( $this->conn ));
-        }
-        $resultArray = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $resultArray[] = $row;
-        }
+	    if(check_error()) //true=c'è errore
+		    die($wpdb->last_error);
 
-//        echo $resultArray;
 
-        return array(json_encode($resultArray),$contenuto);
-//        return $resultArray;
+        return array(json_encode($result),$contenuto);
+
     }
     public function readContenuto($param)
     {
+	    GLOBAL $wpdb;
         $sql = "SELECT * FROM `wordpress`.`contenuto` WHERE lezione_idlezione =".$param.";";
 
 
-        $result = mysqli_query($this->conn, $sql);
+	    $result =$wpdb->get_results($sql, ARRAY_A);
+	    if(check_error()) //true=c'è errore
+		    die($wpdb->last_error);
 
-        if( !$result ) { // se errore
-            die(  mysqli_error( $this->conn ));
-        }
-        $resultArray = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $resultArray[] = $row;
-        }
-
-        return json_encode($resultArray);
+        return json_encode($result);
     }
 
     public function read_lezioni_filtrate($param)
     {
+
+    	GLOBAL $wpdb;
 //          $param =[
 //              "materia" => "matematica",
 ////              "scuola" => "scuola1",
@@ -172,25 +161,22 @@ class Database{
         $sql.=";";
 //        $sql = "SELECT * FROM `wordpress`.`lezione`;";
 //        echo $sql;
-        $result = mysqli_query($db=$this->conn, $sql);
-        if(!$result){
-            die(mysqli_error($db));
-        }
-        $resultArray = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $resultArray[] = $row;
-        }
+	    $result =$wpdb->get_results($sql, ARRAY_A);
+	    if(check_error()) //true=c'è errore
+		    die($wpdb->last_error);
+
 //
-        return json_encode($resultArray);
+        return json_encode($result);
 //        echo json_encode("okkokokokokokok");
 //        die(json_encode($resultArray));
 
     }
 
 
-
+//ok wpdb
     public function read_argomenti_materia($param)
     {
+    	GLOBAL $wpdb;
         if($param!=null) {
             $sql = "SELECT arg.* FROM wordpress.argomento AS arg
                 JOIN wordpress.materia AS m ON m.idmateria = arg.materia_idmateria
@@ -198,28 +184,39 @@ class Database{
         }else
             $sql = "SELECT * FROM wordpress.argomento";
 
-
-        $result = mysqli_query($this->conn, $sql);
-
-        $resultArray = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $resultArray[] = $row;
-        }
-
-        return json_encode($resultArray);
+	    $result =$wpdb->get_results($sql, ARRAY_A);
+	    if(check_error()) //true=c'è errore
+		    die($wpdb->last_error);
+        return json_encode($result);
     }
 
 
 	public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
-		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`) 
+/*		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`)
 		VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d H:i:s") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."', ' ". date("Y-m-d H:i:s") ."')";
 
-		//echo $sql;
+		//echo $sql;*/
 
-		if (mysqli_query($this->conn, $sql)) {
-			echo "New record created successfully \n";
+
+		GLOBAL $wpdb;
+
+		$wpdb->insert(
+			'contenuto',
+			array (
+				'lezione_idlezione' =>$lesson_id,
+				'titolo' => $titolo,
+				'data_creazione' => date("Y-m-d H:i:s") ,
+				'percorso' =>  $percorso,
+				'professore_idprofessore' => $idprofessore,
+				'tipo' => $tipo,
+				'data_accettazione' => date("Y-m-d H:i:s"),
+
+			));
+
+		if (!check_error()) {
+			echo "New content created successfully \n";
 		} else {
-			echo mysqli_error($this->conn);
+			echo die("Could not create new content \n");
 		}
 	}
     public function updateContenuto( $idcontenuto, $titolo, $tipo="update" ){
@@ -230,10 +227,30 @@ class Database{
 
         echo $sql;
 
-        if (mysqli_query($this->conn, $sql)) {
-            echo "New record created successfully";
+        GLOBAL $wpdb;
+
+        $wpdb-> query("$sql") ;
+
+        if (!check_error()) {
+            echo "Content  updated successfully \n";
+
+            //sync lesson after every content update
+	        $query_for_id = "SELECT l.idlezione as  idlezione, l.wp_post_id as wp_post_id FROM 
+							lezione as l join contenuto as c on l.idlezione=c.lezione_idlezione
+							WHERE `idcontenuto` =".$idcontenuto."
+							LIMIT 1;";
+	        $results = $wpdb->get_results($query_for_id);
+	        $idlezione = $results[0]->idlezione;
+	        $post_id = $results[0]->wp_post_id;
+	        $syncsql = "CALL sync_lesson_to_post('$idlezione' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+	        $wpdb->query($syncsql);
+	        if (!check_error()) {
+		        echo "Lesson synced   successfully \n";
+	        } else {
+	        	echo "Lesson not synced" . $wpdb->last_error;
+	        }
         } else {
-            echo mysqli_error($this->conn);
+            die ("Could not update content \n " . $wpdb->last_error );
         }
     }
 
@@ -241,8 +258,9 @@ class Database{
         GLOBAL $wpdb;
         $sql = "UPDATE `wordpress`.`lezione` SET `trascrizione` = '".$trascrizione."' WHERE (`idlezione` = ".$idlezione.");";
         echo $sql;
+		$wpdb->query($sql);
 
-        if (mysqli_query($this->conn, $sql)) {
+        if (!check_error()) {
             $query_for_id = "SELECT wp_post_id FROM `wordpress`.`lezione` WHERE `idlezione` =".$idlezione." ;";
             $results = $wpdb->get_results($query_for_id);
             $post_id = $results[0]->wp_post_id;
@@ -251,7 +269,7 @@ class Database{
             echo "POstIDio: ". $post_id ."\n";
             echo "New record created successfully";
         } else {
-            echo mysqli_error($this->conn);
+            die($wpdb->last_error);
         }
     }
 
@@ -289,4 +307,16 @@ function create_db () {
 
     // mysqli_multi_query($link, $sql);
 
+}
+function check_error() {
+	GLOBAL $wpdb;
+	if ($wpdb->last_error != "") {
+
+		return true;
+
+	} else {
+
+		return false;
+
+	}
 }
