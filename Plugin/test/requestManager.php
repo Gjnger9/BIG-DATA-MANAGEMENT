@@ -1,9 +1,5 @@
 <?php
-
-GLOBAL $_PASSWORD_DB_;
-$_PASSWORD_DB_ = "root";
-
-
+ 
 function request($url,$method = 'GET', $argument = []){
 
     // use key 'http' even if you send the request to https://...
@@ -28,7 +24,7 @@ function save_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 	GLOBAL $wpdb;
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
@@ -75,7 +71,7 @@ function save_callback()
 
 function read_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -101,7 +97,7 @@ function read_callback()
 
 function read_lezione_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -126,7 +122,7 @@ function read_lezione_callback()
 }
 function read_contenuto_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -152,7 +148,7 @@ function read_contenuto_callback()
 
 function read_lezioni_filtrate_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -172,7 +168,7 @@ function read_lezioni_filtrate_callback()
 
 function read_argomenti_materia_callback()
 {
-    global $_PASSWORD_DB_;
+ 
 check_ajax_referer('nonce-requests', 'nonce');
 //    if(!wp_verify_nonce($_REQUEST[nonce],'nonce-requests')){
 //        die("FOLD");
@@ -194,7 +190,7 @@ function update_contenuto_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
@@ -226,7 +222,7 @@ function update_lezione_callback()
 {
 
     //creazione post di wordpress con inserimento
-    global $_PASSWORD_DB_;
+ 
 
     check_ajax_referer( 'nonce-requests', 'nonce' );
 
@@ -262,7 +258,7 @@ function update_lezione_callback()
 
 function say_hello_test_callback()
 {
-    global $_PASSWORD_DB_;
+ 
     check_ajax_referer( 'ajax_test_nonce_string', 'security' );
 
     //wp_send_json( request("http://localhost:42069/readPersona"), 'GET' );
