@@ -170,8 +170,30 @@ jQuery(document).ready( function (){
         // label.appendChild("ciaociaoc");
         divCheckbox.appendChild(label);
 
+        let divDatePicker = document.getElementById("datepicker");
+        let datePickerStart = document.createElement("input");
+        let datePickerEnd = document.createElement("input");
+        datePickerStart.type = "date";
+        datePickerEnd.type = "date";
 
+        let t = document.createElement("table");
+        let tr1 = document.createElement("tr");
+        let tr2 = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
 
+        td1.appendChild(datePickerStart);
+        td2.appendChild(datePickerEnd);
+        tr1.appendChild(td1);
+        tr2.appendChild(td2);
+        t.appendChild(tr1);
+        t.appendChild(tr2);
+        divDatePicker.appendChild(t);
+        // divDatePicker.appendChild(datePickerStart);
+        // // divDatePicker.appendChild("\n");
+        // divDatePicker.appendChild(datePickerEnd);
+        datePickerStart.before("DA: ");
+        datePickerEnd.before("A: ");
 
         let filtraButton = document.getElementById("filtra");
 

@@ -160,6 +160,7 @@ function homepage_shortcode_function () {
 
      .'
         <div id="checkbox"></div>
+        <div id="datepicker"></div>
         <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
         <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
