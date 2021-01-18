@@ -10,6 +10,7 @@ jQuery(document).ready( function (){
         return;
     }
 
+    var currentLessons = [];
 
     function getCurrentUser(param,callback) {
         jQuery.ajax({
@@ -48,7 +49,10 @@ jQuery(document).ready( function (){
                 // console.log(data);
                 // console.log(JSON.parse(data));
 
-                showLessons(JSON.parse(data))
+                // showLessons(JSON.parse(data))
+                currentLessons = JSON.parse(data);
+                console.log(currentLessons);
+                showLessons(currentLessons);
 
             }
             // error: function (error) {
@@ -73,8 +77,9 @@ jQuery(document).ready( function (){
 
                 // showLessons(JSON.parse(data))
 
-                // console.log(JSON.parse(data));
-                showLessons(JSON.parse(data),hisOwn)
+                // console.log(data);
+                currentLessons = JSON.parse(data);
+                showLessons(currentLessons,hisOwn)
             },
             error: function (error) {
                 // Azioni da eseguire in caso di errore chiamata
@@ -116,7 +121,10 @@ jQuery(document).ready( function (){
     // console.log(r)
     // console.log(wp_get_current_user());
     readLezioniFromDb();
+    // console.log("LEZIONI:");
+    // console.log(currentLessons);
     checkFilters();
+    // showLessons(currentLessons);
 
     // window.=function(){
     //     readFromDb("lezione");
@@ -202,10 +210,13 @@ jQuery(document).ready( function (){
             let param = {
                 materia: materiaValue,
                 scuola: scuolaValue,
-                argomento: argomentoValue
+                argomento: argomentoValue,
+                dataInizio : datePickerStart.value,
+                dataFine : datePickerEnd.value
             };
             readLezioniFiltrate(param,cb.checked);
-            // console.log(cb.checked);
+
+            // console.log(datePickerStart.value==="", datePickerEnd.value);
         }
 
 
@@ -255,10 +266,10 @@ jQuery(document).ready( function (){
 
             ul.innerText = "LEZIONE "+obj.idlezione+" \n Titolo Lezione: "+obj.titolo;
             // // label.innerText = "Anteprima lezione";
-            button.innerText = "MODIFICA LEZIONE";
-            if(obj.is_owner === "0"){
-                button.disabled = true;
-            }
+            button.innerText = "VISUALIZZA DETTAGLI";
+            // if(obj.is_owner === "0"){
+            //     button.disabled = true;
+            // }
             button.onclick=function() {
                 console.log(obj.is_owner);
                 // if(obj.is_owner !== "0"){
@@ -306,6 +317,67 @@ jQuery(document).ready( function (){
             option.text = obj.nome;
             dropdown.add(option);
         }
+
+    }
+
+    let right = document.getElementById("right-sidebar-inner");
+    // right.innerText = "destraaaaaaaaa";
+    let dropdown = document.createElement("select");
+    dropdown.className = "dropdown";
+    //
+    let opt1 = document.createElement("option");
+    opt1.value = "data";
+    opt1.text = "Data";
+    let opt2 = document.createElement("option");
+    opt2.value = "titolo";
+    opt2.text = "Titolo";
+    let opt3 = document.createElement("option");
+    opt3.value = "sezione";
+    opt3.text = "Sezione";
+
+    dropdown.appendChild(opt1);
+    dropdown.appendChild(opt2);
+    dropdown.appendChild(opt3);
+    // let options = ["Data", "Titolo", "Sezione"];
+    // fillDropdown(dropdown,options)
+    right.appendChild(dropdown);
+    dropdown.before("Ordina per:");
+
+    dropdown.onchange=function (){
+
+        console.log(dropdown.value);
+
+        let sortfn;
+        switch (dropdown.value){
+            case "data":
+            sortfn= function (a,b){
+                // console.log(a.data- b.data);
+                return new Date(b["data"])-new Date(a["data"]);
+            };
+                break;
+            case "titolo":
+                sortfn= function (a,b){
+                    // console.log(a.titolo.toString()-b.titolo.toString());
+                    // return (a.titolo)-(b.titolo);
+                    a = a.titolo.toLowerCase();
+                    b = b.titolo.toLowerCase();
+
+                    return (a < b) ? -1 : (a > b) ? 1 : 0;
+                };
+                break;
+            case "sezione":
+                sortfn= function (a,b){
+                    return a.sezione-b.sezione;
+                };
+                break;
+            default:
+                break;
+        }
+
+        currentLessons.sort(sortfn);
+        console.log(currentLessons);
+
+        showLessons(currentLessons);
 
     }
 

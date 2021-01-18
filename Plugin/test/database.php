@@ -120,7 +120,12 @@ class Database {
     {
 
 	    GLOBAL $wpdb;
-        $sql = "SELECT * FROM `wordpress`.`lezione` WHERE idlezione =".$param.";";
+	   $id_professore = wp_get_current_user()->ID;
+        $sql = "SELECT lez.*, EXISTS (SELECT * FROM wordpress.lezione as l
+                join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
+                join wordpress.utente as u on u.idutente = p.utente_idutente
+                join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
+                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
 
 
 	    $result =$wpdb->get_results($sql, ARRAY_A);
@@ -215,6 +220,21 @@ class Database {
         }else{
             $sql.= " TRUE " ;
         }
+        $sql.=" AND ";
+        if($param["dataInizio"]!=null){
+            $dataInizio= new DateTime($param["dataInizio"]);
+            if($param["dataFine"]!=null) {
+                $dataFine = new DateTime($param["dataFine"]);
+            }
+            else {
+                $dataFine = new DateTime(date("Y-m-d"));
+            }
+                $sql .= " `lez`.`data` BETWEEN '" . $dataInizio->format("Y-m-d") . "' AND '" . $dataFine->format("Y-m-d") . "' ";
+
+        }else{
+            $sql.= " TRUE " ;
+        }
+
         $sql.=";";
 //        $sql = "SELECT * FROM `wordpress`.`lezione`;";
 //        echo $sql;

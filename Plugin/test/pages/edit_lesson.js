@@ -116,10 +116,12 @@ function modifyLezione(data){
 
     let contenutiModificati=[];
 
+    let isOwner = parseInt(lezione.is_owner);
+
 
     // getCurrentUser();
 
-    console.log(lezione);
+    console.log();
     console.log(contenuti);
 
 
@@ -129,7 +131,7 @@ function modifyLezione(data){
     let trascrizioneDiv = document.getElementById("trascrizione");
     let innerTrascrizioneDiv = document.createElement("div");
     innerTrascrizioneDiv.innerText = trascrizioneData;
-    innerTrascrizioneDiv.contentEditable = true;
+    // innerTrascrizioneDiv.contentEditable = true;
     trascrizioneDiv.appendChild(innerTrascrizioneDiv);
 
 
@@ -172,14 +174,17 @@ function modifyLezione(data){
         tdl.innerText = contenuto.titolo;
         // console.log(contenuto.titolo);
         // tdl.innerText = "CI SONO";
-        tdl.contentEditable = true;
+        // tdl.contentEditable = true;
         tdr.innerText = contenuto.percorso;
 
             // checkbox.appendChild(label);
         tr1.appendChild(tdl);
         tr1.appendChild(tdr);
-        tr2.appendChild(modificaContenutoButton);
-        tr2.appendChild(rimuoviContenutoButton);
+        if(isOwner ) {
+            tdl.contentEditable = true;
+            tr2.appendChild(modificaContenutoButton);
+            tr2.appendChild(rimuoviContenutoButton);
+        }
         // tr.appendChild(checkbox);
 
 
@@ -233,8 +238,13 @@ function modifyLezione(data){
 
 
 
+
     let modificaButton = document.getElementById("modifyButton");
 
+    if (isOwner){
+        innerTrascrizioneDiv.contentEditable = true;
+        modificaButton.style = "display: inline;";
+    }
     modificaButton.onclick = function (){
 
         modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent)

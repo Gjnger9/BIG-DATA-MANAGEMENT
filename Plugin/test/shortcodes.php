@@ -138,6 +138,7 @@ function homepage_shortcode_function () {
 
 	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
+     
        
     <div id = "mainview" class = "row" style="display: table">
      
@@ -220,7 +221,7 @@ function edit_lesson_shortcode_function () {
 <!-- /wp:button -->
 
 <!-- wp:button -->
-<div id="modifyButton" class="wp-block-button"><a class="wp-block-button__link">Modifica</a></div>
+<div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
 <!-- /wp:button --></div>
 
 
