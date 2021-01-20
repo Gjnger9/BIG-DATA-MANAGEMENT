@@ -29,7 +29,6 @@ class TestPlugin
     function activate()
     {
         add_new_pages();
-        //in genere usiamo questa funzione per l'attivazione di connessioni a db o creazione di custom post types (che non useremo)
         create_db();
     }
 
@@ -60,8 +59,14 @@ function add_last_nav_item($items) {
     //aggiunta elemento plugin con link alla directory del nostro plugin
     $items .= '<li><a id=999 href="'.get_site_url(null,"",null).'/wp-content/plugins/test/pages/next.html?userID='.$user->ID.'&nonce='.wp_create_nonce( 'wp_rest' ).'"> Old Plugin</a></li>';
     $items .= '<li><a id=998 href="'.get_site_url(null,"",null).'/pagina_plugin_new_lesson"> Shortcut Plugin Loris </a></li>';
-    $items .= '<li><a id=997 href="'.get_site_url(null,"",null).'/plugin_homepage"> Vai Al Plugin </a></li>';
-//non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
+    //check if user is logged in
+    if(is_user_logged_in()) {
+	    $items .= '<li><a id=997 href="' . get_site_url( null, "", null ) . '/plugin_homepage"> Vai Al Plugin </a></li>';
+    } else {
+	    $items .= '<li><a id=997 href="' . wp_login_url() . '"> Login </a></li>';
+
+    }
+    //non serve che lo mostriamo nella barra dell'indirizzo se riusciamo a darlo al js
 //    $items .= '<li><a id=999 href="http://localhost/wordpress/wp-content/plugins/test/pages/next.html">Plugin</a></li>';
 
     return $items;

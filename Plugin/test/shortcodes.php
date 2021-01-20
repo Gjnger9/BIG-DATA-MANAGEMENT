@@ -2,7 +2,7 @@
 
 function shortcodes_init() {
     add_shortcode('lessons', 'lessons_shortcode_function');
-    add_shortcode('sidebar', 'sidebar_shortcode_function');
+   // add_shortcode('sidebar', 'sidebar_shortcode_function');
     add_shortcode('new_page', 'new_lesson_page_shortcode_function');
 //    add_shortcode('script','shortcode_scripts');
     add_shortcode('homepage', 'homepage_shortcode_function');
@@ -42,8 +42,11 @@ function sidebar_shortcode_function() {
 }
 
 function new_lesson_page_shortcode_function () {
-
 	wp_enqueue_style("style");
+
+	if(!is_user_logged_in()){
+		return wp_login_form(array('echo'=>true));
+	}
 
 	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -133,9 +136,10 @@ function new_lesson_page_shortcode_function () {
 }
 
 function homepage_shortcode_function () {
-
 	wp_enqueue_style("style");
-
+	if(!is_user_logged_in()){
+	 	return wp_login_form(array('echo'=>true));
+	}
 	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
      
@@ -179,8 +183,11 @@ function homepage_shortcode_function () {
 }
 
 function edit_lesson_shortcode_function () {
-
 	wp_enqueue_style("style");
+
+	if(!is_user_logged_in()){
+		return wp_login_form(array('echo'=>true));
+	}
 
 	$page = ' <div id="trascrizione">
 <h3>Trascrizione</h3>
