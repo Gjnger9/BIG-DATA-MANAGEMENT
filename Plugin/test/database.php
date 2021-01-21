@@ -39,6 +39,7 @@ class Database {
                 'post_title' => $titolo,
                 'post_status' => 'publish',
                 'post_type' => 'post'
+	            //'post_author' => 2 << default user id is current wordpress userID
             );
 
             $id = wp_insert_post($newLesson) ;
@@ -125,7 +126,8 @@ class Database {
                 join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
                 join wordpress.utente as u on u.idutente = p.utente_idutente
                 join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
-                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
+                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner 
+                FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
 
 
 	    $result =$wpdb->get_results($sql, ARRAY_A);

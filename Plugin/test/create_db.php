@@ -266,7 +266,7 @@ function create_db_wpdb () {
 
 
 
-$wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT 
+$wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT 
         `lez`.`idlezione` AS `idlezione`,
         `lez`.`data` AS `data`,
         `lez`.`professore_idprofessore` AS `professore_idprofessore`,
@@ -286,5 +286,10 @@ $wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT
         JOIN `professore` `pr` ON ((`pr`.`idprofessore` = `lez`.`professore_idprofessore`)))
         JOIN `sezione` `se` ON ((`se`.`idsezione` = `lez`.`sezione_idsezione`)))
         JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `se`.`scuola_idscuola`))))");
+
+	$wpdb->query("CREATE VIEW   `professors_id_view` AS
+	select p.idprofessore as pid, wpu.id as wpid
+	from professore as p join utente as u on u.idutente=p.utente_idutente
+	join wp_users as wpu on wpu.ID = u.wp_id");
 
 }

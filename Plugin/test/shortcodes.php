@@ -48,6 +48,16 @@ function new_lesson_page_shortcode_function () {
 		return wp_login_form(array('echo'=>true));
 	}
 
+	//if user is logged in then
+
+	GLOBAL $wpdb;
+	$sql = "SELECT * from professors_id_view where wpid = " . get_current_user_id() . " ; ";
+	$result =$wpdb->get_results($sql, ARRAY_A);
+
+	if(!$result) {
+		die('Non sei abilitato alla creazione di una nuova lezione');
+	}
+
 	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
