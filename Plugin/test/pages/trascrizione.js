@@ -59,6 +59,7 @@ jQuery(document).ready(function() {
     var result;
 
     recognition.onresult = function (event) {
+
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
                 if (textarea.innerHTML == 'inserisci trascrizione qui')
@@ -92,8 +93,15 @@ jQuery(document).ready(function() {
              //
            resetDiv();
               cloud();
-    }
 
+    }
+    recognition.onend = function (){
+        if(recognizing) {
+            recognition.stop();
+            recognition.start();
+        }
+
+    }
     function reset() {
         recognizing = false;
         button.innerHTML = "<a class=\"wp-block-button__link\" rel=\"\"> Avvia Ascolto </a >";
