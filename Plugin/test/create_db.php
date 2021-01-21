@@ -263,4 +263,28 @@ function create_db_wpdb () {
             ON UPDATE NO ACTION)
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
-	}
+
+
+
+$wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT 
+        `lez`.`idlezione` AS `idlezione`,
+        `lez`.`data` AS `data`,
+        `lez`.`professore_idprofessore` AS `professore_idprofessore`,
+        `lez`.`sezione_idsezione` AS `sezione_idsezione`,
+        `lez`.`titolo` AS `titolo`,
+        `lez`.`trascrizione` AS `trascrizione`,
+        `lez`.`wp_post_id` AS `wp_post_id`,
+        `lez`.`materia_idmateria` AS `materia_idmateria`,
+        `lez`.`argomento_idargomento` AS `argomento_idargomento`,
+        `m`.`nome` AS `materia`,
+        `sc`.`nome` AS `scuola`,
+        `arg`.`nome` AS `argomento`
+    FROM
+    (((((`lezione` `lez`
+        JOIN `materia` `m` ON ((`m`.`idmateria` = `lez`.`materia_idmateria`)))
+        JOIN `argomento` `arg` ON ((`arg`.`materia_idmateria` = `m`.`idmateria`)))
+        JOIN `professore` `pr` ON ((`pr`.`idprofessore` = `lez`.`professore_idprofessore`)))
+        JOIN `sezione` `se` ON ((`se`.`idsezione` = `lez`.`sezione_idsezione`)))
+        JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `se`.`scuola_idscuola`))))");
+
+}

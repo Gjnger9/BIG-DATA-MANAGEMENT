@@ -153,7 +153,7 @@ class Database {
 
     public function read_lezioni_filtrate($param, $id_professore,$hisOwn)
     {
-
+		//idprofessore è il wp user id
     	GLOBAL $wpdb;
 //          $param =[
 //              "materia" => "matematica",
@@ -168,7 +168,7 @@ class Database {
 //                JOIN wordpress.wp_users as wp_u ON wp_u.ID = u.idutente
 //                JOIN wordpress.wp_posts AS post ON post.post_author = wp_u.ID AND post.ID = l.wp_post_id
 //                WHERE l.idlezione = lez.idlezione AND p.idprofessore = ".$id_professore.") AS is_owner";
-        $owner_sql = "EXISTS (SELECT * FROM wordpress.lezione as l
+/*        $owner_sql = "EXISTS (SELECT * FROM wordpress.lezione as l
                 join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
                 join wordpress.utente as u on u.idutente = p.utente_idutente
                 join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
@@ -184,7 +184,7 @@ class Database {
 
                     JOIN `wordpress`.`sezione` AS se ON se.idsezione = lez.sezione_idsezione
                     JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
-                WHERE ";
+                WHERE ";*/
 
 //        $sql = "SELECT l.*
 //
@@ -196,27 +196,28 @@ class Database {
 //                    JOIN `wordpress`.`sezione` AS se ON se.idsezione = l.sezione_idsezione
 //                    JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
 //                WHERE ";
-
+		//sostituita precedente query con vista
+	    $sql= "SELECT * from lesson_to_be_filtered where ";
         if($hisOwn =="true"){
-            $sql.= "lez.professore_idprofessore = ".$id_professore." ";
+            $sql.= "professore_idprofessore = ".$id_professore." ";
         }else{
             $sql.=" TRUE ";
         }
         $sql.=" AND ";
         if(($materia=$param["materia"])!=null){
-            $sql.=" m.nome = '".$materia."' ";
+            $sql.=" materia = '".$materia."' ";
         }else{
             $sql.= " TRUE " ;
         }
         $sql.=" AND ";
         if(($scuola=$param["scuola"])!=null){
-            $sql.= "sc.nome = '".$scuola."' ";
+            $sql.= "scuola = '".$scuola."' ";
         }else{
             $sql.= " TRUE " ;
         }
         $sql.=" AND ";
         if(($argomento=$param["argomento"])!=null){
-            $sql.=" arg.nome = '".$argomento."' ";
+            $sql.=" argomento = '".$argomento."' ";
         }else{
             $sql.= " TRUE " ;
         }
@@ -229,7 +230,7 @@ class Database {
             else {
                 $dataFine = new DateTime(date("Y-m-d"));
             }
-                $sql .= " `lez`.`data` BETWEEN '" . $dataInizio->format("Y-m-d") . "' AND '" . $dataFine->format("Y-m-d") . "' ";
+                $sql .= " data BETWEEN '" . $dataInizio->format("Y-m-d") . "' AND '" . $dataFine->format("Y-m-d") . "' ";
 
         }else{
             $sql.= " TRUE " ;
