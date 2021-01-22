@@ -29,7 +29,8 @@ class Database {
 				'titolo' => $titolo,
 				'trascrizione' => $trascrizione,
 				'materia_idmateria' => $idmateria,
-				'argomento_idargomento' => $idargomento
+				'argomento_idargomento' => $idargomento,
+				'status' => 'publish'
 			));
 		$lesson_id=$wpdb->insert_id;
 
@@ -79,12 +80,9 @@ class Database {
 //                JOIN wordpress.wp_posts AS post ON post.post_author = wp_u.ID AND post.ID = l.wp_post_id
 //                WHERE l.idlezione = lez.idlezione AND p.idprofessore = ".$id_professore.") as is_owner
 //                FROM wordpress.lezione AS lez;";
-        $sql="SELECT *, EXISTS (SELECT * FROM wordpress.lezione as l
-                join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
-                join wordpress.utente as u on u.idutente = p.utente_idutente
-                join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
-                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner
-                from wordpress.lezione as lez;";
+        $sql= "SELECT *, EXISTS (SELECT * FROM professors_lessons as pl 
+						where pl.wp_id= ". $id_professore. "  and pl.idlezione = lez.idlezione ) as is_owner
+                from wordpress.lezione as lez where lez.status='publish';";
 
 		//array associativo ritorna praticamente un json, basta fare encode
 
@@ -122,11 +120,8 @@ class Database {
 
 	    GLOBAL $wpdb;
 	   $id_professore = wp_get_current_user()->ID;
-        $sql = "SELECT lez.*, EXISTS (SELECT * FROM wordpress.lezione as l
-                join wordpress.professore as p on l.professore_idprofessore = p.idprofessore
-                join wordpress.utente as u on u.idutente = p.utente_idutente
-                join wordpress.wp_users as wp_u on wp_u.ID = u.wp_id
-                where wp_u.ID = ".$id_professore." and l.idlezione = lez.idlezione) as is_owner 
+        $sql = "SELECT lez.*, EXISTS (SELECT * FROM professors_lessons as pl 
+                where pl.wp_id = ".$id_professore." and pl.idlezione = lez.idlezione) as is_owner 
                 FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
 
 
@@ -199,7 +194,7 @@ class Database {
 //                    JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
 //                WHERE ";
 		//sostituita precedente query con vista
-	    $sql= "SELECT * from lesson_to_be_filtered where ";
+	    $sql= "SELECT * from lesson_to_be_filtered where status='publish' AND ";
         if($hisOwn =="true"){
             $sql.= "professore_idprofessore = ".$id_professore." ";
         }else{

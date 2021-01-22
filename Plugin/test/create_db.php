@@ -98,6 +98,7 @@ function create_db_wpdb () {
           `wp_post_id` BIGINT UNSIGNED NULL,
           `materia_idmateria` INT NOT NULL,
           `argomento_idargomento` INT NOT NULL,
+          `status` VARCHAR(45) NULL,
           PRIMARY KEY (`idlezione`),
           INDEX `fk_lezione_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_lezione_sezione1_idx` (`sezione_idsezione` ASC),
@@ -276,6 +277,7 @@ $wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT
         `lez`.`wp_post_id` AS `wp_post_id`,
         `lez`.`materia_idmateria` AS `materia_idmateria`,
         `lez`.`argomento_idargomento` AS `argomento_idargomento`,
+		`lez`.`status` AS `status`,
         `m`.`nome` AS `materia`,
         `sc`.`nome` AS `scuola`,
         `arg`.`nome` AS `argomento`
@@ -291,5 +293,29 @@ $wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT
 	select p.idprofessore as pid, wpu.id as wpid
 	from professore as p join utente as u on u.idutente=p.utente_idutente
 	join wp_users as wpu on wpu.ID = u.wp_id");
+
+
+	$wpdb->query("CREATE VIEW `professors_lessons` AS
+        SELECT 
+        `l`.`idlezione` AS `idlezione`, `u`.`wp_id` AS `wp_id`
+    FROM
+        ((`lezione` `l`
+        JOIN `professore` `p` ON ((`l`.`professore_idprofessore` = `p`.`idprofessore`)))
+        JOIN `utente` `u` ON ((`u`.`idutente` = `p`.`utente_idutente`))); " ) ;
+
+
+	$wpdb->query("
+		CREATE PROCEDURE `trash_lesson_and_post` (
+			in idlezione int
+		)
+		BEGIN
+			UPDATE lezione set `status`='trash'
+		    where lezione.idlezione=idlezione;
+		    UPDATE wp_posts set `post_status`='trash'
+		    where wp_posts.ID = (SELECT l.wp_post_id 
+						from lezione as l 
+						where l.idlezione=idlezione);
+		END;
+	");
 
 }
