@@ -76,8 +76,9 @@ function new_lesson_page_shortcode_function () {
         '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown()
-        //codice per creare le liste di filtraggio
+        create_argomento_dropdown().
+	        '</br>'. create_sezione_dropdown()
+	        //codice per creare le liste di filtraggio
         .'
        <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
@@ -167,7 +168,8 @@ function homepage_shortcode_function () {
         '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown()
+        create_argomento_dropdown().
+	        '</br>'. create_sezione_dropdown()
       //codice per creare le liste di filtraggio
 
 
@@ -255,7 +257,7 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
-     <select style="width: 280px" class="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="materia">
         <option selected="">Materia</option>
 
         ' ;
@@ -307,7 +309,7 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-          <select style="width: 280px" class="dropdown" name="scuola">
+          <select style="width: 280px" class="dropdown" name="argomento">
         <option selected="">Argomento</option>
 
       
@@ -323,6 +325,29 @@ function create_argomento_dropdown () {
     $argomento_dropdown.='</select>';
 
     return $argomento_dropdown;
+}
+
+function create_sezione_dropdown () {
+	GLOBAL $wpdb;
+
+
+	$sezione_dropdown ='
+          <select style="width: 280px" class="dropdown" name="sezione">
+        <option selected="">Sezione</option>
+
+      
+        ' ;
+
+	$sezioni = $wpdb->get_results("SELECT * FROM sezione", OBJECT);
+
+
+	foreach ($sezioni as $sezione) {
+		$sezione_dropdown.= '<option> '. $sezione->anno . $sezione->lettera . '</option>';
+	}
+
+	$sezione_dropdown.='</select>';
+
+	return $sezione_dropdown;
 }
 
 function shortcode_scripts(){
