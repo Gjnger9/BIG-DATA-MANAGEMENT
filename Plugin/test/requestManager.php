@@ -52,13 +52,19 @@ function save_callback()
 
     $databaseConnection = new Database( );
 
-    //Per test
-    $idprofessore = 1;
-    $idutente = 4;
+    $idprofessore = $databaseConnection->getProfByIDUtente(get_current_user_id())[0]['idprofessore'];
+
+    echo print_r($idprofessore);
+
     $idsezione = 1;
-    $titolo = "Titolo di prova";
-	$idmateria=1;
-	$idargomento=1;
+    $titolo = $_REQUEST['titolo'];
+	$idmateria=$databaseConnection->getMateriaByName($_REQUEST['materia'])[0]['idmateria'];
+
+    //echo $idmateria;
+
+	$idargomento=$databaseConnection->getArgomanetoByName($_REQUEST['argomento'])[0]['idargomento'];
+
+    //echo $idargomento;
 
 	$trascrizione = $_REQUEST['trascrizione'];
 

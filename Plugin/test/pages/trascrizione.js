@@ -3,8 +3,22 @@ var stopwords = ["", "c'è", "a", "abbastanza", "abbia", "abbiamo", "abbiano", "
 
 
 function saveRequest(callback, array) {
-    console.log( document.getElementById("lessonTitle").innerHTML)
-    console.log (  document.getElementsByClassName("dropdown").item(0).value)
+    if (document.getElementById("lessonTitle").value == "Inserire il titolo della lezione" || !document.getElementById("lessonTitle").value) {
+        console.log("Inserire titolo");
+        return false;
+    }
+    if (document.getElementsByClassName("dropdown").item(0).value === "Materia") {
+        console.log("Selezionare materia");
+        return false;
+    }
+    if (document.getElementsByClassName("dropdown").item(1).value === "Scuola") {
+        console.log("Selezionare scuola");
+        return false;
+    }
+    if (document.getElementsByClassName("dropdown").item(2).value === "Argomento") {
+        console.log("Selezionare argomento");
+        return false;
+    }
     jQuery.ajax({
         type: "POST",
         url: test_ajax.url,
@@ -15,8 +29,10 @@ function saveRequest(callback, array) {
             videos: arrayVideo,
             documents: arrayDocumenti,
             trascrizione: document.getElementById("trascrizione").innerHTML,
-            //materia: document.getElementById("dropdown")[0].nome
-            //titolo: document.getElementById("lessonTitle").innerHTML
+            materia: document.getElementsByClassName("dropdown").item(0).value,
+            scuola: document.getElementsByClassName("dropdown").item(1).value,
+            argomento: document.getElementsByClassName("dropdown").item(2).value,
+            titolo: document.getElementById("lessonTitle").value
         },
         success: function (data) {
             // Azioni da eseguire in caso di successo chiamata
@@ -134,7 +150,7 @@ jQuery(document).ready(function() {
     // create a tag (word) cloud chart
             var chart = anychart.tagCloud(data);
     // set a chart title
-            chart.title('15 most spoken languages')
+            chart.title('Parole più usate')
             // set an array of angles at which the words will be laid out
             chart.angles([0])
             // enable a color range
@@ -187,6 +203,7 @@ jQuery(document).ready(function() {
         document.getElementById("link").innerHTML = "";
         document.getElementById("pdf").innerHTML = "";
         document.getElementById("video").innerHTML = "";
+        document.getElementById("image").src = "";
         recognition.stop();
         reset();
     }

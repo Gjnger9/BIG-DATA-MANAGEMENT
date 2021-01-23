@@ -33,7 +33,7 @@ function sidebar_shortcode_function() {
     
     
     ';
-    $position ='<div style= "position: relative; left:600px">
+    $position ='<div>
         '. $sidebar .'
     </div>';
 
@@ -53,13 +53,12 @@ function new_lesson_page_shortcode_function () {
         
         
     <div id = "mainview" class = "row" style="display: table">
-      <input type="text" id="lessonTitle" name="l" value="" placeholder="Inserisci il titolo della lezione" style="width: 500px;">
      
-     <div  class = "column left" style="background-color:#f5f5f5;" >
+     <div  class = "column left" style="background-color:#0A0B0A;" >
      
+     <input type="text" id="lessonTitle" name="l" value="" placeholder="Inserisci il titolo della lezione">
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
-     <input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>
      '.
 
         create_materia_dropdown() .
@@ -69,11 +68,6 @@ function new_lesson_page_shortcode_function () {
         create_argomento_dropdown()
         //codice per creare le liste di filtraggio
         .'
-       <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
-        <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
-        <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
-        <!-- /wp:button --></div>
-     
      </div>   
        <div  class = "column right">
         
@@ -86,7 +80,12 @@ function new_lesson_page_shortcode_function () {
                 <!-- /wp:freeform -->
           
                 <h4>Cloud Word</h4>
-                <div id="cloudword" style="object-fit: cover;width: auto; height: auto;" ></div>
+                <div id="cloudword" ></div>
+                
+                <div class="contenuto">
+                <h4>Immagine</h4>
+                <img id="image" style="margin: auto; height: 500px; width: 500px;">
+                </div>
 
             <!-- /wp:column -->
         
@@ -146,7 +145,7 @@ function homepage_shortcode_function () {
        
     <div id = "mainview" class = "row" style="display: table">
      
-     <div  class = "column left" style="background-color:#f5f5f5;" >
+     <div  class = "column left" style="background-color:#0A0B0A;" >
      
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
@@ -167,8 +166,8 @@ function homepage_shortcode_function () {
         <div id="checkbox"></div>
         <div id="datepicker"></div>
         <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
-        <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
-        <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
+        <div class="wp-block-buttons" id="/wordpress/pagina_plugin_new_lesson"><!-- wp:button -->
+        <div class="wp-block-button"><button class="wp-block-button__link" >Nuova Lezione</button></div>
         <!-- /wp:button --></div>
      
      </div>        <!-- my end column -->  
@@ -189,39 +188,23 @@ function edit_lesson_shortcode_function () {
 		return wp_login_form(array('echo'=>true));
 	}
 
-	$page = ' <div id="trascrizione">
+	$page = '
+<div id="trascrizione" class="contenuto">
 <h3>Trascrizione</h3>
 </div>
 
-<!-- wp:group -->
-<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns {"align":"full"} -->
-<div class="wp-block-columns alignfull"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:freeform -->
-<div id="link">
+<div id="link" class="contenuto">
 <h3>Link</h3>
 </div>
-<!-- /wp:freeform --></div>
-<!-- /wp:column -->
 
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:freeform -->
-<div id="documenti">
+<div id="documenti" class="contenuto">
 <h3>Documenti</h3>
-
 </div>
-<!-- /wp:freeform --></div>
-<!-- /wp:column -->
 
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:freeform -->
-<div id="video">
+<div id="video" class="contenuto">
 <h3>Video</h3>
 </div>
-<!-- /wp:freeform --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns --></div></div>
 
-<!-- /wp:group -->
 
 <div class="wp-block-buttons"><!-- wp:button -->
 <div id="cancelButton" class="wp-block-button"  ><a class="wp-block-button__link"  onclick="history.back()" >Indietro</a></div>
@@ -230,7 +213,6 @@ function edit_lesson_shortcode_function () {
 <!-- wp:button -->
 <div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
 <!-- /wp:button --></div>
-
 
 ' ;
 
@@ -243,7 +225,7 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
-     <select style="width: 280px" class="dropdown" name="scuola">
+     <select class="dropdown" name="scuola">
         <option selected="">Materia</option>
 
         ' ;
@@ -265,7 +247,7 @@ function create_scuola_dropdown () {
 
 
     $scuola_dropdown ='
-     <select style="width: 280px" class="dropdown" name="scuola">
+     <select class="dropdown" name="scuola">
         <option selected="">Scuola</option>
 
 
@@ -295,7 +277,7 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-          <select style="width: 280px" class="dropdown" name="scuola">
+          <select class="dropdown" name="scuola">
         <option selected="">Argomento</option>
 
       

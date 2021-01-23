@@ -3,12 +3,18 @@ jQuery(document).ready( function (){
 
     //FOOOOOOOOOTER
     let footer = document.getElementById("footer");
-    footer.hidden = true;
+    if (footer) footer.hidden = true;
     //FOOOOOOOOOTER
     //console.log(window.location.pathname);
     if (window.location.pathname!=="/wordpress/plugin_homepage/") {
         return;
     }
+
+    let newLesson = document.getElementById("/wordpress/pagina_plugin_new_lesson");
+    console.log(newLesson)
+    if (newLesson) newLesson.onclick = function () {
+        window.location = "/wordpress/pagina_plugin_new_lesson"; 
+    };
 
     var currentLessons = [];
 
@@ -77,7 +83,7 @@ jQuery(document).ready( function (){
 
                 // showLessons(JSON.parse(data))
 
-                // console.log(data);
+                console.log(data);
                 currentLessons = JSON.parse(data);
                 showLessons(currentLessons,hisOwn)
             },
@@ -260,11 +266,15 @@ jQuery(document).ready( function (){
 
             let ul = document.createElement("ul");
             let br = document.createElement("br");
+            let h4 = document.createElement("h4");
+            let p = document.createElement("p");
             // let label = document.createElement("label");
             let button = document.createElement("button");
             // divLezioni=document.getElementById("elencolezioni");
 
-            ul.innerText = "LEZIONE "+obj.idlezione+" \n Titolo Lezione: "+obj.titolo;
+            h4.innerText = "LEZIONE: " + obj.titolo;
+            p.innerText = obj.trascrizione.substring(0, 140);
+            if (obj.trascrizione.length > 140) p.innerText = p.innerText + "...";
             // // label.innerText = "Anteprima lezione";
             button.innerText = "VISUALIZZA DETTAGLI";
             // if(obj.is_owner === "0"){
@@ -282,10 +292,18 @@ jQuery(document).ready( function (){
                 // console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
                 // window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
 
+
             // ul.appendChild(br);
             // // ul.appendChild(label)
+            ul.appendChild(h4);
+            ul.appendChild(p)
+            //ul.appendChild(li);
             ul.appendChild(br);
             ul.appendChild(button);
+
+            ul.style.textAlign = "center";
+            ul.style.border = "thin solid black";
+            ul.style.padding = "2%";
             //
             divLezioni.appendChild(ul);
             // // console.log(obj.titolo);
@@ -340,7 +358,10 @@ jQuery(document).ready( function (){
     dropdown.appendChild(opt3);
     // let options = ["Data", "Titolo", "Sezione"];
     // fillDropdown(dropdown,options)
-    right.appendChild(dropdown);
+
+    //Se riesce lo mette a destra, altrimenti a sinistra
+    if (right) right.appendChild(dropdown);
+    else document.getElementsByClassName("left")[0].insertBefore(dropdown, document.getElementsByClassName("left")[0].firstChild);
     dropdown.before("Ordina per:");
 
     dropdown.onchange=function (){

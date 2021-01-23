@@ -2,18 +2,53 @@
     /* Create two unequal columns that floats next to each other */
 .column {
     float: left;
-    padding: 10px;
-    height: 500px; /* Should be removed. Only for demonstration */
-    width: 1000px;
+    margin:auto;
+    height: 100%; /* Should be removed. Only for demonstration */
 }
 
 .left {
+    padding:2%;
+    width: 20%;
+    min-height:900px;
+}
 
-    width: 25%;
+    .left input {
+        margin-bottom: 5%;
+        margin-top: 5%;
+    }
+
+    .left button {
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+.left select {
+    width: 80%;
+    height: 50px;
+    display: block;
+    padding: 10px;
+    margin: auto;
+}
+
+#checkbox {
+    height: 50px;
+    padding:10px;
+    margin: auto;
+}
+
+#checkbox input{
+    height: 20px;
+    width:20px;
 }
 
 .right {
     width: 75%;
+    max-height: 1000px;
+    overflow-y:scroll;
+}
+
+.row {
+    width: 100%;
 }
 
 /* Clear floats after the columns */
@@ -21,7 +56,7 @@
     content: "";
     display: table;
     clear: both;
-    width: 1200px;
+    width: 1600px;
 }
 
 .dropbtn {
@@ -55,4 +90,17 @@
 
 .dropdown:hover .dropdown-content {display: block;}
 
-        
+/*Pagina di visualizza lezione*/
+.contenuto {
+    margin: auto;
+    min-width: 1000px;
+}
+
+#cloudword {
+    height: 1000px;
+    width: 100%;
+}
+
+#mainview {
+    margin:auto;
+}

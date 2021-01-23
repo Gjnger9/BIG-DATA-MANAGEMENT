@@ -94,7 +94,7 @@ jQuery(document).ready(() =>
 
     //FOOOOOOOOOTER
     let footer = document.getElementById("footer");
-    footer.hidden = true;
+    if (footer) footer.hidden = true;
     //FOOOOOOOOOTER
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -160,30 +160,43 @@ function modifyLezione(data){
         let DIV = document.getElementById("content");
 
         let tr1 = document.createElement("tr");
-        let tr2 = document.createElement("tr");
         // console.log(contenuto.idcontenuto);
         tr1.id = contenuto.idcontenuto;
         let tdl = document.createElement("td");
         let tdr = document.createElement("td");
+        let modButton = document.createElement("td");
+        let rmButton = document.createElement("td");
         let modificaContenutoButton = document.createElement("button");
         let rimuoviContenutoButton = document.createElement("button");
         modificaContenutoButton.innerText = "Modifica";
         rimuoviContenutoButton.innerText = "Rimuovi";
 
+        //Imposto la dimenzione dei pulsanti
+        modificaContenutoButton.style.height = "50px";
+        rimuoviContenutoButton.style.height = "50px";
+        modificaContenutoButton.style.width = "200px";
+        rimuoviContenutoButton.style.width = "200px";
+
         // checkbox.innerText = "Rimuovi: ";
         tdl.innerText = contenuto.titolo;
+        tdl.style.maxWidth= "600px";
         // console.log(contenuto.titolo);
         // tdl.innerText = "CI SONO";
         // tdl.contentEditable = true;
         tdr.innerText = contenuto.percorso;
+        tdr.style.maxWidth= "600px";
 
             // checkbox.appendChild(label);
         tr1.appendChild(tdl);
         tr1.appendChild(tdr);
         if(isOwner ) {
             tdl.contentEditable = true;
-            tr2.appendChild(modificaContenutoButton);
-            tr2.appendChild(rimuoviContenutoButton);
+            modButton.appendChild(modificaContenutoButton);
+            modButton.style.height = "50px";
+            rmButton.appendChild(rimuoviContenutoButton);
+            rmButton.style.height = "50px";
+            tr1.appendChild(modButton);
+            tr1.appendChild(rmButton)
         }
         // tr.appendChild(checkbox);
 
@@ -193,18 +206,15 @@ function modifyLezione(data){
 
             case "link":
                 linkTable.appendChild(tr1);
-                linkTable.appendChild(tr2);
 
 
                 break;
             case "documento":
                 documentiTable.appendChild(tr1);
-                documentiTable.appendChild(tr2);
 
                 break;
             case "video":
                 videoTable.appendChild(tr1);
-                videoTable.appendChild(tr2);
 
                 break;
             default:
