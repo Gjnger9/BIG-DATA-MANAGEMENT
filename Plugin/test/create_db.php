@@ -27,7 +27,10 @@ function create_db_wpdb () {
             ON UPDATE NO ACTION)
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
-	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`utente` (
+
+
+
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `wordpress`.`utente` (
           `idutente` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(100) NOT NULL,
           `cognome` VARCHAR(100) NOT NULL,
@@ -35,15 +38,27 @@ function create_db_wpdb () {
           `email` VARCHAR(200) NOT NULL,
           `indirizzo` VARCHAR(500) NOT NULL,
           `wp_id` BIGINT UNSIGNED UNIQUE NULL,
+     
           PRIMARY KEY (`idutente`),
           INDEX `fk_wp_id1_idx` (`wp_id` ASC),
+  
           CONSTRAINT `fk_wp_id`
             FOREIGN KEY (`wp_id`)
-            REFERENCES `wordpress`.`wp_users` (`ID`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION)
+            REFERENCES `wordpress`.`wp_users` (`ID`) )
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
+
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `wordpress`.`dipendente` (
+		`iddipendente` INT NOT NULL AUTO_INCREMENT,
+	  `utente_idutente` INT NOT NULL,
+	  PRIMARY KEY (`iddipendente`, `utente_idutente`),
+	  INDEX `fk_dipendente_utente1_idx` (`utente_idutente` ASC),
+	  CONSTRAINT `fk_dipendente_utente1`
+	    FOREIGN KEY (`utente_idutente`)
+	    REFERENCES `wordpress`.`utente` (`idutente`))
+	ENGINE = InnoDB
+	DEFAULT CHARACTER SET = utf8;");
+
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`professore` (
           `idprofessore` INT NOT NULL AUTO_INCREMENT,
           `utente_idutente` INT NOT NULL,
@@ -68,8 +83,16 @@ function create_db_wpdb () {
           `idscuola` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(200) NOT NULL,
           `indirizzo` VARCHAR(500) NOT NULL,
-          `codice` VARCHAR(12) NOT NULL,
-          PRIMARY KEY (`idscuola`))
+          `codice` VARCHAR(12) NOT NULL, 
+          `dipendente_idDipendente` INT NULL,
+          
+          PRIMARY KEY (`idscuola`),
+           INDEX `fk_scuola_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_scuola_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`)
+          
+          )
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`sezione` (
@@ -78,8 +101,13 @@ function create_db_wpdb () {
           `anno` INT NOT NULL,
           `persorso_di_studi` VARCHAR(200) NOT NULL,
           `scuola_idscuola` INT NOT NULL,
+          `dipendente_idDipendente` INT NULL,
           PRIMARY KEY (`idsezione`),
           INDEX `fk_sezione_scuola1_idx` (`scuola_idscuola` ASC),
+          INDEX `fk_sezione_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_sezione_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`),
           CONSTRAINT `fk_sezione_scuola1`
             FOREIGN KEY (`scuola_idscuola`)
             REFERENCES `wordpress`.`scuola` (`idscuola`)
@@ -201,7 +229,15 @@ function create_db_wpdb () {
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`tipo_di_scuola` (
           `idtipo_di_scuola` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(200) NOT NULL,
-          PRIMARY KEY (`idtipo_di_scuola`))
+            `dipendente_idDipendente` INT NULL,
+  			PRIMARY KEY (`idtipo_di_scuola`),
+ 			INDEX `fk_tipo_di_scuola_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_tipo_di_scuola_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION)
+          
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;
 ");

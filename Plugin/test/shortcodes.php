@@ -239,7 +239,7 @@ function edit_lesson_shortcode_function () {
 
 <!-- wp:button -->
 <div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
-<div id="removeButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Rimuovi Lezione</a></div>
+<div id="removeButton" class="wp-block-button" ><a class="wp-block-button__link">Rimuovi Lezione</a></div>
 
 <!-- /wp:button --></div>
 

@@ -290,7 +290,7 @@ function modifyLezione(data){
 
     removeButton.onclick = function (){
 
-        var confirm = window.confirm("Vuoi davvero rimuovere la lezione?")
+        var confirm = window.confirm("Vuoi davvero rimuovere la lezione?");
         if(confirm) {
             removeLezioneDb(lezione.idlezione);
             window.location.replace(window.location.hostname + "/plugin_homepage")
