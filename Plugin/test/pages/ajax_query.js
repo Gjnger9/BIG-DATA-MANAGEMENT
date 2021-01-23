@@ -116,6 +116,7 @@ jQuery(document).ready( function (){
         });
     }
 
+    //todo read sezScuola()
 
     // console.log("ok");
     // console.log(r)
@@ -137,9 +138,11 @@ jQuery(document).ready( function (){
         let materiaDropdown = dropdown.item(0);
         let scuolaDropdown = dropdown.item(1);
         let argomentoDropdown = dropdown.item(2);
+        let sezioneDropdown = dropdown.item(3);
         let materiaValue = null;
         let scuolaValue = null;
         let argomentoValue = null;
+        let sezioneValue = null;
         materiaDropdown.onchange=function (){
 
             materiaValue = materiaDropdown.value;
@@ -163,6 +166,13 @@ jQuery(document).ready( function (){
             argomentoValue = argomentoDropdown.value;
             if(argomentoDropdown.selectedIndex===0)
                 argomentoValue = null;
+            // console.log(argomentoValue);
+        }
+
+        sezioneDropdown.onchange=function (){
+            sezioneValue = sezioneDropdown.value;
+            if(sezioneDropdown.selectedIndex===0)
+                sezioneValue = null;
             // console.log(argomentoValue);
         }
 
@@ -211,6 +221,7 @@ jQuery(document).ready( function (){
                 materia: materiaValue,
                 scuola: scuolaValue,
                 argomento: argomentoValue,
+                sezione: sezioneValue,
                 dataInizio : datePickerStart.value,
                 dataFine : datePickerEnd.value
             };

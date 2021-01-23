@@ -219,6 +219,12 @@ class Database {
             $sql.= " TRUE " ;
         }
         $sql.=" AND ";
+	    if(($sezione=$param["sezione"])!=null){
+		    $sql.=" sezione = '".$sezione."' ";
+	    }else{
+		    $sql.= " TRUE " ;
+	    }
+	    $sql.=" AND ";
         if($param["dataInizio"]!=null){
             $dataInizio= new DateTime($param["dataInizio"]);
             if($param["dataFine"]!=null) {
@@ -253,6 +259,7 @@ class Database {
     {
     	GLOBAL $wpdb;
         if($param!=null) {
+        	//da rendere view
             $sql = "SELECT arg.* FROM wordpress.argomento AS arg
                 JOIN wordpress.materia AS m ON m.idmateria = arg.materia_idmateria
                 WHERE m.nome = '" . $param . "';";
@@ -264,7 +271,7 @@ class Database {
 		    die($wpdb->last_error);
         return json_encode($result);
     }
-
+//da fare read sezioni scuola
 
 	public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
 /*		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`)
