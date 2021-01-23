@@ -286,6 +286,42 @@ function update_lezione_callback()
     die();
 }
 
+function remove_lezione_callback()
+{
+
+    //creazione post di wordpress con inserimento
+
+
+    check_ajax_referer( 'nonce-requests', 'nonce' );
+
+    $databaseConnection = new Database( );
+//
+//    //Per test
+//
+//
+//    $contenuto = $_REQUEST['param'];
+//    $idcontenuto = $_REQUEST['idcontenuto'];
+//    $titolo = $_REQUEST['titolo'];
+//    $tipo = $_REQUEST['tipo'];
+//    echo "titolo: " .$titolo ;
+    $idlezione  = $_REQUEST['idlezione'];
+//    $trascrizione = $_REQUEST['trascrizione'];
+//    $idpost = $_REQUEST['idpost'];
+
+//    $databaseConnection->updateLezione($idlezione, $trascrizione,$idpost);
+    $databaseConnection->removeLezione($idlezione);
+//
+//     echo "Ok";
+
+
+
+    $databaseConnection->closeConnection();
+
+
+
+    die();
+}
+
 
 
 function say_hello_test_callback()
@@ -321,3 +357,4 @@ add_action( 'wp_ajax_read_contenuto', 'read_contenuto_callback' );
 add_action( 'wp_ajax_update_contenuto', 'update_contenuto_callback' );
 add_action( 'wp_ajax_update_lezione', 'update_lezione_callback' );
 add_action( 'wp_ajax_get_current_user', 'get_current_user_callback' );
+add_action( 'wp_ajax_remove_lezione', 'remove_lezione_callback' );

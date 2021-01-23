@@ -55,6 +55,32 @@ function modifyLezioneDb(idlezione,trascrizione,callback) {
     });
 }
 
+function removeLezioneDb(idlezione,callback) {
+    jQuery.ajax({
+        type: "POST",
+        url: vars.url,
+        data: {
+            action : 'remove_lezione',
+            idlezione : idlezione,
+            nonce : vars.security
+        },
+        success: function (data){
+            console.log("rimossa lezione "+idlezione);
+            console.log(data);
+            // console.log(JSON.parse(data));
+            //
+            // showLessons(JSON.parse(data))
+            // fottiti(data)
+            // modifyLezione(data);
+        }
+        // error: function (error) {
+        //     // Azioni da eseguire in caso di errore chiamata
+        //     console.log("errore");
+        //     console.log(error);
+        // }
+    });
+}
+
 function modifyContenutoDb(idcontenuto,titolo,tipo,callback) {
     jQuery.ajax({
         type: "POST",
@@ -111,7 +137,14 @@ function modifyLezione(data){
 
     // console.log("OK")
     // console.log(lezione)
+    // console.log(data);
     let lezione = JSON.parse(data[0])[0];
+    if(lezione == null) {
+        console.log("NULL")
+        alert("La lezione che stai cercando non esiste.")
+        window.location.replace(window.location.hostname + "/plugin_homepage");
+        return;
+    }
     let contenuti = JSON.parse(data[1]);
 
     let contenutiModificati=[];
@@ -240,16 +273,29 @@ function modifyLezione(data){
 
 
     let modificaButton = document.getElementById("modifyButton");
+    let removeButton = document.getElementById("removeButton");
 
     if (isOwner){
         innerTrascrizioneDiv.contentEditable = true;
         modificaButton.style = "display: inline;";
+        removeButton.style = "display: inline;"
     }
     modificaButton.onclick = function (){
 
         modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent)
 
         // console.log(lezione.idlezione, innerTrascrizioneDiv.textContent)
+
+    }
+
+    removeButton.onclick = function (){
+
+        var confirm = window.confirm("Vuoi davvero rimuovere la lezione?")
+        if(confirm) {
+            removeLezioneDb(lezione.idlezione);
+            window.location.replace(window.location.hostname + "/plugin_homepage")
+        }
+        // console.log(window.location.hostname)
 
     }
 

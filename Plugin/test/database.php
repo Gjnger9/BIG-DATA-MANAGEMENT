@@ -122,7 +122,7 @@ class Database {
 	   $id_professore = wp_get_current_user()->ID;
         $sql = "SELECT lez.*, EXISTS (SELECT * FROM professors_lessons as pl 
                 where pl.wp_id = ".$id_professore." and pl.idlezione = lez.idlezione) as is_owner 
-                FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
+                FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param." AND lez.status = 'publish';";
 
 
 	    $result =$wpdb->get_results($sql, ARRAY_A);
@@ -343,6 +343,25 @@ class Database {
             $wpdb->query($syncsql);
             echo "POstIDio: ". $post_id ."\n";
             echo "New record created successfully";
+        } else {
+            die($wpdb->last_error);
+        }
+    }
+
+    public function removeLezione( $idlezione){
+        GLOBAL $wpdb;
+        $sql = "CALL trash_lesson_and_post('$idlezione');";
+        echo $sql;
+        $wpdb->query($sql);
+
+        if (!check_error()) {
+//            $query_for_id = "SELECT wp_post_id FROM `wordpress`.`lezione` WHERE `idlezione` =".$idlezione." ;";
+//            $results = $wpdb->get_results($query_for_id);
+//            $post_id = $results[0]->wp_post_id;
+//            $syncsql = "CALL sync_lesson_to_post('$idlezione' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
+//            $wpdb->query($syncsql);
+//            echo "POstIDio: ". $post_id ."\n";
+            echo "Lesson removed successfully";
         } else {
             die($wpdb->last_error);
         }
