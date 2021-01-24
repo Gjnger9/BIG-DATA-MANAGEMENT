@@ -261,7 +261,7 @@ function create_scuola_dropdown () {
 
 
     $scuola_dropdown ='
-     <select class="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="scuola" >
         <option selected="">Scuola</option>
 
 
