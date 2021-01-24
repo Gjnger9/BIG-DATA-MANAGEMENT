@@ -69,18 +69,22 @@ function new_lesson_page_shortcode_function () {
      
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
-     <input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>
+     <!--<input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>-->
+     <h3>Seleziona:</h3>
      '.
 
-        create_materia_dropdown() .
-        '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown().
-	        '</br>'. create_sezione_dropdown()
+        create_materia_dropdown() .
+        '<br>' .
+        create_sezione_dropdown() .
+        '<br>'.
+        create_argomento_dropdown('').
+//        '<input id = "argomentotext" type="text" style="width: 280px; height: 30px;border: 1px solid lightgray; padding-left: 20px;" placeholder="Inserisci argomento...">'.
+	        '</br>'
 	        //codice per creare le liste di filtraggio
         .'
-       <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
+      <!-- <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>-->
         <div class="wp-block-buttons" style="position: absolute ; bottom: 10px"><!-- wp:button -->
         <div class="wp-block-button"><a class="wp-block-button__link" href="/wordpress/pagina_plugin_new_lesson">Nuova Lezione</a></div>
         <!-- /wp:button --></div>
@@ -161,21 +165,23 @@ function homepage_shortcode_function () {
      
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
-     <input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>
+     <!--<input type="search" id="wp-block-search__input" class="wp-block-search__input" name="s" value="" placeholder="Cerca" required=""><button type="submit" class="wp-block-search__button ">Cerca</button>-->
+     <h3>Filtra per:</h3>
      ' .
 
         create_materia_dropdown() .
         '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown().
-	        '</br>'. create_sezione_dropdown()
+        create_argomento_dropdown('home').
+        '</br>'.
+        create_sezione_dropdown().
       //codice per creare le liste di filtraggio
 
 
 
 
-     .'
+     '
         <div id="checkbox"></div>
         <div id="datepicker"></div>
         <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
@@ -241,7 +247,7 @@ function edit_lesson_shortcode_function () {
 
 <!-- wp:button -->
 <div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
-<div id="removeButton" class="wp-block-button" ><a class="wp-block-button__link">Rimuovi Lezione</a></div>
+<div id="removeButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Rimuovi Lezione</a></div>
 
 <!-- /wp:button --></div>
 
@@ -266,7 +272,7 @@ function create_materia_dropdown () {
 
 
     foreach ($materie as $materia) {
-        $materia_dropdown.= '<option> '. $materia->nome . '</option>';
+        $materia_dropdown.= '<option id = '.$materia->idmateria.'> '. $materia->nome . '</option>';
     }
 
     $materia_dropdown.='</select>';
@@ -294,7 +300,7 @@ function create_scuola_dropdown () {
 
 
     foreach ($scuole as $scuola) {
-        $scuola_dropdown.= '<option>'.  $scuola->nome . '</option>';
+        $scuola_dropdown.= '<option id = '.$scuola->idscuola.'>'.  $scuola->nome . '</option>';
     }
 
     $scuola_dropdown.='</select>';
@@ -304,25 +310,34 @@ function create_scuola_dropdown () {
 
 //todo create argomento dropdown
 
-function create_argomento_dropdown () {
+function create_argomento_dropdown ($page) {
     GLOBAL $wpdb;
 
-
+    if($page==='home'){
     $argomento_dropdown ='
           <select style="width: 280px" class="dropdown" name="argomento">
         <option selected="">Argomento</option>
 
-      
+
         ' ;
+    $argomento_postfix = '</select>';
+    } else {
+
+        $argomento_dropdown = '
+    <input id = "argomentotext" list="argomentolist" type="text" style="width: 280px; height: 30px;border: 1px solid lightgray; padding-left: 20px;" placeholder="Inserisci argomento...">
+        <datalist id = "argomentolist">
+    ';
+        $argomento_postfix = '</datalist>';
+    }
 
     $argomenti = $wpdb->get_results("SELECT * FROM argomento", OBJECT);
 
 
     foreach ($argomenti as $argomento) {
-        $argomento_dropdown.= '<option> '. $argomento->nome . '</option>';
+        $argomento_dropdown.= '<option id = '.$argomento->idargomento.'> '. $argomento->nome . '</option>';
     }
 
-    $argomento_dropdown.='</select>';
+    $argomento_dropdown.=$argomento_postfix;
 
     return $argomento_dropdown;
 }
@@ -342,7 +357,7 @@ function create_sezione_dropdown () {
 
 
 	foreach ($sezioni as $sezione) {
-		$sezione_dropdown.= '<option> '. $sezione->anno . $sezione->lettera . '</option>';
+		$sezione_dropdown.= '<option id = '.$sezione->idsezione.'> '. $sezione->anno . $sezione->lettera . '</option>';
 	}
 
 	$sezione_dropdown.='</select>';

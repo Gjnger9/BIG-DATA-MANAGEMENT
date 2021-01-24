@@ -3,20 +3,24 @@ var stopwords = ["", "c'è", "a", "abbastanza", "abbia", "abbiamo", "abbiano", "
 
 
 function saveRequest(callback, array) {
-    console.log( document.getElementById("lessonTitle").innerHTML)
-    console.log (  document.getElementsByClassName("dropdown").item(0).value)
+
     jQuery.ajax({
         type: "POST",
         url: test_ajax.url,
         data: {
             action: 'save',
             security: test_ajax.security,
+            titolo: array.titolo,
+            idmateria: array.idmateria,
+            idsezione: array.idsezione,
+            annodicorso: array.annodicorso,
+            idargomento: array.idargomento,
+            newargomento: array.newargomento,
             links: arrayLink,
             videos: arrayVideo,
             documents: arrayDocumenti,
-            trascrizione: document.getElementById("trascrizione").innerHTML,
-            //materia: document.getElementById("dropdown")[0].nome
-            //titolo: document.getElementById("lessonTitle").innerHTML
+            trascrizione: array.trascrizione
+
         },
         success: function (data) {
             // Azioni da eseguire in caso di successo chiamata
@@ -169,15 +173,21 @@ jQuery(document).ready(function() {
     }
 
     function saveToDatabase() {
-        if (textarea.innerHTML != '') {
-            console.log(arrayDocumenti);
-            console.log(arrayVideo);
-            console.log(arrayLink);
-            console.log( document.getElementById("trascrizione").innerHTML );
-            saveRequest(resetPage  );
-        } else {
-            console.log("error");
-        }
+        // if (textarea.innerHTML != '') {
+        //     console.log(arrayDocumenti);
+        //     console.log(arrayVideo);
+        //     console.log(arrayLink);
+        //     console.log( document.getElementById("trascrizione").innerHTML );
+            var lesson = prepareLesson();
+            // for (let prop in lesson){
+            //     // console.log(lesson[prop]);
+            //     if(lesson[prop]==='')
+            //         alert("manca "+ prop);
+            // }
+            // saveRequest(resetPage,lesson);
+        // } else {
+        //     console.log("error");
+        // }
     }
 
 
@@ -190,4 +200,129 @@ jQuery(document).ready(function() {
         recognition.stop();
         reset();
     }
+
+    function prepareLesson(){
+
+        var canSave = true;
+
+        var titoloInput = document.getElementById("lessonTitle");
+        var titolo= titoloInput.value;
+        // titoloInput.onchange = titoloInput.style.removeProperty('background');
+
+        // console.log(titolo);
+
+
+        var dropdowns = document.getElementsByClassName("dropdown");
+
+        var scuolaDropdown = dropdowns["scuola"];
+        var idscuola = scuolaDropdown.options[scuolaDropdown.selectedIndex].id
+        // scuolaDropdown.onchange = scuolaDropdown.style.removeProperty('background');
+
+
+        var materiaDropdown = dropdowns["materia"];
+        var idmateria = materiaDropdown.options[materiaDropdown.selectedIndex].id
+
+
+
+
+        var sezioneDropdown = dropdowns["sezione"];
+        var idsezione = sezioneDropdown.options[sezioneDropdown.selectedIndex].id
+        if(sezioneDropdown.selectedIndex!==0)
+        var annoDiCorso = sezioneDropdown.options[sezioneDropdown.selectedIndex].value.charAt(0);
+        else {
+            // sezioneDropdown.style.setProperty('background','#f59393');
+            annoDiCorso = '';
+        }
+
+        // console.log(annoDiCorso)
+        var trascrizioneInput= document.getElementById("trascrizione");
+        var trascrizione = trascrizioneInput.innerHTML;
+        // console.log(trascrizione)
+
+
+        var argomentoInput = document.getElementById("argomentotext");
+        var argomentoValue = argomentoInput.value;
+
+            // console.log(argomentoinput.style)
+        var argomentoList = document.getElementById("argomentolist");
+        var idargomento = -1;
+        // var newArgomento = '';
+        for(let i=0; i<argomentoList.options.length; i++){
+            let opt = argomentoList.options[i];
+            if(opt.value === argomentoValue){
+                // console.log (opt.value, opt.id)
+                idargomento = opt.id;
+            }
+            // console.log(opt)
+        }
+
+        if(titolo === '') {
+            titoloInput.style.setProperty('background', '#f59393');
+            canSave = false;
+        }else{
+            titoloInput.style.removeProperty('background');
+        }
+        if(idscuola === '') {
+            scuolaDropdown.style.setProperty('background', '#f59393');
+            canSave = false;
+        }else{
+            scuolaDropdown.style.removeProperty('background');
+        }
+        if(idmateria === '') {
+            materiaDropdown.style.setProperty('background', '#f59393');
+            canSave = false;
+        }else{
+            materiaDropdown.style.removeProperty('background');
+        }
+        if(idsezione === '') {
+            sezioneDropdown.style.setProperty('background', '#f59393');
+            canSave = false;
+        }else{
+            sezioneDropdown.style.removeProperty('background');
+        }
+        if(trascrizione === '') {
+            console.log("trascrizione vuotaaaaaa")
+            // trascrizioneInput.style.setProperty('background','#f59393');
+            canSave = false;
+        }
+            // else{
+        //     trascrizioneInput.style.removeProperty('background');
+        // }
+        if(argomentoValue === '') {
+            argomentoInput.style.setProperty('background', '#f59393');
+            canSave = false;
+        }else{
+            argomentoInput.style.removeProperty('background');
+        }
+
+
+        if(canSave) {
+            var lesson = {
+                titolo: titolo,
+                idmateria: idmateria,
+                idsezione: idsezione,
+                annodicorso: annoDiCorso,
+                idargomento: idargomento,
+                newargomento: argomentoValue,
+                trascrizione: trascrizione
+            }
+            saveRequest(resetPage, lesson);
+        }else{
+            alert("Parametri mancanti o lezione vuota. Prova a cliccare su \"Avvia ascolto\".");
+        }
+        return null;
+    }
+
+
+
+    // var argomentoValue = document.getElementById("argomentotext").value;
+    // var argomentoList = document.getElementById("argomentolist");
+
+    // argomentoList.onclick = function (){
+    //     console.log(argomentoList.options.value);
+    // }
+
+
+
+
 })

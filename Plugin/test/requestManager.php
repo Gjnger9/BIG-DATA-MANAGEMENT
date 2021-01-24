@@ -53,28 +53,43 @@ function save_callback()
     $databaseConnection = new Database( );
 
     //Per test
-    $idprofessore = 1;
-    $idutente = 4;
-    $idsezione = 1;
-    $titolo = "Titolo di prova";
-	$idmateria=1;
-	$idargomento=1;
+    $user = get_current_user_id();
+    $result = $wpdb->get_results("SELECT pid FROM professors_id_view WHERE wpid = ".$user." ;");
+    $idprofessore =$result[0]->pid;
+//    $idutente = 4;
+    $idsezione = $_REQUEST['idsezione'];
+    $anno_di_corso = $_REQUEST['annodicorso'];
+    $titolo = $_REQUEST['titolo'];
+	$idmateria=$_REQUEST['idmateria'];
+	$idargomento=$_REQUEST['idargomento'];
+	$newargomento = $_REQUEST['newargomento'];
+//TODO: inserire argomento se l'id è stringa vuota
 
 	$trascrizione = $_REQUEST['trascrizione'];
 
+	if($idargomento==-1){
+        $idargomento =  $databaseConnection->addArgomento($newargomento, "descrizione argomento", $anno_di_corso, $idmateria);
+
+	}
+
+
+
 	list($lesson_id, $post_id) = $databaseConnection->addLezione(   $idprofessore,   $idsezione, $titolo, $trascrizione, $idmateria, $idargomento );
 
-	//if(!is_null($_REQUEST['links']))
-    foreach ($_REQUEST['links'] as &$contenuto) {
-        $databaseConnection->addContenuto( $lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
+	if($_REQUEST['links']) {
+        foreach ($_REQUEST['links'] as &$contenuto) {
+            $databaseConnection->addContenuto($lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "link");
+        }
     }
-   // if(!is_null($_REQUEST['videos']))
-    foreach ($_REQUEST['videos'] as &$contenuto) {
-        $databaseConnection->addContenuto( $lesson_id , $contenuto[0], $contenuto[1], $idprofessore, "video");
+    if($_REQUEST['videos']) {
+        foreach ($_REQUEST['videos'] as &$contenuto) {
+            $databaseConnection->addContenuto($lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "video");
+        }
     }
-//	if(!is_null($_REQUEST['documents']))
-    foreach ($_REQUEST['documents'] as &$contenuto) {
-        $databaseConnection->addContenuto( $lesson_id,  $contenuto[0], $contenuto[1], $idprofessore, "documento");
+	if($_REQUEST['documents']) {
+        foreach ($_REQUEST['documents'] as &$contenuto) {
+            $databaseConnection->addContenuto($lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "documento");
+        }
     }
 
    $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione

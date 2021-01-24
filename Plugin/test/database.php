@@ -67,6 +67,34 @@ class Database {
 		return array($lesson_id, $id);
     }
 
+    public function addArgomento($nome, $descrizione, $anno_di_corso ,$materia_idmateria ){
+        /*		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`)
+                VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d H:i:s") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."', ' ". date("Y-m-d H:i:s") ."')";
+
+                //echo $sql;*/
+
+
+        GLOBAL $wpdb;
+
+        $wpdb->insert(
+            'argomento',
+            array (
+                'nome' => $nome,
+                'descrizione' => $descrizione ,
+                'anno_di_corso' =>  $anno_di_corso,
+                'materia_idmateria' => $materia_idmateria
+
+            ));
+
+        if (!check_error()) {
+            echo "New ARGUMENT created successfully \n";
+        } else {
+            echo die("Could not create new ARGUMENT \n");
+        }
+
+        return($wpdb->insert_id);
+    }
+
 	public function readLezioni($id_professore)
 	{
 		GLOBAL $wpdb;
