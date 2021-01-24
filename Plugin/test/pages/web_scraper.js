@@ -1,4 +1,5 @@
 let baseUrl = "http://www.google.it/search?q=";
+let baseUrlImages = "http://www.google.it/search?q=";
 let maxDocument = 3;
 var arrayLink, arrayVideo, arrayDocumenti;
 /**
@@ -31,12 +32,10 @@ var getHTML = function ( url, callback ) {
 };
 
 function Ricerca(termine) {
-
-RicercaLink(termine);
-
-RicercaVideo(termine);
- RicercaDocomunti(termine);
-
+    RicercaLink(termine);
+    RicercaVideo(termine);
+    RicercaDocomunti(termine);
+    RicercaImmagine(termine);
 }
 
 function RicercaDocomunti(termine){
@@ -109,6 +108,25 @@ function RicercaLink(termine){
         }else{
             console.log("Ricerca andata male");
         }
+    });
+}
+
+function RicercaImmagine(termine) {
+    let cercare = termine[0];
+    if (termine.length > 1) cercare = cercare + termine[1];
+    getHTML("https://it.images.search.yahoo.com/search/images;_ylt=AwrJQ4yLIgxg5GEAfqkbDQx.;_ylu=Y29sbwNpcjIEcG9zAzEEdnRpZAMEc2VjA3BpdnM-?p="+cercare+"&fr2=piv-web&fr=sfp", function (response) {
+        var someElem = document.querySelector('#image');
+        //Trovo tutti i div che contengono le immagini
+        var someOtherElem = response.querySelector("#results");
+        console.log(someOtherElem);
+        if (someOtherElem ) {
+            //Prendo l'immagine del primo elemento
+            console.log(someOtherElem);
+            let image = someOtherElem.getElementsByTagName("img");
+            console.log(jQuery(image[0]).attr("data-src") );
+            someElem.src = jQuery(image[0]).attr("data-src");
+        } else
+            console.log("Ricerca andata male");
     });
 }
 

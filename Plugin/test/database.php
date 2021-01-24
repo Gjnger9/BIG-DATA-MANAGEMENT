@@ -383,6 +383,50 @@ class Database {
         }
     }
 
+    public function getProfByIDUtente($idUser){
+        GLOBAL $wpdb;
+
+        $sql = "SELECT * FROM wordpress.professore WHERE utente_idutente = ".$idUser;
+        $result = $wpdb->get_results($sql, ARRAY_A);
+
+        if (!check_error()) {
+            echo "Professore trovato";
+            return $result;
+        } else {
+            echo "Professore non trovato";
+            die($wpdb->last_error);
+        }
+    }
+
+    public function getMateriaByName($nomeMateria){
+        GLOBAL $wpdb;
+        $sql = "SELECT * FROM wordpress.materia WHERE nome = '".$nomeMateria."';";
+        $result = $wpdb->get_results($sql, ARRAY_A);
+
+        if (!check_error()) {
+            echo "Materia trovata";
+            return $result;
+        } else {
+            echo "Materia non trovata";
+            die($wpdb->last_error);
+        }
+    }
+
+    public function getArgomanetoByName($NomeArgomento){
+        GLOBAL $wpdb;
+        $sql = "SELECT * FROM wordpress.argomento WHERE nome = '".$NomeArgomento."';";
+
+        $result = $wpdb->get_results($sql, ARRAY_A);
+
+        if (!check_error()) {
+            echo "Argomento trovato";
+            return $result;
+        } else {
+            echo "Argomento non trovato";
+            die($wpdb->last_error);
+        }
+    }
+
     public function removeLezione( $idlezione){
         GLOBAL $wpdb;
         $sql = "CALL trash_lesson_and_post('$idlezione');";

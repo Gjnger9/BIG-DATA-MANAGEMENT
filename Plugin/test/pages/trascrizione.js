@@ -4,6 +4,22 @@ var stopwords = ["", "c'è", "a", "abbastanza", "abbia", "abbiamo", "abbiano", "
 
 function saveRequest(callback, array) {
 
+  //  if (document.getElementById("lessonTitle").value == "Inserire il titolo della lezione" || !document.getElementById("lessonTitle").value) {
+    //    console.log("Inserire titolo");
+    //    return false;
+//    }
+//    if (document.getElementsByClassName("dropdown").item(0).value === "Materia") {
+//        console.log("Selezionare materia");
+//        return false;
+//    }
+//    if (document.getElementsByClassName("dropdown").item(1).value === "Scuola") {
+//        console.log("Selezionare scuola");
+//        return false;
+//    }
+//    if (document.getElementsByClassName("dropdown").item(2).value === "Argomento") {
+//        console.log("Selezionare argomento");
+//        return false;
+//    }
     jQuery.ajax({
         type: "POST",
         url: test_ajax.url,
@@ -138,7 +154,7 @@ jQuery(document).ready(function() {
     // create a tag (word) cloud chart
             var chart = anychart.tagCloud(data);
     // set a chart title
-            chart.title('15 most spoken languages')
+            chart.title('Parole più usate')
             // set an array of angles at which the words will be laid out
             chart.angles([0])
             // enable a color range
@@ -197,6 +213,7 @@ jQuery(document).ready(function() {
         document.getElementById("link").innerHTML = "";
         document.getElementById("pdf").innerHTML = "";
         document.getElementById("video").innerHTML = "";
+        document.getElementById("image").src = "";
         recognition.stop();
         reset();
     }
