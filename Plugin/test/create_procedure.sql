@@ -113,15 +113,15 @@ UPDATE wp_posts
          <!-- /wp:column --></div>
          <!-- /wp:columns -->
 
-         <!-- wp:group -->
+  <!-- wp:group -->
          <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph -->
          <p> Scuola - ', (select scuola from lezioneview), '</br>Classe - ',
                  (select sezione from lezioneview) , '</br>Professore - ',
                  (select autore from lezioneview),
-                 '</p>
+
+                 '</br><a href = http://localhost/wordpress/edit_lesson_page/?id=', idlezione ,'>Visualizza Nel Plugin</a> </p>
          <!-- /wp:paragraph --></div></div><!-- /wp:group -->
                  '
         )
   where ID= wp_post_id;
-
 END;

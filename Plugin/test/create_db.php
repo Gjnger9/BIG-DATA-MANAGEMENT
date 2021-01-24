@@ -27,7 +27,10 @@ function create_db_wpdb () {
             ON UPDATE NO ACTION)
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
-	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`utente` (
+
+
+
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `wordpress`.`utente` (
           `idutente` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(100) NOT NULL,
           `cognome` VARCHAR(100) NOT NULL,
@@ -35,15 +38,27 @@ function create_db_wpdb () {
           `email` VARCHAR(200) NOT NULL,
           `indirizzo` VARCHAR(500) NOT NULL,
           `wp_id` BIGINT UNSIGNED UNIQUE NULL,
+     
           PRIMARY KEY (`idutente`),
           INDEX `fk_wp_id1_idx` (`wp_id` ASC),
+  
           CONSTRAINT `fk_wp_id`
             FOREIGN KEY (`wp_id`)
-            REFERENCES `wordpress`.`wp_users` (`ID`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION)
+            REFERENCES `wordpress`.`wp_users` (`ID`) )
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
+
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `wordpress`.`dipendente` (
+		`iddipendente` INT NOT NULL AUTO_INCREMENT,
+	  `utente_idutente` INT NOT NULL,
+	  PRIMARY KEY (`iddipendente`, `utente_idutente`),
+	  INDEX `fk_dipendente_utente1_idx` (`utente_idutente` ASC),
+	  CONSTRAINT `fk_dipendente_utente1`
+	    FOREIGN KEY (`utente_idutente`)
+	    REFERENCES `wordpress`.`utente` (`idutente`))
+	ENGINE = InnoDB
+	DEFAULT CHARACTER SET = utf8;");
+
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`professore` (
           `idprofessore` INT NOT NULL AUTO_INCREMENT,
           `utente_idutente` INT NOT NULL,
@@ -68,8 +83,16 @@ function create_db_wpdb () {
           `idscuola` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(200) NOT NULL,
           `indirizzo` VARCHAR(500) NOT NULL,
-          `codice` VARCHAR(12) NOT NULL,
-          PRIMARY KEY (`idscuola`))
+          `codice` VARCHAR(12) NOT NULL, 
+          `dipendente_idDipendente` INT NULL,
+          
+          PRIMARY KEY (`idscuola`),
+           INDEX `fk_scuola_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_scuola_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`)
+          
+          )
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;");
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`sezione` (
@@ -78,8 +101,13 @@ function create_db_wpdb () {
           `anno` INT NOT NULL,
           `persorso_di_studi` VARCHAR(200) NOT NULL,
           `scuola_idscuola` INT NOT NULL,
+          `dipendente_idDipendente` INT NULL,
           PRIMARY KEY (`idsezione`),
           INDEX `fk_sezione_scuola1_idx` (`scuola_idscuola` ASC),
+          INDEX `fk_sezione_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_sezione_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`),
           CONSTRAINT `fk_sezione_scuola1`
             FOREIGN KEY (`scuola_idscuola`)
             REFERENCES `wordpress`.`scuola` (`idscuola`)
@@ -98,6 +126,7 @@ function create_db_wpdb () {
           `wp_post_id` BIGINT UNSIGNED NULL,
           `materia_idmateria` INT NOT NULL,
           `argomento_idargomento` INT NOT NULL,
+          `status` VARCHAR(45) NULL,
           PRIMARY KEY (`idlezione`),
           INDEX `fk_lezione_professore1_idx` (`professore_idprofessore` ASC),
           INDEX `fk_lezione_sezione1_idx` (`sezione_idsezione` ASC),
@@ -200,7 +229,15 @@ function create_db_wpdb () {
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`tipo_di_scuola` (
           `idtipo_di_scuola` INT NOT NULL AUTO_INCREMENT,
           `nome` VARCHAR(200) NOT NULL,
-          PRIMARY KEY (`idtipo_di_scuola`))
+            `dipendente_idDipendente` INT NULL,
+  			PRIMARY KEY (`idtipo_di_scuola`),
+ 			INDEX `fk_tipo_di_scuola_dipendente1_idx` (`dipendente_idDipendente` ASC),
+ 			CONSTRAINT `fk_tipo_di_scuola_dipendente1`
+ 	 		FOREIGN KEY (`dipendente_idDipendente`)
+  		  	REFERENCES `wordpress`.`dipendente` (`idDipendente`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION)
+          
         ENGINE = InnoDB
         DEFAULT CHARACTER SET = utf8;
 ");
@@ -266,7 +303,7 @@ function create_db_wpdb () {
 
 
 
-$wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT 
+$wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT 
         `lez`.`idlezione` AS `idlezione`,
         `lez`.`data` AS `data`,
         `lez`.`professore_idprofessore` AS `professore_idprofessore`,
@@ -276,6 +313,7 @@ $wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT
         `lez`.`wp_post_id` AS `wp_post_id`,
         `lez`.`materia_idmateria` AS `materia_idmateria`,
         `lez`.`argomento_idargomento` AS `argomento_idargomento`,
+		`lez`.`status` AS `status`,
         `m`.`nome` AS `materia`,
         `sc`.`nome` AS `scuola`,
         `arg`.`nome` AS `argomento`
@@ -286,5 +324,34 @@ $wpdb->query("CREATE VIEW `lesson_to_be_filtered` AS (SELECT
         JOIN `professore` `pr` ON ((`pr`.`idprofessore` = `lez`.`professore_idprofessore`)))
         JOIN `sezione` `se` ON ((`se`.`idsezione` = `lez`.`sezione_idsezione`)))
         JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `se`.`scuola_idscuola`))))");
+
+	$wpdb->query("CREATE VIEW   `professors_id_view` AS
+	select p.idprofessore as pid, wpu.id as wpid
+	from professore as p join utente as u on u.idutente=p.utente_idutente
+	join wp_users as wpu on wpu.ID = u.wp_id");
+
+
+	$wpdb->query("CREATE VIEW `professors_lessons` AS
+        SELECT 
+        `l`.`idlezione` AS `idlezione`, `u`.`wp_id` AS `wp_id`
+    FROM
+        ((`lezione` `l`
+        JOIN `professore` `p` ON ((`l`.`professore_idprofessore` = `p`.`idprofessore`)))
+        JOIN `utente` `u` ON ((`u`.`idutente` = `p`.`utente_idutente`))); " ) ;
+
+
+	$wpdb->query("
+		CREATE PROCEDURE `trash_lesson_and_post` (
+			in idlezione int
+		)
+		BEGIN
+			UPDATE lezione set `status`='trash'
+		    where lezione.idlezione=idlezione;
+		    UPDATE wp_posts set `post_status`='trash'
+		    where wp_posts.ID = (SELECT l.wp_post_id 
+						from lezione as l 
+						where l.idlezione=idlezione);
+		END;
+	");
 
 }

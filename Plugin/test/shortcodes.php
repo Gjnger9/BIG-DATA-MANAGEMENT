@@ -48,6 +48,16 @@ function new_lesson_page_shortcode_function () {
 		return wp_login_form(array('echo'=>true));
 	}
 
+	//if user is logged in then
+
+	GLOBAL $wpdb;
+	$sql = "SELECT * from professors_id_view where wpid = " . get_current_user_id() . " ; ";
+	$result =$wpdb->get_results($sql, ARRAY_A);
+
+	if(!$result) {
+		die('Non sei abilitato alla creazione di una nuova lezione');
+	}
+
 	$page = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -65,8 +75,9 @@ function new_lesson_page_shortcode_function () {
         '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown()
-        //codice per creare le liste di filtraggio
+        create_argomento_dropdown().
+	        '</br>'. create_sezione_dropdown()
+	        //codice per creare le liste di filtraggio
         .'
      </div>   
        <div  class = "column right">
@@ -156,7 +167,8 @@ function homepage_shortcode_function () {
         '<br>' .
         create_scuola_dropdown() .
         '<br>' .
-        create_argomento_dropdown()
+        create_argomento_dropdown().
+	        '</br>'. create_sezione_dropdown()
       //codice per creare le liste di filtraggio
 
 
@@ -212,6 +224,8 @@ function edit_lesson_shortcode_function () {
 
 <!-- wp:button -->
 <div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
+<div id="removeButton" class="wp-block-button" ><a class="wp-block-button__link">Rimuovi Lezione</a></div>
+
 <!-- /wp:button --></div>
 
 ' ;
@@ -225,7 +239,7 @@ function create_materia_dropdown () {
 
 
     $materia_dropdown ='
-     <select class="dropdown" name="scuola">
+     <select style="width: 280px" class="dropdown" name="materia">
         <option selected="">Materia</option>
 
         ' ;
@@ -277,7 +291,7 @@ function create_argomento_dropdown () {
 
 
     $argomento_dropdown ='
-          <select class="dropdown" name="scuola">
+          <select style="width: 280px" class="dropdown" name="argomento">
         <option selected="">Argomento</option>
 
       
@@ -293,6 +307,29 @@ function create_argomento_dropdown () {
     $argomento_dropdown.='</select>';
 
     return $argomento_dropdown;
+}
+
+function create_sezione_dropdown () {
+	GLOBAL $wpdb;
+
+
+	$sezione_dropdown ='
+          <select style="width: 280px" class="dropdown" name="sezione">
+        <option selected="">Sezione</option>
+
+      
+        ' ;
+
+	$sezioni = $wpdb->get_results("SELECT * FROM sezione", OBJECT);
+
+
+	foreach ($sezioni as $sezione) {
+		$sezione_dropdown.= '<option> '. $sezione->anno . $sezione->lettera . '</option>';
+	}
+
+	$sezione_dropdown.='</select>';
+
+	return $sezione_dropdown;
 }
 
 function shortcode_scripts(){

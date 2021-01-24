@@ -78,8 +78,8 @@ jQuery(document).ready(function() {
 
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
-                if (textarea.innerHTML == 'inserisci trascrizione qui')
-                    textarea.innerHTML = '';
+                // if (textarea.innerHTML == 'inserisci trascrizione qui')
+                //     textarea.innerHTML = '';
                 textarea.innerHTML += event.results[i][0].transcript + ' ';
             }
         }
@@ -185,7 +185,7 @@ jQuery(document).ready(function() {
     }
 
     function saveToDatabase() {
-        if (textarea.innerHTML != 'inserisci trascrizione qui') {
+        if (textarea.innerHTML != '') {
             console.log(arrayDocumenti);
             console.log(arrayVideo);
             console.log(arrayLink);
@@ -198,8 +198,8 @@ jQuery(document).ready(function() {
 
 
     function resetPage() {
-        document.getElementById("trascrizione").innerHTML = 'inserisci trascrizione qui';
-        document.getElementById("cloudword").innerHTML = "inserisci cloud word qui";
+        document.getElementById("trascrizione").innerHTML = '';
+        document.getElementById("cloudword").innerHTML = "";
         document.getElementById("link").innerHTML = "";
         document.getElementById("pdf").innerHTML = "";
         document.getElementById("video").innerHTML = "";
