@@ -367,4 +367,19 @@ $wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT
         (`argomento` `arg`
         JOIN `materia` `m` ON ((`m`.`idmateria` = `arg`.`materia_idmateria`))); " );
 
+
+
+	$wpdb->query("
+	CREATE VIEW `sezioni_scuola` AS
+    SELECT 
+        `s`.`idsezione` AS `idsezione`,
+        `s`.`lettera` AS `lettera`,
+        `s`.`anno` AS `anno`,
+        `s`.`persorso_di_studi` AS `persorso_di_studi`,
+        `s`.`scuola_idscuola` AS `scuola_idscuola`,
+        `sc`.`nome` AS `nome`,
+        `s`.`dipendente_idDipendente` AS `dipendente_idDipendente`
+    FROM
+    (`sezione` `s`
+        JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `s`.`scuola_idscuola`)))");
 }

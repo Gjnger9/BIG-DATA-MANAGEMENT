@@ -344,7 +344,7 @@ class Database {
         if (!check_error()) {
             echo "Content  updated successfully \n";
 
-            //sync lesson after every content update
+            //sync lesson with post  after every content update
 	        $query_for_id = "SELECT l.idlezione as  idlezione, l.wp_post_id as wp_post_id FROM 
 							lezione as l join contenuto as c on l.idlezione=c.lezione_idlezione
 							WHERE `idcontenuto` =".$idcontenuto."
@@ -433,9 +433,8 @@ class Database {
         $anno = $nomeSezione[0];
         $sezione = substr($nomeSezione, 1);
 
-        $sql = "SELECT * 
-                FROM wordpress.sezione AS c JOIN wordpress.scuola AS s ON s.idscuola = c.scuola_idscuola 
-                WHERE s.nome = '".$nomeScuola."' AND c.lettera = '".$sezione."' AND c.anno = ".$anno.";";
+        $sql = "SELECT * FROM sezioni_scuola 
+				WHERE  nome = '".$nomeScuola."' AND  lettera = '".$sezione."' AND  anno = ".$anno.";";
 
         $result = $wpdb->get_results($sql, ARRAY_A);
 
@@ -443,7 +442,7 @@ class Database {
             echo "Sezione trovata";
             return $result;
         } else {
-            echo "Argomento non trovato";
+            echo "Sezione non trovata";
             die($wpdb->last_error);
         }
     }
