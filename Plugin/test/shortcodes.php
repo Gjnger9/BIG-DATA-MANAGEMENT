@@ -79,6 +79,22 @@ function new_lesson_page_shortcode_function () {
 	        '</br>'. create_sezione_dropdown()
 	        //codice per creare le liste di filtraggio
         .'
+     
+     <!-- wp:buttons -->
+     <div class="wp-block-buttons"><!-- wp:button -->
+          <div id="toggleReg" class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
+     <!-- /wp:button --></div>
+     
+     <div style="display: inline">
+     <div class="wp-block-buttons"><!-- wp:button -->
+                <div id="cancelButton" class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
+                <!-- /wp:button -->
+        
+                <!-- wp:button -->
+                <div id="saveButton" class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
+     <!-- /wp:button --></div>
+     </div>
+     
      </div>   
        <div  class = "column right">
         
@@ -101,12 +117,6 @@ function new_lesson_page_shortcode_function () {
             <!-- /wp:column -->
         
             <!-- wp:column {"verticalAlignment":"top"} -->
-        
-        
-                <!-- wp:buttons -->
-                <div class="wp-block-buttons"><!-- wp:button -->
-                    <div id="toggleReg" class="wp-block-button"><a class="wp-block-button__link">Avvia Ascolto</a></div>
-                    <!-- /wp:button --></div>
        
     
         <!-- /wp:columns -->
@@ -129,18 +139,6 @@ function new_lesson_page_shortcode_function () {
             <div id="link"></div>
             <div id="video"></div>
         </div>
-        
-        <!-- wp:group -->
-        <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:buttons -->
-            <div class="wp-block-buttons"><!-- wp:button -->
-                <div id="cancelButton" class="wp-block-button"><a class="wp-block-button__link">Annulla</a></div>
-                <!-- /wp:button -->
-        
-                <!-- wp:button -->
-                <div id="saveButton" class="wp-block-button"><a class="wp-block-button__link">Salva</a></div>
-                <!-- /wp:button --></div>
-            <!-- /wp:buttons --></div></div>
-        <!-- /wp:group --></div></div></div>
 ';
     return $page;
 }

@@ -54,9 +54,8 @@ function save_callback()
 
     $idprofessore = $databaseConnection->getProfByIDUtente(get_current_user_id())[0]['idprofessore'];
 
-    echo print_r($idprofessore);
+    $idsezione = $databaseConnection->getSezioneByNameAndScuola($_REQUEST['sezione'],$_REQUEST['scuola'])[0]['idsezione'];
 
-    $idsezione = 1;
     $titolo = $_REQUEST['titolo'];
 	$idmateria=$databaseConnection->getMateriaByName($_REQUEST['materia'])[0]['idmateria'];
 

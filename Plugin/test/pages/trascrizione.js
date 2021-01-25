@@ -7,16 +7,20 @@ function saveRequest(callback, array) {
         console.log("Inserire titolo");
         return false;
     }
-    if (document.getElementsByClassName("dropdown").item(0).value === "Materia") {
+    if (document.getElementsByClassName("dropdown").item(0).value == "Materia") {
         console.log("Selezionare materia");
         return false;
     }
-    if (document.getElementsByClassName("dropdown").item(1).value === "Scuola") {
+    if (document.getElementsByClassName("dropdown").item(1).value == "Scuola") {
         console.log("Selezionare scuola");
         return false;
     }
-    if (document.getElementsByClassName("dropdown").item(2).value === "Argomento") {
+    if (document.getElementsByClassName("dropdown").item(2).value == "Argomento") {
         console.log("Selezionare argomento");
+        return false;
+    }
+    if (document.getElementsByClassName("dropdown").item(3).value == "Sezione") {
+        console.log("Selezionare la sezione");
         return false;
     }
     jQuery.ajax({
@@ -32,6 +36,7 @@ function saveRequest(callback, array) {
             materia: document.getElementsByClassName("dropdown").item(0).value,
             scuola: document.getElementsByClassName("dropdown").item(1).value,
             argomento: document.getElementsByClassName("dropdown").item(2).value,
+            sezione: document.getElementsByClassName("dropdown").item(3).value,
             titolo: document.getElementById("lessonTitle").value
         },
         success: function (data) {
