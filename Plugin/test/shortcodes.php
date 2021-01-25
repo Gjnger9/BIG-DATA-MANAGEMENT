@@ -334,17 +334,19 @@ function create_sezione_dropdown () {
 
 	$sezione_dropdown ='
           <select style="width: 280px" class="dropdown" name="sezione">
-        <option selected="">Sezione</option>
+        <option selected="" disabled>Seleziona Scuola</option>
 
       
         ' ;
 
-	$sezioni = $wpdb->get_results("SELECT * FROM sezione", OBJECT);
+	/*$sezioni = $wpdb->get_results("SELECT * FROM sezione", OBJECT);
 
 
 	foreach ($sezioni as $sezione) {
 		$sezione_dropdown.= '<option id = '.$sezione->idsezione.'> '. $sezione->anno . $sezione->lettera . '</option>';
 	}
+	    NON RIEMPIAMO LE SEZIONI: ALL'INIZIO SON TROPPE
+	*/
 
 	$sezione_dropdown.='</select>';
 
