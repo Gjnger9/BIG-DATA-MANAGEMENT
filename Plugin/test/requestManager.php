@@ -249,6 +249,14 @@ check_ajax_referer('nonce-requests', 'nonce');
     die();
 }
 
+function read_sezioni_scuola_callback() {
+    check_ajax_referer('nonce-requests', 'nonce');
+    $param = $_REQUEST['param']; //nome scuola
+    $databaseConnection = new Database( );
+     wp_send_json($databaseConnection->read_sezioni_scuola($param));
+     die();
+}
+
 function update_contenuto_callback()
 {
 
@@ -389,3 +397,6 @@ add_action( 'wp_ajax_update_contenuto', 'update_contenuto_callback' );
 add_action( 'wp_ajax_update_lezione', 'update_lezione_callback' );
 add_action( 'wp_ajax_get_current_user', 'get_current_user_callback' );
 add_action( 'wp_ajax_remove_lezione', 'remove_lezione_callback' );
+
+add_action( 'wp_ajax_nopriv_read_sezioni_scuola', 'read_sezioni_scuola_callback' );
+add_action( 'wp_ajax_read_sezioni_scuola', 'read_sezioni_scuola_callback' );

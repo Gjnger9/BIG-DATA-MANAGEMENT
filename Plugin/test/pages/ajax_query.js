@@ -123,7 +123,32 @@ jQuery(document).ready( function (){
     }
 
     //todo read sezScuola()
+    function sezScuola(param,dropdown) {
+        jQuery.ajax({
+            type: "GET",
+            url: vars.url,
+            data: {
+                action : 'read_sezioni_scuola',
+                param: param,
+                nonce : vars.security
+            },
+            success: function (data){
 
+                // showLessons(JSON.parse(data))
+                // return JSON.parse(data);
+
+                // console.log(JSON.parse(data));
+                // showLessons(JSON.parse(data))
+                clearDropdown(dropdown,"Sezione");
+                fillDropdown(dropdown,JSON.parse(data));
+            },
+            error: function (error) {
+                // Azioni da eseguire in caso di errore chiamata
+                console.log("errore");
+                console.log(error);
+            }
+        });
+    }
     // console.log("ok");
     // console.log(r)
     // console.log(wp_get_current_user());
@@ -149,6 +174,8 @@ jQuery(document).ready( function (){
         let scuolaValue = null;
         let argomentoValue = null;
         let sezioneValue = null;
+
+
         materiaDropdown.onchange=function (){
 
             materiaValue = materiaDropdown.value;
@@ -166,6 +193,9 @@ jQuery(document).ready( function (){
             scuolaValue = scuolaDropdown.value;
             if(scuolaDropdown.selectedIndex===0)
                 scuolaValue = null;
+
+
+            sezScuola(scuolaValue, sezioneDropdown);
             // console.log(scuolaValue);
         }
         argomentoDropdown.onchange=function (){

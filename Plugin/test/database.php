@@ -301,6 +301,23 @@ class Database {
     }
 //da fare read sezioni scuola
 
+    public function read_sezioni_scuola($param) {
+
+        GLOBAL $wpdb;
+        if ($param!=null) {
+
+            $sql = "SELECT nome from sezioni_scuola_string where nome_scuola = '" .$param. "';";
+        } else {
+            $sql = "select nome from sezioni_scuola_string";
+        }
+        $result =$wpdb->get_results($sql, ARRAY_A);
+        if(check_error()) //true=c'è errore
+            die($wpdb->last_error);
+
+        return json_encode($result);
+
+
+    }
 	public function addContenuto( $lesson_id, $titolo, $percorso, $idprofessore ,$tipo ){
 /*		$sql = "INSERT INTO `wordpress`.`contenuto` ( `lezione_idlezione` , `titolo`, `data_creazione`, `percorso`, `professore_idprofessore`, `tipo`, `data_accettazione`)
 		VALUES ( '".$lesson_id."','". $titolo."', '". date("Y-m-d H:i:s") ."', '". $percorso."', '". $idprofessore ." ' , '".$tipo."', ' ". date("Y-m-d H:i:s") ."')";
