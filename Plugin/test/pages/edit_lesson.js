@@ -28,17 +28,19 @@ function readLezione(param,callback) {
     });
 }
 
-function modifyLezioneDb(idlezione,trascrizione,callback) {
+function modifyLezioneDb(idlezione,trascrizione, titolo, callback) {
     jQuery.ajax({
         type: "POST",
         url: vars.url,
         data: {
             action : 'update_lezione',
+            titolo: titolo,
             idlezione : idlezione,
             trascrizione: trascrizione,
             nonce : vars.security
         },
         success: function (data){
+            window.alert("Lezione Modificata Con Successo");
             console.log("MODIFICATO");
             console.log(data);
             // console.log(JSON.parse(data));
@@ -46,13 +48,14 @@ function modifyLezioneDb(idlezione,trascrizione,callback) {
             // showLessons(JSON.parse(data))
             // fottiti(data)
             // modifyLezione(data);
-        }
-        // error: function (error) {
+        },
+         error: function (error) {
         //     // Azioni da eseguire in caso di errore chiamata
-        //     console.log("errore");
+             window.alert("Non è stato possibile modificare la lezione");
+          //     console.log("errore");
         //     console.log(error);
         // }
-    });
+    }});
 }
 
 function removeLezioneDb(idlezione,callback) {
@@ -157,16 +160,18 @@ function modifyLezione(data){
     console.log();
     console.log(contenuti);
 
-
+    let titoloData = lezione.titolo;
     let trascrizioneData = lezione.trascrizione;
 
-
+    let titoloDiv = document.getElementById("titolo");
+    let innerTitoloDiv =  document.createElement("div");
     let trascrizioneDiv = document.getElementById("trascrizione");
     let innerTrascrizioneDiv = document.createElement("div");
+    innerTitoloDiv.innerText= titoloData;
     innerTrascrizioneDiv.innerText = trascrizioneData;
     // innerTrascrizioneDiv.contentEditable = true;
     trascrizioneDiv.appendChild(innerTrascrizioneDiv);
-
+    titoloDiv.appendChild(innerTitoloDiv)
 
     let linkDiv = document.getElementById("link");
     let linkTable = document.createElement("table");
@@ -223,6 +228,7 @@ function modifyLezione(data){
         tr1.appendChild(tdl);
         tr1.appendChild(tdr);
         if(isOwner ) {
+
             tdl.contentEditable = true;
             modButton.appendChild(modificaContenutoButton);
             modButton.style.height = "50px";
@@ -286,13 +292,14 @@ function modifyLezione(data){
     let removeButton = document.getElementById("removeButton");
 
     if (isOwner){
+        innerTitoloDiv.contentEditable = true;
         innerTrascrizioneDiv.contentEditable = true;
         modificaButton.style = "display: inline;";
         removeButton.style = "display: inline;"
     }
     modificaButton.onclick = function (){
 
-        modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent)
+        modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);
 
         // console.log(lezione.idlezione, innerTrascrizioneDiv.textContent)
 

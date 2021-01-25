@@ -289,10 +289,10 @@ class Database {
         if($param!=null) {
 
 	        //done:  da rendere view
-	        $sql = "SELECT idargomento, nome, descrizione, anno_di_corso, materia_idmateria FROM wordpress.argomenti_materia                 
+	        $sql = "SELECT idargomento as id , nome, descrizione, anno_di_corso, materia_idmateria FROM wordpress.argomenti_materia                 
                 WHERE nome_materia = '" . $param . "';";
         }else
-            $sql = "SELECT * FROM wordpress.argomento";
+            $sql = "SELECT idargomento as id , nome, descrizione, anno_di_corso, materia_idmateria FROM wordpress.argomento";
 
 	    $result =$wpdb->get_results($sql, ARRAY_A);
 	    if(check_error()) //true=c'è errore
@@ -306,9 +306,9 @@ class Database {
         GLOBAL $wpdb;
         if ($param!=null) {
 
-            $sql = "SELECT nome from sezioni_scuola_string where nome_scuola = '" .$param. "';";
+            $sql = "SELECT idsezione as id, nome from sezioni_scuola_string where nome_scuola = '" .$param. "';";
         } else {
-            $sql = "select nome from sezioni_scuola_string";
+            $sql = "select idsezione as id, nome from sezioni_scuola_string";
         }
         $result =$wpdb->get_results($sql, ARRAY_A);
         if(check_error()) //true=c'è errore
@@ -381,9 +381,9 @@ class Database {
         }
     }
 
-    public function updateLezione( $idlezione,$trascrizione){
+    public function updateLezione( $idlezione,$trascrizione, $titolo){
         GLOBAL $wpdb;
-        $sql = "UPDATE `wordpress`.`lezione` SET `trascrizione` = '".$trascrizione."' WHERE (`idlezione` = ".$idlezione.");";
+        $sql = "UPDATE `wordpress`.`lezione` SET `titolo` = '".$titolo."' , `trascrizione` = '".$trascrizione."' WHERE (`idlezione` = ".$idlezione.");";
         echo $sql;
 		$wpdb->query($sql);
 
@@ -393,7 +393,7 @@ class Database {
             $post_id = $results[0]->wp_post_id;
             $syncsql = "CALL sync_lesson_to_post('$idlezione' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
             $wpdb->query($syncsql);
-            echo "POstIDio: ". $post_id ."\n";
+            echo "PostIDI: ". $post_id ."\n";
             echo "New record created successfully";
         } else {
             die($wpdb->last_error);

@@ -304,7 +304,7 @@ function update_lezione_callback()
 //
 //    $contenuto = $_REQUEST['param'];
 //    $idcontenuto = $_REQUEST['idcontenuto'];
-//    $titolo = $_REQUEST['titolo'];
+    $titolo = $_REQUEST['titolo'];
 //    $tipo = $_REQUEST['tipo'];
 //    echo "titolo: " .$titolo ;
     $idlezione  = $_REQUEST['idlezione'];
@@ -312,7 +312,7 @@ function update_lezione_callback()
 //    $idpost = $_REQUEST['idpost'];
 
 //    $databaseConnection->updateLezione($idlezione, $trascrizione,$idpost);
-    $databaseConnection->updateLezione($idlezione, $trascrizione);
+    $databaseConnection->updateLezione($idlezione, $trascrizione, $titolo);
 //
 //     echo "Ok";
 

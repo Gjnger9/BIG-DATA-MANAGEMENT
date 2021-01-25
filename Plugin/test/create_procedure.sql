@@ -53,7 +53,10 @@ from (
 
 
 UPDATE wp_posts
-  SET  post_content=
+
+  SET
+   post_title = (select titolo from lezioneview),
+  post_content=
         CONCAT (
 
             '

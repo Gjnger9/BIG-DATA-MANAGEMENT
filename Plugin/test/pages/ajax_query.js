@@ -140,6 +140,7 @@ jQuery(document).ready( function (){
                 // console.log(JSON.parse(data));
                 // showLessons(JSON.parse(data))
                 clearDropdown(dropdown,"Sezione");
+                console.log(JSON.parse(data))
                 fillDropdown(dropdown,JSON.parse(data));
             },
             error: function (error) {
@@ -178,24 +179,24 @@ jQuery(document).ready( function (){
 
         materiaDropdown.onchange=function (){
 
-            materiaValue = materiaDropdown.value;
-            if(materiaDropdown.selectedIndex===0)
-                materiaValue = null;
-            // console.log(materiaValue);
+                materiaValue = materiaDropdown.value;
+                if(materiaDropdown.selectedIndex===0)
+                    materiaValue = null;
+                // console.log(materiaValue);
 
-            // clearDropdown(argomentoDropdown,"Argomento");
+                // clearDropdown(argomentoDropdown,"Argomento");
 
-            argMateria(materiaValue,argomentoDropdown);
-
-
-        }
-        scuolaDropdown.onchange=function (){
-            scuolaValue = scuolaDropdown.value;
-            if(scuolaDropdown.selectedIndex===0)
-                scuolaValue = null;
+                argMateria(materiaValue,argomentoDropdown);
 
 
-            sezScuola(scuolaValue, sezioneDropdown);
+            }
+            scuolaDropdown.onchange=function (){
+                scuolaValue = scuolaDropdown.value;
+                if(scuolaDropdown.selectedIndex===0)
+                    scuolaValue = null;
+
+
+                sezScuola(scuolaValue, sezioneDropdown);
             // console.log(scuolaValue);
         }
         argomentoDropdown.onchange=function (){
@@ -372,8 +373,14 @@ jQuery(document).ready( function (){
     function fillDropdown(dropdown,data){
         for(let i=0;i<data.length; i++) {
             let obj = data[i];
+            console.log(obj);
+
             let option = document.createElement("option");
+
+            option.id = obj.id;
+
             option.text = obj.nome;
+            console.log(option);
             dropdown.add(option);
         }
 

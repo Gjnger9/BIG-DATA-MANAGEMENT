@@ -105,7 +105,8 @@ function new_lesson_page_shortcode_function () {
         <!-- wp:group -->
          <div class="wp-block-group"><div class="wp-block-group__inner-container">
          <!-- wp:columns {"verticalAlignment":"top"} -->
-         
+                
+
                 <h4>Trascrizione</h4>
                 <div id="trascrizione"></div>
                 <!-- /wp:freeform -->
@@ -206,6 +207,11 @@ function edit_lesson_shortcode_function () {
 
 	$page = '
 <div id="trascrizione" class="contenuto">
+
+                <h3>Titolo</h3>
+                <div id="titolo"></div>
+         
+
 <h3>Trascrizione</h3>
 </div>
 
