@@ -287,10 +287,10 @@ class Database {
     {
     	GLOBAL $wpdb;
         if($param!=null) {
-        	//da rendere view
-            $sql = "SELECT arg.* FROM wordpress.argomento AS arg
-                JOIN wordpress.materia AS m ON m.idmateria = arg.materia_idmateria
-                WHERE m.nome = '" . $param . "';";
+
+	        //done:  da rendere view
+	        $sql = "SELECT idargomento, nome, descrizione, anno_di_corso, materia_idmateria FROM wordpress.argomenti_materia                 
+                WHERE nome_materia = '" . $param . "';";
         }else
             $sql = "SELECT * FROM wordpress.argomento";
 

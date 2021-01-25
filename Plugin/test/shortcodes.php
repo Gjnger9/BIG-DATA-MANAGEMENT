@@ -64,7 +64,7 @@ function new_lesson_page_shortcode_function () {
         
     <div id = "mainview" class = "row" style="display: table">
      
-     <div  class = "column left" style="background-color:#0A0B0A;" >
+     <div  class = "column left" style="background-color: lightgrey;" >
      
      <input type="text" id="lessonTitle" name="l" value="" placeholder="Inserisci il titolo della lezione">
      
@@ -158,7 +158,7 @@ function homepage_shortcode_function () {
        
     <div id = "mainview" class = "row" style="display: table">
      
-     <div  class = "column left" style="background-color:#0A0B0A;" >
+     <div  class = "column left" style="background-color: lightgrey;" >
      
      
      <!-- wp:search {"label":"Cerca","buttonText":"Cerca"} /-->
