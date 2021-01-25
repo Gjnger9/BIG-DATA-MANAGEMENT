@@ -155,7 +155,8 @@ function get_all_link(someOtherElem){
 // generazione link per contenuti: inserimento di pulsanti accept/reject --- default accept -> pulsante reject;
 function clean_data(type){
     var table = '<h3>'+type+'</h3><table><thead><th>Name</th><th>Links</th></thead><tbody>';
-    for (var i=0; i<maxDocument; i++) {
+    for (var i = 0; i < maxDocument; i++) {
+        if (!myarray) return table;
         table += '<tr><td>' + myarray[i][0] + '</td><td> <a class="link" href="' + myarray[i][1] + '" target="_blank" >' + myarray[i][1] + '</a>' +
 
             '</br> <button id="reject" > Reject </button>' +

@@ -427,6 +427,27 @@ class Database {
         }
     }
 
+    public function getSezioneByNameAndScuola($nomeSezione, $nomeScuola){
+        GLOBAL $wpdb;
+
+        $anno = $nomeSezione[0];
+        $sezione = substr($nomeSezione, 1);
+
+        $sql = "SELECT * 
+                FROM wordpress.sezione AS c JOIN wordpress.scuola AS s ON s.idscuola = c.scuola_idscuola 
+                WHERE s.nome = '".$nomeScuola."' AND c.lettera = '".$sezione."' AND c.anno = ".$anno.";";
+
+        $result = $wpdb->get_results($sql, ARRAY_A);
+
+        if (!check_error()) {
+            echo "Sezione trovata";
+            return $result;
+        } else {
+            echo "Argomento non trovato";
+            die($wpdb->last_error);
+        }
+    }
+
     public function removeLezione( $idlezione){
         GLOBAL $wpdb;
         $sql = "CALL trash_lesson_and_post('$idlezione');";
