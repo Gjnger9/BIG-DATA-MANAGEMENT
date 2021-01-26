@@ -1,6 +1,6 @@
 //popolamento e modifica lezione su edit_lesson_page
 
-
+var files = null;
 
 
 function readLezione(param,callback) {
@@ -125,6 +125,8 @@ jQuery(document).ready(() =>
     let footer = document.getElementById("footer");
     if (footer) footer.hidden = true;
     //FOOOOOOOOOTER
+    var files;
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const idLezione = urlParams.get('id');
@@ -283,7 +285,17 @@ function modifyLezione(data){
     linkDiv.appendChild(linkTable);
     documentiDiv.appendChild(documentiTable);
     videoDiv.appendChild(videoTable);
+    let   add_Document_button = document.createElement('input');
 
+    add_Document_button.type = "file";
+    add_Document_button.id="input";
+    add_Document_button.multiple="multiple";
+
+    //add_Document_button.className("Btn");
+    //add_Document_button.innerText="Aggiungi Documento";
+    add_Document_button.innerText = "Aggiungi Contenuto";
+
+    videoDiv.appendChild(add_Document_button);
 
 
 
@@ -298,6 +310,18 @@ function modifyLezione(data){
         removeButton.style = "display: inline;"
     }
     modificaButton.onclick = function (){
+        files =  document.getElementById('input').files;
+        console.log(files);
+        // //va usato un for tradizionale, files è un array associativo
+        // for (file in files ) {
+        //     addContent(lezione.idlezione, file);
+        // }
+
+        for (let i=0;  i<files.length;  i++){
+            console.log(files[i]);
+            //fileAPI per inviare il contenuto del file
+        }
+
 
         modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);
 
@@ -374,6 +398,14 @@ function modifyLezione(data){
     //
     //
     // }
+
+    function addContent(idLezione, file) {
+        console.log( "yes");
+        //files = document.getElementById('input').files;
+        console.log("TODO: AGGIUNGERE FILES A LEZIONE   " + idLezione);
+        console.log(file);
+
+    }
 
 
 }
