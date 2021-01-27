@@ -112,6 +112,7 @@ jQuery(document).ready( function (){
                 // console.log(JSON.parse(data));
                 // showLessons(JSON.parse(data))
                 clearDropdown(dropdown,"Argomento");
+                // console.log(data)
                 fillDropdown(dropdown,JSON.parse(data));
             },
             error: function (error) {
@@ -253,15 +254,17 @@ jQuery(document).ready( function (){
         let filtraButton = document.getElementById("filtra");
 
         filtraButton.onclick = function(){
+            var idsezione = sezioneDropdown.options[sezioneDropdown.selectedIndex].id
             console.log("filtraggio lezione per : " +materiaValue,scuolaValue,argomentoValue);
             let param = {
                 materia: materiaValue,
                 scuola: scuolaValue,
                 argomento: argomentoValue,
-                sezione: sezioneValue,
+                idsezione: idsezione,
                 dataInizio : datePickerStart.value,
                 dataFine : datePickerEnd.value
             };
+            // console.log(param)
             readLezioniFiltrate(param,cb.checked);
 
             // console.log(datePickerStart.value==="", datePickerEnd.value);

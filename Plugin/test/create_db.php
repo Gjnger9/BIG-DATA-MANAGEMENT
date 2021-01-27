@@ -382,11 +382,9 @@ $wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT
     FROM
     (`sezione` `s`
         JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `s`.`scuola_idscuola`)))");
-}
 
 
-
-$wpdb->query("
+    $wpdb->query("
 	CREATE VIEW `sezioni_scuola_string` AS
     SELECT 
         `s`.`idsezione` AS `idsezione`,
@@ -395,3 +393,9 @@ $wpdb->query("
     FROM
     (`scuola` `sc`
         LEFT JOIN `sezione` `s` ON ((`s`.`scuola_idscuola` = `sc`.`idscuola`)))");
+
+
+}
+
+
+

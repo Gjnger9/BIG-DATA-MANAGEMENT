@@ -247,8 +247,8 @@ class Database {
             $sql.= " TRUE " ;
         }
         $sql.=" AND ";
-	    if(($sezione=$param["sezione"])!=null){
-		    $sql.=" sezione = '".$sezione."' ";
+	    if(($sezione=$param["idsezione"])!=null){
+		    $sql.=" sezione_idsezione = ".$sezione." ";
 	    }else{
 		    $sql.= " TRUE " ;
 	    }
