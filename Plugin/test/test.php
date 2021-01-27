@@ -34,21 +34,12 @@ class TestPlugin
 
     function deactivate()
     {
-
-        delete_old_page();
-        //echo 'questo è un errore' che non vedremo;
-
-    }
+    	delete_old_page();}
 
     function uninstall()
     {
         //clear db
     }
-
-
-
-
-
 }
 
 
@@ -92,6 +83,7 @@ function enqueue_ajax_script_test()
     wp_enqueue_script( 'webScraper',   '/wp-content/plugins/test/pages/web_scraper.js' );
     wp_enqueue_script( 'trascrizione', '/wp-content/plugins/test/pages/trascrizione.js' );
     wp_enqueue_script( 'edit_lesson', '/wp-content/plugins/test/pages/edit_lesson.js' );
+
     wp_localize_script( 'script_ajax_test', 'test_ajax', array(
         'url'      => admin_url( 'admin-ajax.php' ),
         'security' => wp_create_nonce('ajax_test_nonce_string')
@@ -114,6 +106,8 @@ add_action( 'wp_enqueue_scripts', 'my_enqueue_scripts' );
 
 add_action('init', 'shortcodes_init');
 
+add_role("professore", "Professore");
+// todo: add professor capabilities
 
 if (class_exists('TestPlugin')){
     $testPlugin = new TestPlugin();

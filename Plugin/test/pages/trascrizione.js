@@ -41,6 +41,7 @@ function saveRequest(callback, array) {
         success: function (data) {
             // Azioni da eseguire in caso di successo chiamata
             //TODO: Avvertire l'utente che tutto è andato bene
+            alert("Lezione inserita con Successo!")
             console.log("ok");
             console.log(data);
             callback();
@@ -208,16 +209,77 @@ jQuery(document).ready(function() {
 
 
     function resetPage() {
-        document.getElementById("trascrizione").innerHTML = '';
-        document.getElementById("cloudword").innerHTML = "";
-        document.getElementById("link").innerHTML = "";
-        document.getElementById("pdf").innerHTML = "";
-        document.getElementById("video").innerHTML = "";
-        document.getElementById("image").src = "";
+    //     document.getElementById("trascrizione").innerHTML = '';
+    //     document.getElementById("cloudword").innerHTML = "";
+    //     document.getElementById("link").innerHTML = "";
+    //     document.getElementById("pdf").innerHTML = "";
+    //     document.getElementById("video").innerHTML = "";
+    //     document.getElementById("image").src = "";
         recognition.stop();
         reset();
+        window.location.reload();
     }
 
+    var dropdowns = document.getElementsByClassName("dropdown");
+    var materiaDropdown = dropdowns["materia"];
+
+    // console.log(argomentoinput.style)
+    var argomentoList = document.getElementById("argomentolist");
+    console.log("argomentolist ");
+    console.log(argomentoList);
+
+
+    materiaDropdown.onchange = function () {
+        console.log("change")
+
+        console.log("argomentolist ");
+        console.log(argomentoList);
+        jQuery.ajax({
+            type: "GET",
+            url: vars.url,
+            data: {
+                action : 'read_argomenti_materia',
+                param: materiaDropdown.value,
+                nonce : vars.security
+            },
+            success: function (data){
+
+                // showLessons(JSON.parse(data))
+                // return JSON.parse(data);
+
+                // console.log(JSON.parse(data));
+                // showLessons(JSON.parse(data))
+               data =   JSON.parse(data)
+                //clear
+                console.log(argomentoList.options);
+
+                argomentoList.innerHTML='';
+               fillElement(argomentoList, data);
+            },
+            error: function (error) {
+                // Azioni da eseguire in caso di errore chiamata
+                console.log("errore");
+                console.log(error);
+            }
+        });
+
+    }
+    var sezioneDropdown = dropdowns["sezione"];
+    var scuolaDropdown = dropdowns["scuola"];
+    scuolaDropdown.onchange=function (){
+        scuolaValue = scuolaDropdown.value;
+        if(scuolaDropdown.selectedIndex===0) {
+
+
+            clearDropdown(sezioneDropdown,"Seleziona Scuola");
+
+        } else {
+
+             sezScuola(scuolaValue, sezioneDropdown);
+
+        }
+        // console.log(scuolaValue);
+    }
     function prepareLesson(){
 
         var canSave = true;
@@ -238,8 +300,6 @@ jQuery(document).ready(function() {
 
         var materiaDropdown = dropdowns["materia"];
         var idmateria = materiaDropdown.options[materiaDropdown.selectedIndex].id
-
-
 
 
         var sezioneDropdown = dropdowns["sezione"];
@@ -272,6 +332,8 @@ jQuery(document).ready(function() {
             }
             // console.log(opt)
         }
+
+
 
         if(titolo === '') {
             titoloInput.style.setProperty('background', '#f59393');
@@ -338,7 +400,36 @@ jQuery(document).ready(function() {
     // argomentoList.onclick = function (){
     //     console.log(argomentoList.options.value);
     // }
+    function clearDropdown(dropdown,text){
 
+        for(opt in dropdown.options) {
+
+            dropdown.remove(opt.index);
+        }
+        var option = document.createElement("option");
+        option.text = text;
+        dropdown.add(option);
+
+    }
+
+    function fillDropdown(dropdown,data){
+
+        for(let i=0;i<data.length; i++) {
+            let obj = data[i];
+            if(obj.id!==null) {
+                console.log(obj);
+
+                let option = document.createElement("option");
+
+                option.id = obj.id;
+
+                option.text = obj.nome;
+                console.log(option);
+                dropdown.add(option);
+            }
+        }
+
+    }
 
 
 

@@ -1,3 +1,244 @@
+var currentLessons = [];
+function showLessons(data) {
+    // Azioni da eseguire in caso di successo chiamata
+    //TODO: Avvertire l'utente che tutto è andato bene
+    // console.log("ok");
+    // console.log(data);
+    // callback();
+
+    let divLezioni=document.getElementById("elencolezioni");
+    divLezioni.innerHTML="";
+    //
+    // let ul = document.createElement("ul");
+    // let br = document.createElement("br");
+    // // let label = document.createElement("label");
+    // let button = document.createElement("button");
+    // while(divLezioni == null)
+    //     divLezioni=document.getElementById("elencolezioni");
+    // let deev = document.createElement("div");
+    // deev.innerText = "fatto";
+    // divLezioni.appendChild(deev);
+    // console.log("ookokok");
+
+    for(let i=0;i<data.length; i++) {
+        let obj = data[i];
+        console.log(obj);
+
+        // let divLezioni=document.getElementById("elencolezioni");
+
+        let ul = document.createElement("ul");
+        let br = document.createElement("br");
+        let h4 = document.createElement("h4");
+        let p = document.createElement("p");
+        // let label = document.createElement("label");
+        let button = document.createElement("button");
+        // divLezioni=document.getElementById("elencolezioni");
+
+        h4.innerText = "LEZIONE: " + obj.titolo;
+        p.innerText = obj.trascrizione.substring(0, 140);
+        if (obj.trascrizione.length > 140) p.innerText = p.innerText + "...";
+        // // label.innerText = "Anteprima lezione";
+        button.innerText = "VISUALIZZA DETTAGLI";
+        // if(obj.is_owner === "0"){
+        //     button.disabled = true;
+        // }
+        button.onclick=function() {
+            console.log(obj.is_owner);
+            // if(obj.is_owner !== "0"){
+            window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
+            // }else {
+            //     console.log("NON SEI IL PROPRIETARIO!");
+            //     button.disabled = true;
+            // }
+        }
+        // console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
+        // window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
+
+
+        // ul.appendChild(br);
+        // // ul.appendChild(label)
+        ul.appendChild(h4);
+        ul.appendChild(p)
+        //ul.appendChild(li);
+        ul.appendChild(br);
+        ul.appendChild(button);
+
+        ul.style.textAlign = "center";
+        ul.style.border = "thin solid black";
+        ul.style.padding = "2%";
+        //
+        divLezioni.appendChild(ul);
+        // // console.log(obj.titolo);
+        //
+    }
+}
+function getCurrentUser(param,callback) {
+    jQuery.ajax({
+        type: "GET",
+        url: vars.url,
+        data: {
+            action : 'get_current_user',
+            // param: param,
+            nonce : vars.security
+        },
+        success: function (data){
+            console.log(data);
+            // console.log(JSON.parse(data));
+            //
+            // showLessons(JSON.parse(data))
+            // fottiti(data)
+            // modifyLezione(data);
+        },
+        error: function (error) {
+            // Azioni da eseguire in caso di errore chiamata
+            console.log("errore");
+            console.log(error);
+        }
+    });
+}
+function readLezioniFromDb(param,callback) {
+    jQuery.ajax({
+        type: "GET",
+        url: vars.url,
+        data: {
+            action : 'read',
+            // param: param,
+            nonce : vars.security
+        },
+        success: function (data){
+            // console.log(data);
+            // console.log(JSON.parse(data));
+
+            // showLessons(JSON.parse(data))
+            currentLessons = JSON.parse(data);
+            console.log(currentLessons);
+            showLessons(currentLessons);
+
+        }
+        // error: function (error) {
+        //     // Azioni da eseguire in caso di errore chiamata
+        //     console.log("errore");
+        //     console.log(error);
+        // }
+    });
+}
+
+function readLezioniFiltrate(param,hisOwn,callback) {
+    jQuery.ajax({
+        type: "GET",
+        url: vars.url,
+        data: {
+            action : 'read_lezioni_filtrate',
+            param: param,
+            hisOwn : hisOwn,
+            nonce : vars.security
+        },
+        success: function (data){
+
+            // showLessons(JSON.parse(data))
+
+            console.log(data);
+            currentLessons = JSON.parse(data);
+            showLessons(currentLessons,hisOwn)
+        },
+        error: function (error) {
+            // Azioni da eseguire in caso di errore chiamata
+            console.log("errore");
+            console.log(error);
+        }
+    });
+}
+
+function argMateria(param,dropdown) {
+    jQuery.ajax({
+        type: "GET",
+        url: vars.url,
+        data: {
+            action : 'read_argomenti_materia',
+            param: param,
+            nonce : vars.security
+        },
+        success: function (data){
+
+            // showLessons(JSON.parse(data))
+            // return JSON.parse(data);
+
+            // console.log(JSON.parse(data));
+            // showLessons(JSON.parse(data))
+            clearDropdown(dropdown,"Argomento");
+            fillElement(dropdown,JSON.parse(data), "dropdown");
+        },
+        error: function (error) {
+            // Azioni da eseguire in caso di errore chiamata
+            console.log("errore");
+            console.log(error);
+        }
+    });
+}
+ function sezScuola (param,dropdown) {
+    jQuery.ajax({
+        type: "GET",
+        url: vars.url,
+        data: {
+            action : 'read_sezioni_scuola',
+            param: param,
+            nonce : vars.security
+        },
+        success: function (data){
+
+            // showLessons(JSON.parse(data))
+            // return JSON.parse(data);
+
+            // console.log(JSON.parse(data));
+            // showLessons(JSON.parse(data))
+            clearDropdown(dropdown,"Sezione");
+            console.log(JSON.parse(data))
+            fillElement(dropdown,JSON.parse(data));
+        },
+        error: function (error) {
+            // Azioni da eseguire in caso di errore chiamata
+            console.log("errore");
+            console.log(error);
+        }
+    });
+}
+
+
+
+
+function clearDropdown(dropdown,text){
+
+    for( let opt in dropdown.options) {
+
+        dropdown.remove(opt.index);
+    }
+    var option = document.createElement("option");
+    option.text = text;
+    dropdown.add(option);
+
+}
+
+
+ function fillElement (element, data){
+
+    for(let i=0;i<data.length; i++) {
+        let obj = data[i];
+        if(obj.id!==null) {
+
+
+            let option = document.createElement("option");
+
+            option.id = obj.id;
+
+            option.text = obj.nome;
+            console.log(option);
+
+            element.appendChild(option);
+        }
+    }
+
+}
+
 
 jQuery(document).ready( function (){
 
@@ -16,141 +257,8 @@ jQuery(document).ready( function (){
         window.location = "/wordpress/pagina_plugin_new_lesson"; 
     };
 
-    var currentLessons = [];
 
-    function getCurrentUser(param,callback) {
-        jQuery.ajax({
-            type: "GET",
-            url: vars.url,
-            data: {
-                action : 'get_current_user',
-                // param: param,
-                nonce : vars.security
-            },
-            success: function (data){
-                console.log(data);
-                // console.log(JSON.parse(data));
-                //
-                // showLessons(JSON.parse(data))
-                // fottiti(data)
-                // modifyLezione(data);
-            },
-            error: function (error) {
-                // Azioni da eseguire in caso di errore chiamata
-                console.log("errore");
-                console.log(error);
-            }
-        });
-    }
-    function readLezioniFromDb(param,callback) {
-        jQuery.ajax({
-            type: "GET",
-            url: vars.url,
-            data: {
-                action : 'read',
-                // param: param,
-                nonce : vars.security
-            },
-            success: function (data){
-                // console.log(data);
-                // console.log(JSON.parse(data));
 
-                // showLessons(JSON.parse(data))
-                currentLessons = JSON.parse(data);
-                console.log(currentLessons);
-                showLessons(currentLessons);
-
-            }
-            // error: function (error) {
-            //     // Azioni da eseguire in caso di errore chiamata
-            //     console.log("errore");
-            //     console.log(error);
-            // }
-        });
-    }
-
-    function readLezioniFiltrate(param,hisOwn,callback) {
-        jQuery.ajax({
-            type: "GET",
-            url: vars.url,
-            data: {
-                action : 'read_lezioni_filtrate',
-                param: param,
-                hisOwn : hisOwn,
-                nonce : vars.security
-            },
-            success: function (data){
-
-                // showLessons(JSON.parse(data))
-
-                console.log(data);
-                currentLessons = JSON.parse(data);
-                showLessons(currentLessons,hisOwn)
-            },
-            error: function (error) {
-                // Azioni da eseguire in caso di errore chiamata
-                console.log("errore");
-                console.log(error);
-            }
-        });
-    }
-
-    function argMateria(param,dropdown) {
-        jQuery.ajax({
-            type: "GET",
-            url: vars.url,
-            data: {
-                action : 'read_argomenti_materia',
-                param: param,
-                nonce : vars.security
-            },
-            success: function (data){
-
-                // showLessons(JSON.parse(data))
-                // return JSON.parse(data);
-
-                // console.log(JSON.parse(data));
-                // showLessons(JSON.parse(data))
-                clearDropdown(dropdown,"Argomento");
-                // console.log(data)
-                fillDropdown(dropdown,JSON.parse(data));
-            },
-            error: function (error) {
-                // Azioni da eseguire in caso di errore chiamata
-                console.log("errore");
-                console.log(error);
-            }
-        });
-    }
-
-    //todo read sezScuola()
-    function sezScuola(param,dropdown) {
-        jQuery.ajax({
-            type: "GET",
-            url: vars.url,
-            data: {
-                action : 'read_sezioni_scuola',
-                param: param,
-                nonce : vars.security
-            },
-            success: function (data){
-
-                // showLessons(JSON.parse(data))
-                // return JSON.parse(data);
-
-                // console.log(JSON.parse(data));
-                // showLessons(JSON.parse(data))
-                clearDropdown(dropdown,"Sezione");
-                console.log(JSON.parse(data))
-                fillDropdown(dropdown,JSON.parse(data));
-            },
-            error: function (error) {
-                // Azioni da eseguire in caso di errore chiamata
-                console.log("errore");
-                console.log(error);
-            }
-        });
-    }
     // console.log("ok");
     // console.log(r)
     // console.log(wp_get_current_user());
@@ -191,14 +299,19 @@ jQuery(document).ready( function (){
 
 
             }
-            scuolaDropdown.onchange=function (){
-                scuolaValue = scuolaDropdown.value;
-                if(scuolaDropdown.selectedIndex===0)
-                    scuolaValue = null;
+        scuolaDropdown.onchange=function (){
+            scuolaValue = scuolaDropdown.value;
+            if(scuolaDropdown.selectedIndex===0) {
 
+
+                clearDropdown(sezioneDropdown,"Seleziona Scuola");
+
+            } else {
 
                 sezScuola(scuolaValue, sezioneDropdown);
-            // console.log(scuolaValue);
+
+            }
+        // console.log(scuolaValue);
         }
         argomentoDropdown.onchange=function (){
             argomentoValue = argomentoDropdown.value;
@@ -282,112 +395,9 @@ jQuery(document).ready( function (){
 
 
 
-    function showLessons(data) {
-        // Azioni da eseguire in caso di successo chiamata
-        //TODO: Avvertire l'utente che tutto è andato bene
-        // console.log("ok");
-        // console.log(data);
-        // callback();
-
-        let divLezioni=document.getElementById("elencolezioni");
-        divLezioni.innerHTML="";
-        //
-        // let ul = document.createElement("ul");
-        // let br = document.createElement("br");
-        // // let label = document.createElement("label");
-        // let button = document.createElement("button");
-            // while(divLezioni == null)
-            //     divLezioni=document.getElementById("elencolezioni");
-        // let deev = document.createElement("div");
-        // deev.innerText = "fatto";
-        // divLezioni.appendChild(deev);
-        // console.log("ookokok");
-
-        for(let i=0;i<data.length; i++) {
-            let obj = data[i];
-            console.log(obj);
-
-            // let divLezioni=document.getElementById("elencolezioni");
-
-            let ul = document.createElement("ul");
-            let br = document.createElement("br");
-            let h4 = document.createElement("h4");
-            let p = document.createElement("p");
-            // let label = document.createElement("label");
-            let button = document.createElement("button");
-            // divLezioni=document.getElementById("elencolezioni");
-
-            h4.innerText = "LEZIONE: " + obj.titolo;
-            p.innerText = obj.trascrizione.substring(0, 140);
-            if (obj.trascrizione.length > 140) p.innerText = p.innerText + "...";
-            // // label.innerText = "Anteprima lezione";
-            button.innerText = "VISUALIZZA DETTAGLI";
-            // if(obj.is_owner === "0"){
-            //     button.disabled = true;
-            // }
-            button.onclick=function() {
-                console.log(obj.is_owner);
-                // if(obj.is_owner !== "0"){
-                    window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
-                // }else {
-                //     console.log("NON SEI IL PROPRIETARIO!");
-                //     button.disabled = true;
-                // }
-            }
-                // console.log( window.location.hostname + "/wordpress/edit_lesson_page?id=" + obj.idlezione )
-                // window.location = window.location.hostname + "/edit_lesson_page?id=" + obj.idlezione;
-
-
-            // ul.appendChild(br);
-            // // ul.appendChild(label)
-            ul.appendChild(h4);
-            ul.appendChild(p)
-            //ul.appendChild(li);
-            ul.appendChild(br);
-            ul.appendChild(button);
-
-            ul.style.textAlign = "center";
-            ul.style.border = "thin solid black";
-            ul.style.padding = "2%";
-            //
-            divLezioni.appendChild(ul);
-            // // console.log(obj.titolo);
-        //
-        }
 
 
 
-
-
-    }
-
-    function clearDropdown(dropdown,text){
-
-        for(opt in dropdown.options) {
-
-            dropdown.remove(opt.index);
-        }
-        var option = document.createElement("option");
-        option.text = text;
-        dropdown.add(option);
-
-    }
-
-    function fillDropdown(dropdown,data){
-        for(let i=0;i<data.length; i++) {
-            let obj = data[i];
-            console.log(obj);
-
-            let option = document.createElement("option");
-
-            option.id = obj.id;
-
-            option.text = obj.nome;
-            console.log(option);
-            dropdown.add(option);
-        }
-
-    }
 
     let right = document.getElementById("right-sidebar-inner");
     // right.innerText = "destraaaaaaaaa";
@@ -454,3 +464,4 @@ jQuery(document).ready( function (){
     }
 
 })
+
