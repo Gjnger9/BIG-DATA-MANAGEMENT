@@ -121,7 +121,7 @@ function create_db_wpdb () {
           `professore_idprofessore` INT NOT NULL,
           `sezione_idsezione` INT NOT NULL,
           `file_audio_path` TEXT NULL,           
-          `titolo` VARCHAR(45) NULL,
+          `titolo` VARCHAR(250) NULL,
           `trascrizione` LONGTEXT NULL,
           `wp_post_id` BIGINT UNSIGNED NULL,
           `materia_idmateria` INT NOT NULL,

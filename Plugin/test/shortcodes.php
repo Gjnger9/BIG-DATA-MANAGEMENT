@@ -227,13 +227,17 @@ function edit_lesson_shortcode_function () {
 <h3>Video</h3>
 </div>
 
+                <div id="immagini" class="contenuto">
+                <h3>Immagine</h3>
+                <img id="image" style="margin: auto; height: 500px; width: 500px;">
+                </div>
 
 <div class="wp-block-buttons"><!-- wp:button -->
 <div id="cancelButton" class="wp-block-button"  ><a class="wp-block-button__link"  onclick="history.back()" >Indietro</a></div>
 <!-- /wp:button -->
 
 <!-- wp:button -->
-<div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Modifica</a></div>
+<div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Salva</a></div>
 <div id="removeButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Rimuovi Lezione</a></div>
 
 <!-- /wp:button --></div>
