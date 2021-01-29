@@ -275,18 +275,29 @@ function modifyLezione(data){
 
         modificaContenutoButton.onclick = function (){
 
-            let titolo = tdl.innerText;
-            modifyContenutoDb(contenuto.idcontenuto,titolo,"update");
+            var confirm = window.confirm("Vuoi aggiornare il contenuto?");
+            if(confirm) {
+
+
+
+                let titolo = tdl.innerText;
+                modifyContenutoDb(contenuto.idcontenuto, titolo, "update");
+            }
         }
 
         rimuoviContenutoButton.onclick = function (){
 
-            let titolo = tdl.innerText;
+            var confirm = window.confirm("Vuoi rimuovere il contenuto?");
+            if(confirm) {
 
-            modifyContenutoDb(contenuto.idcontenuto,titolo,"remove");
 
-            var parent=this.parentNode.parentNode;
-            parent.parentNode.removeChild(parent);
+                let titolo = tdl.innerText;
+
+                modifyContenutoDb(contenuto.idcontenuto, titolo, "remove");
+
+                var parent = this.parentNode.parentNode;
+                parent.parentNode.removeChild(parent);
+            }
         }
         // DIVPROVA.innerText = contenuto.titolo;
         // DIV.appendChild(DIVPROVA);
@@ -297,17 +308,17 @@ function modifyLezione(data){
     linkDiv.appendChild(linkTable);
     documentiDiv.appendChild(documentiTable);
     videoDiv.appendChild(videoTable);
-    let   add_Document_button = document.createElement('input');
+   // let   add_Document_button = document.createElement('input');
 
-    add_Document_button.type = "file";
-    add_Document_button.id="input";
-    add_Document_button.multiple="multiple";
+  //  add_Document_button.type = "file";
+ //   add_Document_button.id="input";
+    //add_Document_button.multiple="multiple";
 
     //add_Document_button.className("Btn");
     //add_Document_button.innerText="Aggiungi Documento";
-    add_Document_button.innerText = "Aggiungi Contenuto";
+//    add_Document_button.innerText = "Aggiungi Contenuto";
 
-    videoDiv.appendChild(add_Document_button);
+ //  videoDiv.appendChild(add_Document_button);
 
 
 
@@ -322,17 +333,17 @@ function modifyLezione(data){
         removeButton.style = "display: inline;"
     }
     modificaButton.onclick = function (){
-        files =  document.getElementById('input').files;
-        console.log(files);
-        // //va usato un for tradizionale, files è un array associativo
-        // for (file in files ) {
-        //     addContent(lezione.idlezione, file);
+        // files =  document.getElementById('input').files;
+        // console.log(files);
+        // // //va usato un for tradizionale, files è un array associativo
+        // // for (file in files ) {
+        // //     addContent(lezione.idlezione, file);
+        // // }
+        //
+        // for (let i=0;  i<files.length;  i++){
+        //     console.log(files[i]);
+        //     //fileAPI per inviare il contenuto del file
         // }
-
-        for (let i=0;  i<files.length;  i++){
-            console.log(files[i]);
-            //fileAPI per inviare il contenuto del file
-        }
 
 
         modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);

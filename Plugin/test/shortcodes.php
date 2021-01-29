@@ -211,7 +211,10 @@ function edit_lesson_shortcode_function () {
                 <h3>Titolo</h3>
                 <div id="titolo"></div>
          
-
+   <div id="immagini" class="contenuto">
+                <h3>Immagini</h3>
+                <img id="image" style="margin: auto; height: 500px; width: 500px;">
+                </div>
 <h3>Trascrizione</h3>
 </div>
 
@@ -227,10 +230,7 @@ function edit_lesson_shortcode_function () {
 <h3>Video</h3>
 </div>
 
-                <div id="immagini" class="contenuto">
-                <h3>Immagine</h3>
-                <img id="image" style="margin: auto; height: 500px; width: 500px;">
-                </div>
+             
 
 <div class="wp-block-buttons"><!-- wp:button -->
 <div id="cancelButton" class="wp-block-button"  ><a class="wp-block-button__link"  onclick="history.back()" >Indietro</a></div>
