@@ -150,7 +150,7 @@ class Database {
 	   $id_professore = wp_get_current_user()->ID;
         $sql = "SELECT lez.*, EXISTS (SELECT * FROM professors_lessons as pl 
                 where pl.wp_id = ".$id_professore." and pl.idlezione = lez.idlezione) as is_owner 
-                FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param." AND lez.status = 'publish';";
+                FROM `wordpress`.`lezione`as lez WHERE lez.idlezione =".$param.";";
 
 
 	    $result =$wpdb->get_results($sql, ARRAY_A);

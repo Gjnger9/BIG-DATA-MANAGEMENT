@@ -87,11 +87,16 @@ function saveRequest(callback, array) {
             alert("Lezione inserita con Successo!")
             console.log("ok");
             console.log(data);
+            arrayLink=[];
+            arrayVideo=[];
+            arrayDocumenti=[];
+            dataArray=[];
             callback();
         },
         error: function (error) {
             // Azioni da eseguire in caso di errore chiamata
             console.log("errore");
+            alert("Non è stato possibile inserire correttamente la lezione")
             console.log(error);
         }
     });

@@ -186,7 +186,7 @@ function modifyLezione(data){
 
     let videoDiv = document.getElementById("video");
     let videoTable = document.createElement("table");
-    var imageArray = [];
+    dataArray = [];
     //let imagesdiv = document.getElementById("immagini");
 
     // let table = document.createElement("table");
@@ -264,8 +264,8 @@ function modifyLezione(data){
             case "immagine" :
 
                 //abbiamo la serie di immagini in array
-                imageArray.push (contenuto.percorso);
-                console.log(imageArray);
+                dataArray.push (contenuto.percorso);
+                console.log(dataArray);
             default:
                 break;
         }
