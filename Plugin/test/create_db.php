@@ -282,6 +282,22 @@ function create_db_wpdb () {
         DEFAULT CHARACTER SET = utf8;
 
 ");
+
+
+	//creare relazione utente-dipendente per la creazione
+	$wpdb->query("ALTER TABLE `wordpress`.`utente` 
+ADD COLUMN `iddipendente` INT NULL DEFAULT NULL AFTER `wp_id`,
+ADD INDEX `fk_iddipendente_user_idx` (`iddipendente` ASC) VISIBLE;
+;
+ALTER TABLE `wordpress`.`utente` 
+ADD CONSTRAINT `fk_iddipendente_user`
+  FOREIGN KEY (`iddipendente`)
+  REFERENCES `wordpress`.`dipendente` (`iddipendente`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;"
+);
+
+
 	$wpdb->query("        CREATE TABLE IF NOT EXISTS `wordpress`.`e_tipo` (
           `scuola_idscuola` INT NOT NULL,
           `tipo_di_scuola_idtipo_di_scuola` INT NOT NULL,

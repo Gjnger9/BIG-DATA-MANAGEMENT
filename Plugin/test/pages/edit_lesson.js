@@ -2,7 +2,7 @@
 
 var files = null;
 
-
+var images = [];
 function readLezione(param,callback) {
     jQuery.ajax({
         type: "GET",
@@ -98,6 +98,7 @@ function modifyContenutoDb(idcontenuto,titolo,tipo,callback) {
         success: function (data){
             console.log("MODIFICATO");
             console.log(data);
+            alert("Operazione effettuata con successo");
             // console.log(JSON.parse(data));
             //
             // showLessons(JSON.parse(data))
@@ -107,6 +108,7 @@ function modifyContenutoDb(idcontenuto,titolo,tipo,callback) {
         error: function (error) {
             // Azioni da eseguire in caso di errore chiamata
             console.log("errore");
+            alert("Operazione fallita: " + error);
             console.log(error);
         }
     });
@@ -184,7 +186,8 @@ function modifyLezione(data){
 
     let videoDiv = document.getElementById("video");
     let videoTable = document.createElement("table");
-
+    var imageArray = [];
+    //let imagesdiv = document.getElementById("immagini");
 
     // let table = document.createElement("table");
 
@@ -258,9 +261,16 @@ function modifyLezione(data){
                 videoTable.appendChild(tr1);
 
                 break;
+            case "immagine" :
+
+                //abbiamo la serie di immagini in array
+                imageArray.push (contenuto.percorso);
+                console.log(imageArray);
             default:
                 break;
         }
+
+
 
 
         modificaContenutoButton.onclick = function (){
@@ -274,7 +284,9 @@ function modifyLezione(data){
             let titolo = tdl.innerText;
 
             modifyContenutoDb(contenuto.idcontenuto,titolo,"remove");
-            location.reload();
+
+            var parent=this.parentNode.parentNode;
+            parent.parentNode.removeChild(parent);
         }
         // DIVPROVA.innerText = contenuto.titolo;
         // DIV.appendChild(DIVPROVA);
@@ -339,6 +351,22 @@ function modifyLezione(data){
         // console.log(window.location.hostname)
 
     }
+
+
+    jQuery(function () {
+        //Questa funione ogni 5 secondi aggiornerà l'immagine
+        var thisId = 0;
+
+        window.setInterval(function () {
+            if (imageArray.length != 0) {
+                //Aggiorna l'immagine
+                jQuery('#image').attr('src', imageArray[thisId]);
+                thisId++; //increment data array id
+                if (thisId > imageArray.length - 1) thisId = 0; //repeat from start
+            }
+        }, 5000);
+    });
+
 
     // let modificaButton = document.getElementById("modifyButton");
     //
