@@ -51,6 +51,7 @@ function saveRequest(callback, array) {
             links: arrayLink,
             videos: arrayVideo,
             documents: arrayDocumenti,
+            immagini: dataArray,
             trascrizione: array.trascrizione
 
         },

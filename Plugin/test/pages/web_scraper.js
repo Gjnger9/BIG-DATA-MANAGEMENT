@@ -2,7 +2,7 @@ let baseUrl = "http://www.google.it/search?q=";
 let baseUrlImages = "http://www.google.it/search?q=";
 let maxDocument = 3;
 var arrayLink, arrayVideo, arrayDocumenti;
-var dataArray = new Array();
+var dataArray = [];
 /**
  * Get HTML asynchronously
  * @param  {String}   url      The URL to get HTML from

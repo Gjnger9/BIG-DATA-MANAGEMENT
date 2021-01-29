@@ -107,6 +107,12 @@ function save_callback()
             $databaseConnection->addContenuto($lesson_id, $contenuto[0], $contenuto[1], $idprofessore, "documento");
         }
     }
+    if($_REQUEST['immagini']) {
+        foreach ($_REQUEST['immagini'] as &$contenuto) {
+            $databaseConnection->addContenuto($lesson_id, "immagine", $contenuto, $idprofessore, "immagine");
+        }
+    }
+
 
    $syncsql = "CALL sync_lesson_to_post('$lesson_id' , '$post_id' );";// chiamiamo la procedura di sincronizzazione con gli id del nuovo post e della nuova lezione
    $wpdb->query($syncsql);
