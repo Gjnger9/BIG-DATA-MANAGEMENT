@@ -115,8 +115,15 @@ function new_lesson_page_shortcode_function () {
                 <div id="cloudword" ></div>
                 
                 <div class="contenuto">
-                <h4>Immagine</h4>
-                <img id="image" style="margin: auto; height: 500px; width: 500px;">
+                    <h4>Immagine</h4>
+                    <img id="image" onclick="restartSlideShow()" style="margin: auto; height: 500px; width: 500px;">
+                    <!-- The dots/circles -->
+                </div>
+                
+                <div style="text-align:center">
+                      <span class="dot" onclick="currentSlide(1)"></span>
+                      <span class="dot" onclick="currentSlide(2)"></span>
+                      <span class="dot" onclick="currentSlide(3)"></span>
                 </div>
 
             <!-- /wp:column -->
