@@ -219,14 +219,14 @@ function read_lezioni_filtrate_callback()
 //    }
     $param = $_REQUEST['param'];
     $his_own = $_REQUEST['hisOwn'];
-
+	$trash = $_REQUEST['trash'];
 //    echo $his_own;
 
 //        echo "readLEzFiltr Dentro";
     $databaseConnection = new Database( );
 //
     $id_professore = wp_get_current_user()->ID;
-    wp_send_json($databaseConnection->read_lezioni_filtrate($param,$id_professore,$his_own));
+    wp_send_json($databaseConnection->read_lezioni_filtrate($param,$id_professore,$his_own, $trash));
 //
     $databaseConnection->closeConnection();
 

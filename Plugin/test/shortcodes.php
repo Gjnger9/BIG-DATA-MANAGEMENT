@@ -188,6 +188,7 @@ function homepage_shortcode_function () {
 
      '
         <div id="checkbox"></div>
+         <div id="checkboxTrash"></div>
         <div id="datepicker"></div>
         <button type="submit" class="wp-block-search__button " id="filtra">Filtra</button>
         <div class="wp-block-buttons" id="/wordpress/pagina_plugin_new_lesson"><!-- wp:button -->
@@ -218,9 +219,16 @@ function edit_lesson_shortcode_function () {
                 <h3>Titolo</h3>
                 <div id="titolo"></div>
          
-   <div id="immagini" class="contenuto">
-                <h3>Immagini</h3>
-                <img id="image" style="margin: auto; height: 500px; width: 500px;">
+    <div class="contenuto">
+                    <h4>Immagine</h4>
+                    <img id="image" onclick="restartSlideShow()" style="margin: auto; height: 500px; width: 500px;">
+                    <!-- The dots/circles -->
+                </div>
+                
+                <div style="text-align:center">
+                      <span class="dot" onclick="currentSlide(1)"></span>
+                      <span class="dot" onclick="currentSlide(2)"></span>
+                      <span class="dot" onclick="currentSlide(3)"></span>
                 </div>
 <h3>Trascrizione</h3>
 </div>
@@ -245,7 +253,7 @@ function edit_lesson_shortcode_function () {
 
 <!-- wp:button -->
 <div id="modifyButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Salva</a></div>
-<div id="removeButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Rimuovi Lezione</a></div>
+<div id="removeButton" class="wp-block-button" style = "display: none"><a class="wp-block-button__link">Archivia Lezione</a></div>
 
 <!-- /wp:button --></div>
 

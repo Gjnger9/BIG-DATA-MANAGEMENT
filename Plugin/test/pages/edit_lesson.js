@@ -366,16 +366,21 @@ function modifyLezione(data){
 
     jQuery(function () {
         //Questa funione ogni 5 secondi aggiornerà l'immagine
-        var thisId = 0;
+        thisId = 0;
 
-        window.setInterval(function () {
-            if (imageArray.length != 0) {
+        intervalId = window.setInterval(function () {
+            if (dataArray.length != 0) {
                 //Aggiorna l'immagine
-                jQuery('#image').attr('src', imageArray[thisId]);
+                jQuery('#image').attr('src', dataArray[thisId]);
                 thisId++; //increment data array id
-                if (thisId > imageArray.length - 1) thisId = 0; //repeat from start
+                if (thisId > dataArray.length - 1) thisId = 0; //repeat from start
+            } else {
+                //Se non ci sono immagini da visualizzare
+                console.log("Ancora non ci sono immagini");
             }
         }, 5000);
+
+
     });
 
 

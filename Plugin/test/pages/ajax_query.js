@@ -123,7 +123,7 @@ function readLezioniFromDb(param,callback) {
     });
 }
 
-function readLezioniFiltrate(param,hisOwn,callback) {
+function readLezioniFiltrate(param,hisOwn,trash, callback) {
     jQuery.ajax({
         type: "GET",
         url: vars.url,
@@ -131,6 +131,7 @@ function readLezioniFiltrate(param,hisOwn,callback) {
             action : 'read_lezioni_filtrate',
             param: param,
             hisOwn : hisOwn,
+            trash: trash,
             nonce : vars.security
         },
         success: function (data){
@@ -331,13 +332,29 @@ jQuery(document).ready( function (){
         let label = document.createElement("label");
         let cb = document.createElement("input");
         cb.type = "checkbox";
+
+
         // cb.name = "checkbox kosadkokdo";
         // cb.value = "kokookokk";
 
         label.appendChild(cb)
-        cb.after("TUE LEZIONI");
+        cb.after("Le tue lezioni");
         // label.appendChild("ciaociaoc");
         divCheckbox.appendChild(label);
+
+
+        let divCheckboxTrash = document.getElementById("checkboxTrash");
+        let labelTrash = document.createElement("label");
+        let cbTrash = document.createElement("input");
+        cbTrash.type = "checkbox";
+
+
+        label.appendChild(cbTrash)
+        cbTrash.after("Lezioni archiviate");
+        // label.appendChild("ciaociaoc");
+        divCheckboxTrash.appendChild(label);
+
+
 
         let divDatePicker = document.getElementById("datepicker");
         let datePickerStart = document.createElement("input");
@@ -378,7 +395,7 @@ jQuery(document).ready( function (){
                 dataFine : datePickerEnd.value
             };
             // console.log(param)
-            readLezioniFiltrate(param,cb.checked);
+            readLezioniFiltrate(param,cb.checked, cbTrash.checked);
 
             // console.log(datePickerStart.value==="", datePickerEnd.value);
         }

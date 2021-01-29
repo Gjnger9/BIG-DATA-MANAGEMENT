@@ -176,7 +176,7 @@ class Database {
         return json_encode($result);
     }
 
-    public function read_lezioni_filtrate($param, $id_professore,$hisOwn)
+    public function read_lezioni_filtrate($param, $id_professore,$hisOwn,$trash)
     {
 		//idprofessore è il wp user id
     	GLOBAL $wpdb;
@@ -222,7 +222,15 @@ class Database {
 //                    JOIN `wordpress`.`scuola` AS sc ON sc.idscuola = se.scuola_idscuola
 //                WHERE ";
 		//sostituita precedente query con vista
-	    $sql= "SELECT * from lesson_to_be_filtered where status='publish' AND ";
+	    $sql= "SELECT * from lesson_to_be_filtered where  ";
+
+	    if($trash =="false"){
+		    $sql.= " status='publish' " ;
+	    }else{
+		    $sql.=" status='trash' ";
+		    $hisOwn="true"; // non può filtrare le lezioni archiviate dagli altri
+	    }
+	    $sql.=" AND ";
         if($hisOwn =="true"){
             $sql.= "professore_idprofessore = ".$id_professore." ";
         }else{
