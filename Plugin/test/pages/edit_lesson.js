@@ -146,6 +146,7 @@ function modifyLezione(data){
     // console.log(lezione)
     // console.log(data);
     let lezione = JSON.parse(data[0])[0];
+    console.log(lezione);
     if(lezione == null) {
         console.log("NULL")
         alert("La lezione che stai cercando non esiste.")
@@ -344,10 +345,18 @@ function modifyLezione(data){
         //     console.log(files[i]);
         //     //fileAPI per inviare il contenuto del file
         // }
+        var conf;
+        if(lezione.status === "trash") {
+            conf = window.confirm("Salvando questa lezione, verrà nuovamente pubblicata; Vuoi proseguire? ")
 
-
-        modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);
-
+            if (conf) {
+                modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);
+            } else {
+                alert("Lezione non modificata");
+            }
+        } else {
+            modifyLezioneDb(lezione.idlezione, innerTrascrizioneDiv.textContent, innerTitoloDiv.textContent);
+        }
         // console.log(lezione.idlezione, innerTrascrizioneDiv.textContent)
 
     }
@@ -376,7 +385,7 @@ function modifyLezione(data){
                 if (thisId > dataArray.length - 1) thisId = 0; //repeat from start
             } else {
                 //Se non ci sono immagini da visualizzare
-                console.log("Ancora non ci sono immagini");
+               // console.log("Ancora non ci sono immagini");
             }
         }, 5000);
 

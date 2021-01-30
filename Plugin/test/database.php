@@ -391,7 +391,7 @@ class Database {
 
     public function updateLezione( $idlezione,$trascrizione, $titolo){
         GLOBAL $wpdb;
-        $sql = "UPDATE `wordpress`.`lezione` SET `titolo` = '".$titolo."' , `trascrizione` = '".$trascrizione."' WHERE (`idlezione` = ".$idlezione.");";
+        $sql = "UPDATE `wordpress`.`lezione` SET `titolo` = '".$titolo."' , `trascrizione` = '".$trascrizione."', `status` = 'publish'  WHERE (`idlezione` = ".$idlezione.");";
         echo $sql;
 		$wpdb->query($sql);
 

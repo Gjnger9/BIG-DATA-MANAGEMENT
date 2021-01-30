@@ -13,7 +13,7 @@ jQuery(function () {
             if (thisId > dataArray.length - 1) thisId = 0; //repeat from start
         } else {
             //Se non ci sono immagini da visualizzare
-            console.log("Ancora non ci sono immagini");
+           // console.log("Ancora non ci sono immagini");
         }
     }, 5000);
 
@@ -30,7 +30,7 @@ function restartSlideShow() {
                 if (thisId > dataArray.length - 1) thisId = 0; //repeat from start
             } else {
                 //Se non ci sono immagini da visualizzare
-                console.log("Ancora non ci sono immagini");
+              //  console.log("Ancora non ci sono immagini");
             }
         }, 5000);
     }
