@@ -329,14 +329,15 @@ $wpdb->query("CREATE VIEW  `lesson_to_be_filtered` AS (SELECT
         `lez`.`wp_post_id` AS `wp_post_id`,
         `lez`.`materia_idmateria` AS `materia_idmateria`,
         `lez`.`argomento_idargomento` AS `argomento_idargomento`,
-		`lez`.`status` AS `status`,
+        `lez`.`status` AS `status`,
+        CONCAT(`se`.`anno`, `se`.`lettera`) AS `sezione`,
         `m`.`nome` AS `materia`,
         `sc`.`nome` AS `scuola`,
         `arg`.`nome` AS `argomento`
     FROM
-    (((((`lezione` `lez`
+        (((((`lezione` `lez`
         JOIN `materia` `m` ON ((`m`.`idmateria` = `lez`.`materia_idmateria`)))
-        JOIN `argomento` `arg` ON ((`arg`.`materia_idmateria` = `m`.`idmateria`)))
+        JOIN `argomento` `arg` ON ((`arg`.`idargomento` = `lez`.`argomento_idargomento`)))
         JOIN `professore` `pr` ON ((`pr`.`idprofessore` = `lez`.`professore_idprofessore`)))
         JOIN `sezione` `se` ON ((`se`.`idsezione` = `lez`.`sezione_idsezione`)))
         JOIN `scuola` `sc` ON ((`sc`.`idscuola` = `se`.`scuola_idscuola`))))");
