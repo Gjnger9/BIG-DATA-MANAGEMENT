@@ -55,6 +55,7 @@ from (
 UPDATE wp_posts
 
   SET
+    post_status='publish',
    post_title = (select titolo from lezioneview),
   post_content=
         CONCAT (
