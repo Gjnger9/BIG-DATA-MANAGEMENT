@@ -2,7 +2,7 @@
 function create_db_wpdb () {
 	GLOBAL $wpdb;
 	// procedure
-	$sql  = file_get_contents (ABSPATH."wp-content/plugins/test/create_procedure.sql"  );
+	$sql  = file_get_contents (ABSPATH."wp-content/plugins/AutoLesson/create_procedure.sql"  );
 	$wpdb->query("DROP procedure IF EXISTS `sync_lesson_to_post`;");
 	$wpdb->query($sql);
 

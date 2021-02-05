@@ -12,7 +12,7 @@ function shortcodes_init() {
 //https://kinsta.com/it/blog/shortcode-wordpress/  <  tutte le informazioni necessarie qui
 function lessons_shortcode_function() {
     //funzione per creare la pagina html con le query
-    $output = '<h1>SHORTCODE NE ABBIAMO? '. date("h:i:sa") .  '</h1>
+    $output = '<h1>SHORTCODE ? '. date("h:i:sa") .  '</h1>
         <script src="trascrizione.js"></script>';
     return $output;
 
@@ -374,7 +374,7 @@ function create_sezione_dropdown () {
 
 function shortcode_scripts(){
 
-    $script = '<script src= "'.ABSPATH.'"wp-content/plugin/test/pages/ajax_query.js"></script>';
+    $script = '<script src= "'.ABSPATH.'"wp-content/plugin/AutoLesson/pages/ajax_query.js"></script>';
     return $script;
 
 }
